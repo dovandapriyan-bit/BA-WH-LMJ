@@ -1,0 +1,651 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet">
+      <title>TCPDF Example 021</title>
+      <meta name="author" content="Nicola Asuni" />
+      <meta name="title" content="TCPDF Example 021" />
+      <meta name="subject" content="TCPDF Tutorial" />
+      <meta name="keywords" content="TCPDF, PDF, example, test, guide" />
+      <meta name="company" content="Microsoft Corporation" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      html { font-family:Calibri, Arial, Helvetica, sans-serif; font-size:11pt; background-color:white }
+      a.comment-indicator:hover + div.comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em }
+      a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em }
+      div.comment { display:none }
+      table { border-collapse:collapse; page-break-after:always }
+      
+      .b { text-align:center }
+      .e { text-align:center }
+      .f { text-align:right }
+      .inlineStr { text-align:left }
+      .n { text-align:right }
+      .s { text-align:left }
+      td.style0 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style0 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style1 { vertical-align:middle; text-align:center; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; font-weight:bold; color:#000000; font-family:'Arial'; font-size:10pt; background-color:white }
+      th.style1 { vertical-align:middle; text-align:center; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; font-weight:bold; color:#000000; font-family:'Arial'; font-size:10pt; background-color:white }
+      td.style2 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style2 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style3 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style3 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style4 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style4 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style5 { vertical-align:middle; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style5 { vertical-align:middle; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style6 { vertical-align:middle; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style6 { vertical-align:middle; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style7 { vertical-align:top; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style7 { vertical-align:top; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style8 { vertical-align:top; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style8 { vertical-align:top; text-align:center; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style9 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style9 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style10 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style10 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style11 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #808080 !important; border-left:1px solid #000000 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style11 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #808080 !important; border-left:1px solid #000000 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style12 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #808080 !important; border-left:1px solid #000000 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style12 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #808080 !important; border-left:1px solid #000000 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style13 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style13 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style14 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style14 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style15 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      th.style15 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:7pt; background-color:white }
+      td.style16 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style16 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style17 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style17 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style18 { vertical-align:middle; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style18 { vertical-align:middle; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style19 { vertical-align:middle; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style19 { vertical-align:middle; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style20 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style20 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style21 { vertical-align:top; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style21 { vertical-align:top; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style22 { vertical-align:top; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style22 { vertical-align:top; text-align:center; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style23 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style23 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style24 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:7.5pt; background-color:white }
+      th.style24 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:7.5pt; background-color:white }
+      td.style25 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style25 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style26 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style26 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style27 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style27 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style28 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style28 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style29 { vertical-align:bottom; text-align:center; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style29 { vertical-align:bottom; text-align:center; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style30 { vertical-align:bottom; text-align:center; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style30 { vertical-align:bottom; text-align:center; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style31 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style31 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style32 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:10pt; background-color:white }
+      th.style32 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:10pt; background-color:white }
+      td.style33 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:9pt; background-color:white }
+      th.style33 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:9pt; background-color:white }
+      td.style34 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:9pt; background-color:white }
+      th.style34 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:9pt; background-color:white }
+      td.style35 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:10pt; background-color:white }
+      th.style35 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:10pt; background-color:white }
+      td.style36 { vertical-align:top; text-align:left; padding-left:9px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:10pt; background-color:white }
+      th.style36 { vertical-align:top; text-align:left; padding-left:9px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Calibri'; font-size:10pt; background-color:white }
+      td.style37 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:9pt; background-color:white }
+      th.style37 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:9pt; background-color:white }
+      td.style38 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style38 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #808080 !important; border-top:1px solid #808080 !important; border-left:1px solid #808080 !important; border-right:1px solid #808080 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style39 { vertical-align:middle; text-align:left; padding-left:27px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style39 { vertical-align:middle; text-align:left; padding-left:27px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style40 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:6.5pt; background-color:white }
+      th.style40 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:6.5pt; background-color:white }
+      td.style41 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style41 { vertical-align:top; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:1px solid #000000 !important; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style42 { vertical-align:middle; text-align:left; padding-left:9px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style42 { vertical-align:middle; text-align:left; padding-left:9px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style43 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style43 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:1px solid #000000 !important; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style44 { vertical-align:bottom; text-align:left; padding-left:9px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style44 { vertical-align:bottom; text-align:left; padding-left:9px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style45 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      th.style45 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size: 9pt; background-color:white }
+      td.style46 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      th.style46 { vertical-align:bottom; text-align:left; padding-left:0px; border-bottom:1px solid #000000 !important; border-top:none #000000; border-left:none #000000; border-right:1px solid #000000 !important; color:#000000; font-family:'Arial'; font-size:11pt; background-color:white }
+      td.style47 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:9pt; background-color:white }
+      th.style47 { vertical-align:middle; text-align:left; padding-left:0px; border-bottom:none #000000; border-top:none #000000; border-left:none #000000; border-right:none #000000; color:#000000; font-family:'Arial'; font-size:9pt; background-color:white }
+      table.sheet0 col.col0 { width:48.12222167pt }
+      table.sheet0 col.col1 { width:12.87777763pt }
+      table.sheet0 col.col2 { width:71.84444362pt }
+      table.sheet0 col.col3 { width:13.5555554pt }
+      table.sheet0 col.col4 { width:3.38888885pt }
+      table.sheet0 col.col5 { width:7.45555547pt }
+      table.sheet0 col.col6 { width:53.54444383pt }
+      table.sheet0 col.col7 { width:4.74444439pt }
+      table.sheet0 col.col8 { width:71.16666585pt }
+      table.sheet0 col.col9 { width:8.13333324pt }
+      table.sheet0 col.col10 { width:27.78888857pt }
+      table.sheet0 col.col11 { width:20.3333331pt }
+      table.sheet0 col.col12 { width:7.45555547pt }
+      table.sheet0 col.col13 { width:33.21111073pt }
+      table.sheet0 col.col14 { width:48.12222167pt }
+      table.sheet0 tr { height:14.025pt }
+      table.sheet0 tr.row0 { height:24.05pt }
+      table.sheet0 tr.row1 { height:13.5pt }
+      table.sheet0 tr.row2 { height:16.15pt }
+      table.sheet0 tr.row3 { height:16.15pt }
+      table.sheet0 tr.row4 { height:16.15pt }
+      table.sheet0 tr.row5 { height:16.15pt }
+      table.sheet0 tr.row6 { height:16.15pt }
+      table.sheet0 tr.row7 { height:16.15pt }
+      table.sheet0 tr.row8 { height:4.55pt }
+      table.sheet0 tr.row9 { height:80.75pt }
+      table.sheet0 tr.row10 { height:4.55pt }
+      table.sheet0 tr.row11 { height:114.75pt }
+      table.sheet0 tr.row12 { height:15.15pt }
+      table.sheet0 tr.row13 { height:13.5pt }
+      table.sheet0 tr.row14 { height:13.5pt }
+      table.sheet0 tr.row15 { height:13.5pt }
+      table.sheet0 tr.row16 { height:13.5pt }
+      table.sheet0 tr.row17 { height:51pt }
+      table.sheet0 tr.row18 { height:3.2pt }
+      table.sheet0 tr.row19 { height:13.5pt }
+      table.sheet0 tr.row20 { height:39pt }
+      table.sheet0 tr.row21 { height:21.65pt }
+      table.sheet0 tr.row22 { height:14.3pt }
+      table.sheet0 tr.row23 { height:51pt }
+      table.sheet0 tr.row24 { height:16.5pt }
+      table.sheet0 tr.row25 { height:33pt }
+      table.sheet0 tr.row26 { height:17.25pt }
+      table.sheet0 tr.row27 { height:17.25pt }
+      table.sheet0 tr.row28 { height:16.5pt }
+      table.sheet0 tr.row29 { height:16.5pt }
+      table.sheet0 tr.row30 { height:3.3pt }
+    </style>
+  </head>
+
+  <body>
+<style>
+body {
+    zoom: 1 !important;
+    transform: scale(1) !important;
+    transform-origin: 0 0 !important;
+    width: 210mm !important; /* A4 width */
+    height: 297mm !important; /* A4 height */
+    overflow: hidden !important;
+}
+
+table.sheet0 {
+    table-layout: fixed !important;
+    width: 100% !important;
+}
+
+table.sheet0 col {
+    width: auto !important;
+}
+
+table.sheet0 td, table.sheet0 th {
+    transform: scale(1) !important;
+    zoom: 1 !important;
+}
+
+/* Nonaktifkan responsive */
+@media screen and (max-width: 768px) {
+    body, table, td, th {
+        zoom: 1 !important;
+        transform: none !important;
+        width: auto !important;
+    }
+}
+
+</style>
+    <table border="0" cellpadding="0" cellspacing="0" id="sheet0" class="sheet0 gridlines">
+        <col class="col0">
+        <col class="col1">
+        <col class="col2">
+        <col class="col3">
+        <col class="col4">
+        <col class="col5">
+        <col class="col6">
+        <col class="col7">
+        <col class="col8">
+        <col class="col9">
+        <col class="col10">
+        <col class="col11">
+        <col class="col12">
+        <col class="col13">
+        <col class="col14">
+        <tbody>
+          <tr class="row0">
+  <td class="column0 style1 s style0" colspan="15" style="height: 50px;">&nbsp;</td>
+</tr>
+          <tr class="row0">
+  <td class="column0 style1 s style0" colspan="15" style="padding-bottom: 15px;">
+    <div style="position: relative;">
+      <img style="position: absolute; z-index: 1; left: 0px; top: -0px; width: 90px; height: 28px;" src="zip:///home/CloudConvertio/tmp/in_work/dbe3e12fab6e443fc42a0c5e60489020.xlsx#xl/media/image5.jpeg" border="0" />
+      <img style="position: absolute; z-index: 1; right: 0px; top: -0px; width: 90px; height: 28px;" src="PATH_LOGO_KEDUA" border="0" />
+    </div>
+    <span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size:10pt">LAPORAN PENYELESAIAN PEKERJAAN</span>
+  </td>
+</tr>
+<tr class="row0">
+  <td class="column0 style1 s style0" colspan="15" style="height: 50px;">&nbsp;</td>
+</tr>
+          <tr class="row1">
+  <td class="column0 style2 s style0" colspan="15" style="padding-bottom: 15px;"><span style="color:#000000; font-family:'Arial'; font-size:11pt">Nama Mitra :</span></td>
+</tr>
+          
+          <tr class="row2">
+           <td class="column0 style3 s style4" colspan="4" rowspan="10">
+  <table style="width: 100%; border: none;">
+  <tr>
+    <td style="width: 25%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">1. STO</td>
+    <td style="width: 5%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="width: 20%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">2. No Permintaan/WO</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">3. No Telepon</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">4. No Inet</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">5. Tanggal WO</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">6. Tanggal Transaksi</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">7. Nama Pelanggan</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">8. No Kontak</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">9. Alamat Pelanggan</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+</table>
+<span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt">DATEK<br /></span>
+<table style="width: 100%; border: none;">
+  <tr>
+    <td style="width: 25%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">1. RK/MSAN/ODC</td>
+    <td style="width: 5%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="width: 20%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">2. DP/ODP</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">3. Klem Primer/Feeder</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">4. Kec sec/Distribusi</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+</table>
+<span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt">Material<br /></span>
+<table style="width: 100%; border: none;">
+  <tr>
+    <td style="width: 31.3%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">1.</td>
+    <td style="width: 5%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="width: 20%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">2.</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">3.</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">4.</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">5.</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">:</td>
+    <td style="border: none; padding: 0; font-family: Arial; font-size: 9pt;">&nbsp;</td>
+  </tr>
+</table>
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style5 s style6" colspan="10"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Test Usage</span></td>
+          </tr>
+          <tr class="row3">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style7 s style8" colspan="3" rowspan="2"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Tes Layanan</span></td>
+            <td class="column8 style7 s style8" colspan="5" rowspan="2"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Contoh</span></td>
+            <td class="column13 style5 s style6" colspan="2"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Kualitas</span></td>
+          </tr>
+          <tr class="row4">
+            <td class="column4">&nbsp;</td>
+            <td class="column13 style5 s"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Baik</span></td>
+            <td class="column14 style5 s"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Tidak</span></td>
+          </tr>
+          <tr class="row5">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style9 s style10" colspan="3"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Test Voice</span></td>
+            <td class="column8 style38 null style38" colspan="5"></td>
+            <td class="column13 style38 null" style="text-align: center;">☐</td>
+<td class="column14 style38 null" style="text-align: center;">☐</td>
+          </tr>
+          <tr class="row6">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style9 s style10" colspan="3"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Test Internet</span></td>
+            <td class="column8 style38 null style38" colspan="5"></td>
+            <td class="column13 style38 null" style="text-align: center;">☐</td>
+<td class="column14 style38 null" style="text-align: center;">☐</td>
+          </tr>
+          <tr class="row7">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style11 s style12" colspan="3"><span style="color:#000000; font-family:'Arial'; font-size: 9pt">Test UseeTv</span></td>
+            <td class="column8 style38 null style38" colspan="5"></td>
+           <td class="column13 style38 null" style="text-align: center;">☐</td>
+<td class="column14 style38 null" style="text-align: center;">☐</td>
+          </tr>
+          <tr class="row8">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style0 null style0" colspan="3"></td>
+            <td class="column8 style0 null style0" colspan="5"></td>
+            <td class="column13">&nbsp;</td>
+            <td class="column14">&nbsp;</td>
+          </tr>
+          <tr class="row9">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style13 s style14" colspan="10">
+  <span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt">Tes Internet :</span><br />
+  <table style="width: 100%; border: none; font-family: Arial; font-size: 9pt;">
+    <tr>
+      <td style="width: 10%; border: none; padding: 0;">1. Tes Ping</td>
+      <td style="width: 3%; border: none; padding: 0;">:</td>
+      <td style="width: 24%; border: none; padding: 0;">ms</td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 0;">2. Tes Upload</td>
+      <td style="border: none; padding: 0;">:</td>
+      <td style="border: none; padding: 0;">Mbps</td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 0;">3. Tes Download</td>
+      <td style="border: none; padding: 0;">:</td>
+      <td style="border: none; padding: 0;">Mbps</td>
+    </tr>
+    <tr>
+      <td style="border: none; padding: 0;">4. Hasil Ukur Redaman</td>
+      <td style="border: none; padding: 0;">:</td>
+      <td style="border: none; padding: 0;"></td>
+    </tr>
+  </table>
+</td>
+          </tr>
+          <tr class="row10">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style0 null style0" colspan="10"></td>
+          </tr>
+          <tr class="row11">
+            <td class="column4">&nbsp;</td>
+            <td class="column5 style4 null style4" colspan="10"></td>
+          </tr>
+          <tr class="row12">
+  <td class="column0 style17 s style0" colspan="10">
+    <table style="width: 100%; border: none;">
+      <tr>
+        <td style="width: 18%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">ONT yang DIPASANG / DITARIK</td>
+        <td style="width: 5%; border: none; padding: 0;">:</td>
+        <td style="width: 20%; border: none; padding: 0;">&nbsp;</td>
+      </tr>
+    </table>
+  </td>
+  <td class="column10 style17 s style0" colspan="5">
+  <table style="width: 100%; border: none; font-family: Arial; font-size: 8pt;">
+    <tr>
+      <td style="width: 11%; border: none; padding: 0;">SN ONT</td>
+      <td style="width: 5%; border: none; padding: 0;">:</td>
+      <td style="width: 15%; border: none; padding: 0;"></td>
+    </tr>
+  </table>
+</td>
+</tr>
+<tr class="row13">
+  <td class="column0 style17 s style0" colspan="10">
+    <table style="width: 100%; border: none;">
+      <tr>
+        <td style="width: 16%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">lampu Indikator ONT Nyala</td>
+        <td style="width: 2%; border: none; padding: 0;">:</td>
+        <td style="width: 20%; border: none; padding: 0;">☐ Power ☐ DSL ☐ Internet</td>
+      </tr>
+    </table>
+  </td>
+  <td class="column10 style17 s style0" colspan="5">
+  <table style="width: 100%; border: none; font-family: Arial; font-size: 8pt;">
+    <tr>
+      <td style="width: 11%; border: none; padding: 0;">SN PLC</td>
+      <td style="width: 5%; border: none; padding: 0;">:</td>
+      <td style="width: 15%; border: none; padding: 0;"></td>
+    </tr>
+  </table>
+</td>
+<tr class="row14">
+  <td class="column0 style17 s style0" colspan="10">
+    <table style="width: 100%; border: none;">
+      <tr>
+        <td style="width: 18%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">Nama / Notel Teknisi</td>
+        <td style="width: 5%; border: none; padding: 0;">:</td>
+        <td style="width: 20%; border: none; padding: 0;">&nbsp;</td>
+      </tr>
+    </table>
+  </td>
+  <td class="column10 style17 s style0" colspan="5">
+  <table style="width: 100%; border: none; font-family: Arial; font-size: 8pt;">
+    <tr>
+      <td style="width: 11%; border: none; padding: 0;">SN WIFI EXT</td>
+      <td style="width: 5%; border: none; padding: 0;">:</td>
+      <td style="width: 15%; border: none; padding: 0;"></td>
+    </tr>
+  </table>
+</td>
+          <tr class="row15">
+  <td class="column0 style17 s style0" colspan="10">
+    <table style="width: 100%; border: none;">
+      <tr>
+        <td style="width: 18%; border: none; padding: 0; font-family: Arial; font-size: 9pt;">STB ID</td>
+        <td style="width: 5%; border: none; padding: 0;">:</td>
+        <td style="width: 20%; border: none; padding: 0;">&nbsp;</td>
+      </tr>
+    </table>
+  </td>
+  <td class="column10 style17 s style0" colspan="5">&nbsp;</td>
+</tr>
+          <tr class="row16">
+            <td class="column0 style18 s style19" colspan="7"><span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt">PSB</span></td>
+            <td class="column7">&nbsp;</td>
+            <td class="column8 style18 s style19" colspan="7"><span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size: 9pt">Tambahan</span></td>
+          </tr>
+          <tr class="row17">
+  <td class="column0 style37 s style14" colspan="7">
+    ☐ 1P [Voice]/1P [Internet]&nbsp;&nbsp;&nbsp;&nbsp;☐ 3P<br />
+    ☐ 2P [Voice + Internet] / 2P [Internet + UseeTv]
+  </td>
+  <td class="column7">&nbsp;</td>
+  <td class="column8 style37 s style14" colspan="3">
+    ☐ Ganti STB / ONT<br />
+    ☐ PLC<br />
+    ☐ IndiBox<br />
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+  </td>
+  <td class="column10 style37 s style14" colspan="6">
+    ☐ STB Belum Terpasang<br />
+    ☐ Wifi Extender<br />
+    &nbsp;
+    &nbsp;
+  </td>
+</tr>
+          <tr class="row18">
+            <td class="column0 style0 null style0" colspan="7"></td>
+            <td class="column7">&nbsp;</td>
+            <td class="column8 style0 null style0" colspan="2"></td>
+            <td class="column10 style0 null style0" colspan="5"></td>
+          </tr>
+          <tr class="row19">
+  <td class="column0 style21 s style22" colspan="15"><span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size:8pt">Migrasi</span></td>
+</tr>
+<tr class="row20">
+  <td class="column0 style23 s"><span style="color:#000000; font-family:'Arial'; font-size:9pt">Infrastruktur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+  <td class="column1 style32 s style24" colspan="15">
+    &nbsp;&nbsp;&nbsp;☐ 1P-1P [Voice] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 1P-2P [Voice + Internet] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 2P-2P [Internet + Voice] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 1P-3P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 3P-3P<br />
+    &nbsp;&nbsp;&nbsp;☐ 1P-1P [Internet] &nbsp;&nbsp; ☐ 1P-2P [Internet + UseeTv] &nbsp;&nbsp; ☐ 2P-2P [Internet + UseeTv] &nbsp;&nbsp; ☐ 2P-3P
+  </td>
+</tr>
+<tr class="row21">
+  <td class="column0 style26 s"><span style="color:#000000; font-family:'Arial'; font-size:9pt">Layanan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+  <td class="column1 style45 s style47" colspan="20">
+   &nbsp;&nbsp;&nbsp;☐ 1P-2P [Internet + Voice]	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 1P-2P [Internet + UseeTv] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 1P-3P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ☐ 2P-3P <br />
+</tr>
+          <tr class="row22">
+  <td class="column0 style31 s style0" colspan="15" style="padding-top: 5px;">
+    <div style="position: relative;"><img style="position: absolute; z-index: 1; left: 65px; top: 2px; width: 11px; height: 11px;" src="zip:///home/CloudConvertio/tmp/in_work/dbe3e12fab6e443fc42a0c5e60489020.xlsx#xl/media/image1.png" border="0" /></div>
+    <span style="color:#000000; font-family:'Arial'; font-size:8pt">Speed : 10MB 20MB 30MB 40MB 50MB 100MB 200MB 300MB 1 GB other</span>
+  </td>
+</tr>
+          <tr class="row23">
+  <td class="column0 style32 s style0" colspan="15" style="padding-top: 10px;">
+    1. Perangkat (ONT/Modem/STB) yang dipasang di rumah pelanggan adalah MILIK TELKOM yang dipinjamkan selama menjadi<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;pelanggan TELKOM. Modem yang tidak dipakai karena Migrasi ke Fiber akan ditarik Kembali.<br />
+    2. Telkom dapat mengambil Perangkat bila tidak ada penggunaan selama 3 bulan berturut-turut.<br />
+    3. Untuk progress pemilihan dan monitoring diharapkan power perangkat selalu dalam kondisi hidup (ON)<br />
+    4. Disarankan untuk segera merubah password yang ada untuk menjaga agar tidak dipergunakan oleh pihak-pihak yang tidak<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;dikehendaki<br />
+    5. Pelanggan sudah mendapatkan penjelasan dari sales/seller atau menerima buku petunjuk menggunakan modem internet<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;yang telah dipasang.
+  </td>
+</tr>
+          <tr class="row28">
+            <td class="column0 style0 null style0" colspan="11"></td>
+            <td class="column11 style47 s style0" colspan="4"><span style="color:#000000; font-family:'Arial'; font-size:9pt">Lumajang,</span></td>
+          </tr>
+          <tr class="row29">
+  <td class="column0 style0 null style0" colspan="2"></td>
+  <td class="column6 style37 s style0" colspan="5"><span style="color:#000000; font-family:'Arial'; font-size:9pt">Pelanggan</span></td>
+  <td class="column10 style0 null style0" colspan="4"></td>
+  <td class="column13 style37 s style0" colspan="2" style="white-space: nowrap;"><span style="color:#000000; font-family:'Arial'; font-size:9pt">Petugas Lapangan</span></td>
+</tr>
+
+<tr class="row30">
+  <td class="column0 style0 null style0" colspan="2"></td>
+  <td class="column6 style0 null style0" colspan="5">
+    <div style="border: 1px dashed #000; height: 80px; display: flex; align-items: center; justify-content: center; position: relative;">
+      <canvas id="signature-pelanggan" width="200" height="70" style="border: 1px solid #ccc;"></canvas>
+      <button type="button" onclick="clearSignature('pelanggan')" style="position: absolute; bottom: 5px; right: 5px; font-size: 8px;">Hapus</button>
+    </div>
+  </td>
+  <td class="column10 style0 null style0" colspan="4"></td>
+  <td class="column13 style0 null style0" colspan="2">
+    <div style="border: 1px dashed #000; height: 80px; display: flex; align-items: center; justify-content: center; position: relative;">
+      <canvas id="signature-petugas" width="200" height="70" style="border: 1px solid #ccc;"></canvas>
+      <button type="button" onclick="clearSignature('petugas')" style="position: absolute; bottom: 5px; right: 5px; font-size: 8px;">Hapus</button>
+    </div>
+  </td>
+</tr>
+
+<script>
+// Fungsi untuk tanda tangan digital
+function setupSignatureCanvas() {
+  const canvases = {
+    'pelanggan': document.getElementById('signature-pelanggan'),
+    'petugas': document.getElementById('signature-petugas')
+  };
+
+  Object.keys(canvases).forEach(key => {
+    const canvas = canvases[key];
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    canvas.addEventListener('touchstart', startDrawing);
+    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchend', stopDrawing);
+    
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+
+    function startDrawing(e) {
+      isDrawing = true;
+      draw(e);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX || e.touches[0].clientX) - rect.left;
+      const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#000';
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+      ctx.beginPath();
+    }
+  });
+}
+
+function clearSignature(type) {
+  const canvas = document.getElementById(`signature-${type}`);
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// Setup canvas ketika halaman loaded
+document.addEventListener('DOMContentLoaded', setupSignatureCanvas);
+</script>
+          <tr class="row32">
+            <td class="column0 style0 null style0" colspan="15"></td>
+          </tr>
+        </tbody>
+    </table>
+  </body>
+</html>
