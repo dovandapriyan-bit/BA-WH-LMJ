@@ -746,25 +746,159 @@
             font-weight: 600;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .sidebar {
-                left: -250px;
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .cards-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-        }
+        /* RESPONSIVE SIDEBAR */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+        overflow: hidden;
+    }
+    
+    .sidebar-header h3,
+    .sidebar-item span,
+    .submenu-header span,
+    .sidebar-subitem span {
+        display: none;
+    }
+    
+    .sidebar-header {
+        padding: 20px 10px;
+        text-align: center;
+    }
+    
+    .sidebar-item {
+        padding: 15px 10px;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .sidebar-item i {
+        margin-right: 0;
+        font-size: 20px;
+    }
+    
+    .submenu-header {
+        padding: 15px 10px;
+        justify-content: center;
+    }
+    
+    .sidebar-submenu {
+        position: fixed;
+        left: 70px;
+        top: 0;
+        width: 200px;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        z-index: 1001;
+        display: none;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+    
+    .sidebar-item.has-submenu.active .sidebar-submenu {
+        display: block;
+    }
+    
+    .sidebar-subitem {
+        padding: 15px 20px;
+        justify-content: flex-start;
+    }
+    
+    .sidebar-subitem span {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    
+    .main-content {
+        margin-left: 70px;
+    }
+    
+    /* HEADER RESPONSIVE */
+    .header {
+        padding: 15px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .user-info {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* TABLE RESPONSIVE */
+    .table-container {
+        padding: 15px;
+        overflow-x: auto;
+    }
+    
+    .data-table {
+        min-width: 600px;
+    }
+    
+    /* BA FORM RESPONSIVE */
+    .container-a4, 
+    .container-a5, 
+    .container-letter, 
+    .container-landscape {
+        width: 100%;
+        padding: 5mm;
+        margin: 10px auto;
+    }
+    
+    .page-size-controls {
+        top: 5px;
+        right: 5px;
+        padding: 5px;
+        font-size: 10px;
+    }
+    
+    .page-size-btn {
+        padding: 3px 6px;
+        font-size: 9px;
+    }
+}
+
+/* UNTUK HP KECIL */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 60px;
+    }
+    
+    .main-content {
+        margin-left: 60px;
+        padding: 10px;
+    }
+    
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-controls {
+        flex-wrap: wrap;
+    }
+    
+    .table-controls input,
+    .table-controls select,
+    .table-controls button {
+        flex: 1 1 100%;
+        margin-bottom: 5px;
+    }
+    
+    /* BA FORM UNTUK HP */
+    .main-table td {
+        padding: 2px;
+        font-size: 8pt;
+    }
+    
+    input[type="text"],
+    input[type="date"] {
+        font-size: 8pt;
+        padding: 1px;
+    }
+    
+    .signature-box canvas {
+        width: 150px;
+        height: 50px;
+    }
+}
 
         /* UTILITIES */
         .hidden {
@@ -798,8 +932,35 @@
             background: #f5f5f5;
             cursor: not-allowed;
         }
+        
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
     </style>
 
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -809,7 +970,7 @@
         <div class="login-container">
             <div class="login-header">
                 <h2>Sistem Berita Acara</h2>
-                <p>Login untuk mengakses dashboard</p>
+                <p>Login dengan akun terdaftar</p>
             </div>
             
             <div class="tech-animation">
@@ -823,7 +984,7 @@
             <div class="login-form">
                 <div class="form-group">
                     <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" id="email" placeholder="Masukkan email">
+                    <input type="email" id="email" placeholder="Masukkan email terdaftar">
                     <div class="error-message" id="emailError">Email tidak valid</div>
                 </div>
                 
@@ -854,7 +1015,7 @@
                 </div>
                 
                 <div class="sidebar-item" onclick="showContent('technician')">
-                    <i class="fas fa-users-cog"></i> Menu Teknisi
+                    <i class="fas fa-users-cog"></i> Teknisi
                 </div>
                 
                 <div class="sidebar-item" onclick="showContent('createBA')">
@@ -862,7 +1023,7 @@
                 </div>
                 
                 <div class="sidebar-item" onclick="showContent('masterTech')">
-                    <i class="fas fa-database"></i> Master Teknisi
+                    <i class="fas fa-database"></i> Data Master
                 </div>
                 
                 <div class="sidebar-item" onclick="showContent('reports')">
@@ -917,7 +1078,7 @@
                             <div class="card-icon">
                                 <i class="fas fa-database"></i>
                             </div>
-                            <h3>Master Teknisi</h3>
+                            <h3>Data Master</h3>
                             <p>Import data teknisi dari Excel dan kelola data master</p>
                         </div>
                         
@@ -957,7 +1118,9 @@
                         <div class="table-controls">
                             <input type="text" id="searchTech" placeholder="Cari teknisi..." onkeyup="searchTechnicians()">
                             <button onclick="exportTechnicians()"><i class="fas fa-download"></i> Export</button>
-                            <button onclick="addTechnician()"><i class="fas fa-plus"></i> Tambah Teknisi</button>
+                            <button onclick="showAddUserModal()"><i class="fas fa-plus"></i> Tambah Teknisi</button>
+                            <button onclick="importTechData()"><i class="fas fa-file-import"></i> Import Data</button>
+                        
                         </div>
                         
                         <table class="data-table">
@@ -966,7 +1129,8 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>NIK</th>
-                                    <th>Jabatan</th> <!-- HANYA ADMIN DAN TEKNISI -->
+                                    <th>Jabatan</th>
+                                    <th>Mitra</th> 
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -977,22 +1141,60 @@
                         </table>
                     </div>
                 </div>
-                
+
                 <!-- Buat BA Content -->
                 <div class="content-area" id="createBAContent">
                     <div class="table-container">
-                        <h3 class="table-title">Buat Berita Acara</h3>
-                        <p style="color: #666; margin-bottom: 20px;">Klik tombol di bawah untuk membuka form BA</p>
-                        <button class="btn-submit" onclick="openBAForm()" style="padding: 15px 40px;">
-                            <i class="fas fa-external-link-alt"></i> Buka Form BA
-                        </button>
+                        <!-- TOMBOL BUAT BA -->
+                        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px; margin-bottom: 30px;">
+                            <h3 style="color: #333; margin-bottom: 15px;">Buat Berita Acara Baru</h3>
+                            <button class="btn-submit" onclick="openBAForm()" style="padding: 15px 50px; font-size: 16px;">
+                                <i class="fas fa-file-medical"></i> Buka Form BA
+                            </button>
+                            <p style="color: #666; margin-top: 15px; font-size: 14px;">
+                                Klik tombol di atas untuk membuka form pengisian Berita Acara
+                            </p>
+                        </div>
+                        
+                        <!-- LIST BA SAYA -->
+                        <div>
+                            <h3 style="color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #667eea;">
+                                <i class="fas fa-list"></i> Daftar BA Saya
+                            </h3>
+                            
+                            <div class="table-controls">
+                                <input type="date" id="filterTanggalSaya">
+                                <input type="text" id="searchNoInetSaya" placeholder="Cari No Internet" onkeyup="filterBASaya()">
+                                <button onclick="exportBASaya()"><i class="fas fa-download"></i> Export</button>
+                                <button onclick="refreshBASaya()"><i class="fas fa-sync"></i> Refresh</button>
+                            </div>
+                            
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>No BA</th>
+                                        <th>Tanggal</th>
+                                        <th>Pelanggan</th>
+                                        <th>No Internet</th>
+                                        <th>STO</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myBATable">
+                                    <!-- Data akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
+                
                 
                 <!-- Master Teknisi Content -->
                 <div class="content-area" id="masterTechContent">
                     <div class="table-container">
-                        <h3 class="table-title">Master Data Teknisi</h3>
+                        <h3 class="table-title">Master Data</h3>
                         
                         <div class="table-controls">
                             <input type="text" id="searchMaster" placeholder="Cari data master..." onkeyup="searchMasterData()">
@@ -1015,6 +1217,7 @@
                                     <th>Email</th>
                                     <th>NIK</th>
                                     <th>Jabatan</th>
+                                    <th>Mitra</th>
                                     <th>Tanggal Import</th>
                                 </tr>
                             </thead>
@@ -1024,6 +1227,8 @@
                         </table>
                     </div>
                 </div>
+
+                
                 
                 <!-- Laporan Content -->
                 <div class="content-area" id="reportsContent">
@@ -1075,9 +1280,56 @@
         </div>
     </div>
 
-    <!-- === BA FORM (ORIGINAL CODE - TIDAK DIUBAH) === -->
+    <!-- === MODAL TAMBAH USER === -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #333; margin-bottom: 20px;">
+                <i class="fas fa-user-plus"></i> Tambah User Baru
+            </h3>
+            
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="newUserName" placeholder="Masukkan nama lengkap" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="newUserEmail" placeholder="Masukkan email" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="newUserPassword" placeholder="Minimal 6 karakter" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>Jabatan</label>
+                <select id="newUserJabatan" class="form-control">
+                    <option value="Teknisi">Teknisi</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Mitra</label>
+                <input type="text" id="newUserMitra" placeholder="Nama mitra" class="form-control">
+            </div>
+            
+            <div id="newUserError" style="color: #ff4757; margin: 10px 0; display: none;"></div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button onclick="closeAddUserModal()" style="flex: 1; padding: 12px; background: #ddd; border: none; border-radius: 8px; cursor: pointer;">
+                    Batal
+                </button>
+                <button onclick="submitNewUser()" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- === BA FORM === -->
     <div id="baFormPage" style="display: none;">
-        <!-- TOMBOL UKURAN KERTAS -->
         <div class="page-size-controls">
             <strong>Ukuran Kertas:</strong><br>
             <button class="page-size-btn active" onclick="changePageSize('A4')">A4</button>
@@ -1086,392 +1338,494 @@
             <button class="page-size-btn" onclick="changePageSize('A4 landscape')">Landscape</button>
         </div>
 
-        <!-- CONTAINER UTAMA -->
         <div id="page-container" class="container-a4">
 
-         <!-- HEADER DENGAN LOGO KIRI DAN KANAN -->
-<table style="width: 100%; border: none; margin-bottom: 15px;">
-    <tr>
-        <!-- LOGO KIRI -->
-        <td style="width: 20%; text-align: left; border: none; vertical-align: middle;">
-            <div style="border: 1px dashed #000; width: 90px; height: 50px;">
-                <!-- Tempat Logo Kiri -->
-            </div>
-        </td>
-        
-        <!-- JUDUL TENGAH -->
-        <td style="width: 80%; text-align: center; border: none; vertical-align: middle;">
-            <h1 style="font-size: 12pt; margin: 0; font-weight: bold;">LAPORAN PENYELESAIAN PEKERJAAN</h1>
-        </td>
-        
-        <!-- LOGO KANAN -->
-        <td style="width: 40%; text-align: right; border: none; vertical-align: middle;">
-            <div style="border: 1px dashed #000; width: 90px; height: 50px;">
-                <!-- Tempat Logo Kanan -->
-            </div>
-        </td>
-    </tr>
-</table>
-
-            <!-- NAMA MITRA DAN TEKNISI -->
-<table style="width: 100%; margin-bottom: 10px; border: none;">
-    <tr>
-        <td style="border: none;">
-            <strong>Nama Mitra :</strong> <input type="text" name="nama_mitra" style="width: 100px;">
-        </td>
-    </tr>
-    <tr>
-        <td style="border: none;">
-            <strong>Nama Teknisi :</strong> <span id="namaTeknisiDisplay" style="font-weight: bold; margin-left: 5px;"></span>
-        </td>
-    </tr>
-</table>
-
-            
-
-           <!-- TABEL UTAMA DUA KOLOM UNTUK DATA STO -->
-<table class="main-table">
-    <tr>
-        <!-- KOLOM KIRI - DATA STO -->
-        <td style="width: 55%; vertical-align: top;">
-            <!-- DATA UTAMA -->
-            <table style="width: 100%; border: none;">
-    <tr><td style="width: 10%; border: none; white-space: nowrap;">1. STO</td><td style="width: 1%; border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="width: 100%; border: none;"><input type="text" name="sto"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">2. No Permintaan/WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_permintaan"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">3. No Telepon</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_telepon"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">4. No Inet</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_inet"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">5. Tanggal WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="tanggal_wo"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">6. Tanggal Transaksi</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="tanggal_transaksi"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">7. Nama Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_pelanggan"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">8. No Kontak</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_kontak"></td></tr>
-    <tr><td style="border: none; white-space: nowrap;">9. Alamat Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="alamat_pelanggan"></td></tr>
-</table>
-
-            <!-- DATEK -->
-            <table style="margin-top: 10px; width: 100%; border: none;">
-    <tr style="border: none;"><td colspan="3" style="border: none;"><strong>DATEK</strong></td></tr>
-    <tr style="border: none;"><td style="width: 1%; border: none; white-space: nowrap;">1. RK/MSAN/ODC</td><td style="width: 3%; border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="width: 100%; border: none;"><input type="text" name="rk_msan_odc"></td></tr>
-    <tr style="border: none;"><td style="border: none; white-space: nowrap;">2. DP/ODP</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="dp_odp"></td></tr>
-    <tr style="border: none;"><td style="border: none; white-space: nowrap;">3. Klem Primer/Feeder</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="klem_primer_feeder"></td></tr>
-    <tr style="border: none;"><td style="border: none; white-space: nowrap;">4. Kec sec/Distribusi</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="kec_sec_distribusi"></td></tr>
-</table>
-
-            <!-- MATERIAL -->
-<table style="margin-top: 10px; width: 100%; border: none;">
-    <tr style="border: none;"><td colspan="3" style="border: none;"><strong>Material</strong></td></tr>
-    <tr style="border: none;">
-        <td style="width: 2%; border: none; white-space: nowrap;">1.</td>
-        <td style="width: 1%; border: none;"></td>
-        <td style="width: 100%; border: none;">
-            <input type="text" name="material1_kiri" style="width: 45%;"> : <input type="text" name="material1_kanan" style="width: 45%;">
-        </td>
-    </tr>
-    <tr style="border: none;">
-        <td style="border: none; white-space: nowrap;">2.</td>
-        <td style="border: none;"></td>
-        <td style="border: none;">
-            <input type="text" name="material2_kiri" style="width: 45%;"> : <input type="text" name="material2_kanan" style="width: 45%;">
-        </td>
-    </tr>
-    <tr style="border: none;">
-        <td style="border: none; white-space: nowrap;">3.</td>
-        <td style="border: none;"></td>
-        <td style="border: none;">
-            <input type="text" name="material3_kiri" style="width: 45%;"> : <input type="text" name="material3_kanan" style="width: 45%;">
-        </td>
-    </tr>
-    <tr style="border: none;">
-        <td style="border: none; white-space: nowrap;">4.</td>
-        <td style="border: none;"></td>
-        <td style="border: none;">
-            <input type="text" name="material4_kiri" style="width: 45%;"> : <input type="text" name="material4_kanan" style="width: 45%;">
-        </td>
-    </tr>
-    <tr style="border: none;">
-        <td style="border: none; white-space: nowrap;">5.</td>
-        <td style="border: none;"></td>
-        <td style="border: none;">
-            <input type="text" name="material5_kiri" style="width: 45%;"> : <input type="text" name="material5_kanan" style="width: 45%;">
-        </td>
-    </tr>
-</table>
-
-        <!-- KOLOM KANAN - TEST USAGE -->
-        <td style="width: 50%; vertical-align: top;">
-            <!-- TABEL TEST USAGE -->
-            <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+            <table style="width: 100%; border: none; margin-bottom: 15px;">
                 <tr>
-                    <td colspan="5" style="text-align: center; font-weight: bold; font-size: 10pt;">TEST USAGE</td>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="text-align: center; font-weight: bold; width: 25%;">Tes Layanan</td>
-                    <td rowspan="2" style="text-align: center; font-weight: bold; width: 25%;">Contoh</td>
-                    <td colspan="2" style="text-align: center; font-weight: bold; width: 50%;">Kualitas</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">Baik</td>
-                    <td style="text-align: center;">Tidak</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">Test Voice</td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;"><input type="checkbox" name="voice_baik"></td>
-                    <td style="text-align: center;"><input type="checkbox" name="voice_tidak"></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">Test Internet</td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;"><input type="checkbox" name="inet_baik"></td>
-                    <td style="text-align: center;"><input type="checkbox" name="inet_tidak"></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">Test UseeTv</td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;"><input type="checkbox" name="usetv_baik"></td>
-                    <td style="text-align: center;"><input type="checkbox" name="usetv_tidak"></td>
-                </tr>
-            </table>
-
-            <!-- TES INTERNET -->
-            <div style="border: 2px solid #000; padding: 10px; margin-top: 10px;">
-                <strong>Tes Internet :</strong><br>
-                1. Tes Ping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_ping" style="width: 80px;"> ms<br>
-                2. Tes Upload&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_upload" style="width: 80px;"> Mbps<br>
-                3. Tes Download &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_download" style="width: 80px;"> Mbps<br>
-                4. Hasil Ukur Redaman&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="hasil_ukur_redaman" style="width: 90px;">
-            </div>
-
-            <div style="border: 2px solid #000; padding: 100px; margin-top: 10px;"></div>
-        </td>
-    </tr>
-</table>
-
-
-
-
-        <!-- TABEL ONT DAN SERIAL NUMBER -->
-        <table class="main-table" style="margin-top: 10px;">
-    <tr>
-        <td style="width: 55%; vertical-align: top;">
-            <table style="width: 100%; border: none;">
-                <tr><td style="width: 40%; border: none; white-space: nowrap;">ONT yang DIPASANG / DITARIK</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;"><input type="text" name="ONT_yang_DIPASANG_/_DITARIK"></td></tr>
-                <tr><td style="border: none; white-space: nowrap;">lampu Indikator ONT Nyala</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="checkbox" name="power"> Power <input type="checkbox" name="dsl"> DSL <input type="checkbox" name="internet"> Internet</td></tr>
-                <tr><td style="border: none; white-space: nowrap;">Nama / Notel Teknisi</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_teknisi"></td></tr>
-                <tr><td style="border: none; white-space: nowrap;">STB ID</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="stb_id"></td></tr>
-            </table>
-        </td>
-        <td style="width: 50%; vertical-align: top;">
-            <table style="width: 100%; border: none;">
-                <tr><td style="width: 30%; border: none; white-space: nowrap;">SN ONT</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 65%; border: none;"><input type="text" name="sn_ont"></td></tr>
-                <tr><td style="border: none; white-space: nowrap;">SN PLC</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_plc"></td></tr>
-                <tr><td style="border: none; white-space: nowrap;">SN WIFI EXT</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_wifi_ext"></td></tr>
-            </table>
-        </td>
-    </tr>
-</table>
-
-        <!-- TABEL PSB DAN TAMBAHAN -->
-        <table class="main-table" style="margin-top: 10px;">
-            <tr>
-                <td style="width: 50%; vertical-align: top;">
-                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PSB</strong><br>
-                
-                    <input type="checkbox" name="psb_1p_voice"> 1P [Voice]/1P [Internet] &nbsp;
-                    <input type="checkbox" name="psb_3p"> 3P<br>
-                    <input type="checkbox" name="psb_2p"> 2P [Voice + Internet] / 2P [Internet + UseeTv]
-                </td>
-                <td style="width: 50%; vertical-align: top;">
-                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tambahan</strong><br>
-                    <input type="checkbox" name="ganti_stb"> Ganti STB / ONT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" name="plc"> PLC &nbsp;
-                    <input type="checkbox" name="indibox"> IndiBox<br>
-                    <input type="checkbox" name="stb_belum_terpasang"> STB Belum Terpasang &nbsp;
-                    <input type="checkbox" name="wifi_extender"> Wifi Extender
-                </td>
-            </tr>
-        </table>
-
-        <!-- TABEL MIGRASI -->
-        <table class="main-table" style="margin-top: 10px;">
-            <tr>
-                <td>
-                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Migrasi</strong><br>
-                    <strong>Infrastruktur:</strong><br>
-                    <input type="checkbox" name="infra_1p1p_voice"> 1P-1P [Voice]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" name="infra_1p2p_voice"> 1P-2P [Voice+Internet]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" name="infra_2p2p_voice"> 2P-2P [Internet+Voice]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" name="infra_1p3p"> 1P-3P&nbsp;
-                    <input type="checkbox" name="infra_3p3p"> 3P-3P<br>
-                    <input type="checkbox" name="infra_1p1p_internet"> 1P-1P [Internet] &nbsp;
-                    <input type="checkbox" name="infra_1p2p_usetv"> 1P-2P [Internet+UseeTv] &nbsp;
-                    <input type="checkbox" name="infra_2p2p_usetv"> 2P-2P [Internet+UseeTv] &nbsp;
-                    <input type="checkbox" name="infra_2p3p"> 2P-3P<br>
+                    <td style="width: 20%; text-align: left; border: none; vertical-align: middle;">
+                        <div style="border: 1px dashed #000; width: 90px; height: 50px;"></div>
+                    </td>
                     
-                    <strong>Layanan:</strong><br>
-                    <input type="checkbox" name="layanan_1p2p_voice"> 1P-2P [Internet+Voice] &nbsp;
-                    <input type="checkbox" name="layanan_1p2p_usetv"> 1P-2P [Internet+UseeTv] &nbsp;
-                    <input type="checkbox" name="layanan_1p3p"> 1P-3P &nbsp;
-                    <input type="checkbox" name="layanan_2p3p"> 2P-3P
-                </td>
-            </tr>
-        </table>
+                    <td style="width: 80%; text-align: center; border: none; vertical-align: middle;">
+                        <h1 style="font-size: 12pt; margin: 0; font-weight: bold;">LAPORAN PENYELESAIAN PEKERJAAN</h1>
+                    </td>
+                    
+                    <td style="width: 40%; text-align: right; border: none; vertical-align: middle;">
+                        <div style="border: 1px dashed #000; width: 90px; height: 50px;"></div>
+                    </td>
+                </tr>
+            </table>
 
-        <!-- SPEED -->
-        <table style="width: 100%; margin: 10px 0; border: none;">
-            <tr>
-                <td style="border: none;">
-                    <strong>Speed :</strong> 10MB 20MB 30MB 40MB 50MB 100MB 200MB 300MB 1 GB other
-                </td>
-            </tr>
-        </table>
+            <table style="width: 100%; margin-bottom: 10px; border: none;">
+                <tr>
+                    <td style="border: none;">
+                        <strong>Nama Mitra :</strong> <input type="text" name="nama_mitra" style="width: 100px;">
+                    </td>
+                    <td style="border: none; text-align: right;">
+                        <strong>No BA :</strong> <span id="noBADisplay" style="font-weight: bold; margin-left: 5px;">BA-001</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: none;">
+                        <strong>Nama Teknisi :</strong> <span id="namaTeknisiDisplay" style="font-weight: bold; margin-left: 5px;"></span>
+                    </td>
+                    <td style="border: none; text-align: right;"></td>
+                </tr>
+            </table>
 
-        <!-- KETERANGAN -->
-        <table class="main-table">
-            <tr>
-                <td style="font-size: 10pt;">
-                    1. Perangkat (ONT/Modem/STB) yang dipasang di rumah pelanggan adalah MILIK TELKOM yang dipinjamkan selama menjadi pelanggan TELKOM. Modem yang tidak dipakai karena Migrasi ke Fiber akan ditarik Kembali.<br>
-                    2. Telkom dapat mengambil Perangkat bila tidak ada penggunaan selama 3 bulan berturut-turut.<br>
-                    3. Untuk progress pemilihan dan monitoring diharapkan power perangkat selalu dalam kondisi hidup (ON)<br>
-                    4. Disarankan untuk segera merubah password yang ada untuk menjaga agar tidak dipergunakan oleh pihak-pihak yang tidak dikehendaki<br>
-                    5. Pelanggan sudah mendapatkan penjelasan dari sales/seller atau menerima buku petunjuk menggunakan modem internet yang telah dipasang.
-                </td>
-            </tr>
-        </table>
+            <table class="main-table">
+                <tr>
+                    <td style="width: 55%; vertical-align: top;">
+                        <table style="width: 100%; border: none;">
+                            <tr><td style="width: 10%; border: none; white-space: nowrap;">1. STO</td><td style="width: 1%; border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="width: 100%; border: none;"><input type="text" name="sto"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">2. No Permintaan/WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_permintaan"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">3. No Telepon</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_telepon"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">4. No Inet</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_inet"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">5. Tanggal WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="tanggal_wo"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">6. Tanggal Transaksi</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="tanggal_transaksi"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">7. Nama Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_pelanggan"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">8. No Kontak</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_kontak"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">9. Alamat Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="alamat_pelanggan"></td></tr>
+                        </table>
 
-        <!-- TANGGAL LUMAJANG DI LUAR TABEL -->
-<div style="text-align: right; margin-top: 10px; margin-right: 25%;">
-    Lumajang, <input type="date" name="tanggal_lumajang" style="border: none; border-bottom: 1px solid #000; text-align: center; width: 120px;">
-</div>
+                        <table style="margin-top: 10px; width: 100%; border: none;">
+                            <tr style="border: none;"><td colspan="3" style="border: none;"><strong>DATEK</strong></td></tr>
+                            <tr style="border: none;"><td style="width: 1%; border: none; white-space: nowrap;">1. RK/MSAN/ODC</td><td style="width: 3%; border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="width: 100%; border: none;"><input type="text" name="rk_msan_odc"></td></tr>
+                            <tr style="border: none;"><td style="border: none; white-space: nowrap;">2. DP/ODP</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="dp_odp"></td></tr>
+                            <tr style="border: none;"><td style="border: none; white-space: nowrap;">3. Klem Primer/Feeder</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="klem_primer_feeder"></td></tr>
+                            <tr style="border: none;"><td style="border: none; white-space: nowrap;">4. Kec sec/Distribusi</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="kec_sec_distribusi"></td></tr>
+                        </table>
 
-        <!-- TANDA TANGAN -->
-<table class="main-table" style="margin-top: 10px;">
-    <tr>
-        <td style="width: 50%; text-align: center;">
-            <div>Pelanggan</div>
-            <div id="namaPelangganTTD" style="margin-bottom: 5px; font-weight: bold;"></div>
-            <div class="signature-box">
-                <canvas id="signature-pelanggan" width="200" height="70"></canvas>
-                <button type="button" onclick="clearSignature('pelanggan')" style="position: absolute; bottom: 5px; right: 5px; font-size: 8px;">Hapus</button>
+                        <table style="margin-top: 10px; width: 100%; border: none;">
+                            <tr style="border: none;"><td colspan="3" style="border: none;"><strong>Material</strong></td></tr>
+                            <tr style="border: none;">
+                                <td style="width: 2%; border: none; white-space: nowrap;">1.</td>
+                                <td style="width: 1%; border: none;"></td>
+                                <td style="width: 100%; border: none;">
+                                    <input type="text" name="material1_kiri" style="width: 45%;"> : <input type="text" name="material1_kanan" style="width: 45%;">
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none; white-space: nowrap;">2.</td>
+                                <td style="border: none;"></td>
+                                <td style="border: none;">
+                                    <input type="text" name="material2_kiri" style="width: 45%;"> : <input type="text" name="material2_kanan" style="width: 45%;">
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none; white-space: nowrap;">3.</td>
+                                <td style="border: none;"></td>
+                                <td style="border: none;">
+                                    <input type="text" name="material3_kiri" style="width: 45%;"> : <input type="text" name="material3_kanan" style="width: 45%;">
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none; white-space: nowrap;">4.</td>
+                                <td style="border: none;"></td>
+                                <td style="border: none;">
+                                    <input type="text" name="material4_kiri" style="width: 45%;"> : <input type="text" name="material4_kanan" style="width: 45%;">
+                                </td>
+                            </tr>
+                            <tr style="border: none;">
+                                <td style="border: none; white-space: nowrap;">5.</td>
+                                <td style="border: none;"></td>
+                                <td style="border: none;">
+                                    <input type="text" name="material5_kiri" style="width: 45%;"> : <input type="text" name="material5_kanan" style="width: 45%;">
+                                </td>
+                            </tr>
+                        </table>    
+                    </td>
+                    <td style="width: 50%; vertical-align: top;">
+                        <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td colspan="5" style="text-align: center; font-weight: bold; font-size: 10pt;">TEST USAGE</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" style="text-align: center; font-weight: bold; width: 25%;">Tes Layanan</td>
+                                <td rowspan="2" style="text-align: center; font-weight: bold; width: 25%;">Contoh</td>
+                                <td colspan="2" style="text-align: center; font-weight: bold; width: 50%;">Kualitas</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">Baik</td>
+                                <td style="text-align: center;">Tidak</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">Test Voice</td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="voice_baik"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="voice_tidak"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">Test Internet</td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="inet_baik"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="inet_tidak"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">Test UseeTv</td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="usetv_baik"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="usetv_tidak"></td>
+                            </tr>
+                        </table>
+
+                        <div style="border: 2px solid #000; padding: 10px; margin-top: 10px;">
+                            <strong>Tes Internet :</strong><br>
+                            1. Tes Ping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_ping" style="width: 80px;"> ms<br>
+                            2. Tes Upload&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_upload" style="width: 80px;"> Mbps<br>
+                            3. Tes Download &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_download" style="width: 80px;"> Mbps<br>
+                            4. Hasil Ukur Redaman&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="hasil_ukur_redaman" style="width: 90px;">
+                        </div>
+
+                        <div style="border: 2px solid #000; padding: 100px; margin-top: 10px;"></div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="main-table" style="margin-top: 10px;">
+                <tr>
+                    <td style="width: 55%; vertical-align: top;">
+                        <table style="width: 100%; border: none;">
+                            <tr><td style="width: 40%; border: none; white-space: nowrap;">ONT yang DIPASANG / DITARIK</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;"><input type="text" name="ONT_yang_DIPASANG_/_DITARIK"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">lampu Indikator ONT Nyala</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="checkbox" name="power"> Power <input type="checkbox" name="dsl"> DSL <input type="checkbox" name="internet"> Internet</td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">Nama / Notel Teknisi</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_teknisi"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">STB ID</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="stb_id"></td></tr>
+                        </table>
+                    </td>
+                    <td style="width: 50%; vertical-align: top;">
+                        <table style="width: 100%; border: none;">
+                            <tr><td style="width: 30%; border: none; white-space: nowrap;">SN ONT</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 65%; border: none;"><input type="text" name="sn_ont"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">SN PLC</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_plc"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">SN WIFI EXT</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_wifi_ext"></td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="main-table" style="margin-top: 10px;">
+                <tr>
+                    <td style="width: 50%; vertical-align: top;">
+                        <strong>PSB</strong><br>
+                        <input type="checkbox" name="psb_1p_voice"> 1P [Voice]/1P [Internet] &nbsp;
+                        <input type="checkbox" name="psb_3p"> 3P<br>
+                        <input type="checkbox" name="psb_2p"> 2P [Voice + Internet] / 2P [Internet + UseeTv]
+                    </td>
+                    <td style="width: 50%; vertical-align: top;">
+                        <strong>Tambahan</strong><br>
+                        <input type="checkbox" name="ganti_stb"> Ganti STB / ONT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="plc"> PLC &nbsp;
+                        <input type="checkbox" name="indibox"> IndiBox<br>
+                        <input type="checkbox" name="stb_belum_terpasang"> STB Belum Terpasang &nbsp;
+                        <input type="checkbox" name="wifi_extender"> Wifi Extender
+                    </td>
+                </tr>
+            </table>
+
+            <table class="main-table" style="margin-top: 10px;">
+                <tr>
+                    <td>
+                        <strong>Migrasi</strong><br>
+                        <strong>Infrastruktur:</strong><br>
+                        <input type="checkbox" name="infra_1p1p_voice"> 1P-1P [Voice]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="infra_1p2p_voice"> 1P-2P [Voice+Internet]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="infra_2p2p_voice"> 2P-2P [Internet+Voice]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="infra_1p3p"> 1P-3P&nbsp;
+                        <input type="checkbox" name="infra_3p3p"> 3P-3P<br>
+                        <input type="checkbox" name="infra_1p1p_internet"> 1P-1P [Internet] &nbsp;
+                        <input type="checkbox" name="infra_1p2p_usetv"> 1P-2P [Internet+UseeTv] &nbsp;
+                        <input type="checkbox" name="infra_2p2p_usetv"> 2P-2P [Internet+UseeTv] &nbsp;
+                        <input type="checkbox" name="infra_2p3p"> 2P-3P<br>
+                        
+                        <strong>Layanan:</strong><br>
+                        <input type="checkbox" name="layanan_1p2p_voice"> 1P-2P [Internet+Voice] &nbsp;
+                        <input type="checkbox" name="layanan_1p2p_usetv"> 1P-2P [Internet+UseeTv] &nbsp;
+                        <input type="checkbox" name="layanan_1p3p"> 1P-3P &nbsp;
+                        <input type="checkbox" name="layanan_2p3p"> 2P-3P
+                    </td>
+                </tr>
+            </table>
+
+            <table style="width: 100%; margin: 10px 0; border: none;">
+                <tr>
+                    <td style="border: none;">
+                        <strong>Speed :</strong> 10MB 20MB 30MB 40MB 50MB 100MB 200MB 300MB 1 GB other
+                    </td>
+                </tr>
+            </table>
+
+            <table class="main-table">
+                <tr>
+                    <td style="font-size: 10pt;">
+                        1. Perangkat (ONT/Modem/STB) yang dipasang di rumah pelanggan adalah MILIK TELKOM yang dipinjamkan selama menjadi pelanggan TELKOM. Modem yang tidak dipakai karena Migrasi ke Fiber akan ditarik Kembali.<br>
+                        2. Telkom dapat mengambil Perangkat bila tidak ada penggunaan selama 3 bulan berturut-turut.<br>
+                        3. Untuk progress pemilihan dan monitoring diharapkan power perangkat selalu dalam kondisi hidup (ON)<br>
+                        4. Disarankan untuk segera merubah password yang ada untuk menjaga agar tidak dipergunakan oleh pihak-pihak yang tidak dikehendaki<br>
+                        5. Pelanggan sudah mendapatkan penjelasan dari sales/seller atau menerima buku petunjuk menggunakan modem internet yang telah dipasang.
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: right; margin-top: 10px; margin-right: 25%;">
+                Lumajang, <input type="date" name="tanggal_lumajang" style="border: none; border-bottom: 1px solid #000; text-align: center; width: 120px;">
             </div>
-            <button type="button" onclick="saveSignature('pelanggan')" style="margin-top: 5px; font-size: 8px; padding: 3px 8px;">Save TTD</button>
-        </td>
-        <td style="width: 50%; text-align: center;">
-            <div>Petugas Lapangan</div>
-            <div id="namaTeknisiTTD" style="margin-bottom: 5px; font-weight: bold;"></div>
-            <div class="signature-box">
-                <canvas id="signature-petugas" width="200" height="70"></canvas>
-                <button type="button" onclick="clearSignature('petugas')" style="position: absolute; bottom: 5px; right: 5px; font-size: 8px;">Hapus</button>
-            </div>
-            <button type="button" onclick="saveSignature('petugas')" style="margin-top: 5px; font-size: 8px; padding: 3px 8px;">Save TTD</button>
-        </td>
-    </tr>
-</table>
 
-        </div> <!-- End of page-container -->
-    </div> <!-- End of baFormPage -->
+            <table class="main-table" style="margin-top: 10px;">
+                <tr>
+                    <td style="width: 50%; text-align: center;">
+                        <div>Pelanggan</div>
+                        <div id="namaPelangganTTD" style="margin-bottom: 5px; font-weight: bold;"></div>
+                        <div class="signature-box">
+                            <canvas id="signature-pelanggan" width="200" height="70"></canvas>
+                            <button type="button" onclick="clearSignature('pelanggan')" style="position: absolute; bottom: 5px; right: 5px; font-size: 8px;">Hapus</button>
+                        </div>
+                        <button type="button" onclick="saveSignature('pelanggan')" style="margin-top: 5px; font-size: 8px; padding: 3px 8px;">Save TTD</button>
+                    </td>
+                    <td style="width: 50%; text-align: center;">
+                        <div>Petugas Lapangan</div>
+                        <div id="namaTeknisiTTD" style="margin-bottom: 5px; font-weight: bold;"></div>
+                        <div class="signature-box">
+                            <canvas id="signature-petugas" width="200" height="70"></canvas>
+                            <button type="button" onclick="clearSignature('petugas')" style="position: absolute; bottom: 5px; right: 5px; font-size: 8px;">Hapus</button>
+                        </div>
+                        <button type="button" onclick="saveSignature('petugas')" style="margin-top: 5px; font-size: 8px; padding: 3px 8px;">Save TTD</button>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="button" onclick="saveBA()" style="padding: 10px 30px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 12pt;">
+                    <i class="fas fa-save"></i> Simpan BA ke Database
+                </button>
+                <button type="button" onclick="document.getElementById('baFormPage').style.display='none';document.getElementById('dashboardPage').style.display='block';" 
+    style="padding: 10px 30px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 12pt; margin-left: 10px;">
+    <i class="fas fa-times"></i> Batal
+</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // === FIREBASE CONFIGURATION ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDtoOYW8SCReBXngT4kc_WtEdOo0LoGvdE",
+            authDomain: "ba-lmj.firebaseapp.com",
+            projectId: "ba-lmj",
+            storageBucket: "ba-lmj.appspot.com",
+            messagingSenderId: "757213966308",
+            appId: "1:757213966308:web:07d158f711b8c8037e21f1",
+            measurementId: "G-Q3J1T124PN"
+        };
+
         // === GLOBAL VARIABLES ===
+        let firebaseApp;
+        let firestore;
+        let auth;
         let currentUser = null;
+
+        // === INITIALIZE FIREBASE ===
+        async function initializeFirebase() {
+            try {
+                // Cek apakah Firebase SDK sudah di-load
+                if (typeof firebase === 'undefined') {
+                    console.error('Firebase SDK tidak terload!');
+                    alert('Firebase SDK tidak terload. Muat ulang halaman.');
+                    return false;
+                }
+                
+                // Initialize Firebase
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                firestore = firebase.firestore();
+                auth = firebase.auth();
+                
+                console.log('✅ Firebase initialized successfully');
+                
+                // Setup auth state listener
+                auth.onAuthStateChanged(async (user) => {
+                    if (user) {
+                        console.log('👤 User logged in:', user.email);
+                        await handleLoggedInUser(user);
+                    } else {
+                        console.log('👤 User logged out');
+                        currentUser = null;
+                    }
+                });
+                
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Firebase initialization error:', error);
+                alert('Firebase gagal diinisialisasi. Periksa koneksi internet.');
+                return false;
+            }
+        }
+
+        async function handleLoggedInUser(user) {
+    try {
+        // Ambil data user dari Firestore
+        const userDoc = await firestore.collection('users').doc(user.uid).get();
         
-        // === LOGIN FUNCTION ===
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            let valid = true;
-            
-            // Reset errors
-            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-            
-            // Validation
-            if (!email || !email.includes('@')) {
-                document.getElementById('emailError').style.display = 'block';
-                valid = false;
-            }
-            
-            if (!password || password.length < 6) {
-                document.getElementById('passwordError').style.display = 'block';
-                valid = false;
-            }
-            
-            if (!valid) return;
-            
-            // Tentukan role berdasarkan email (SEDERHANA: hanya Admin dan Teknisi)
-            let jabatan = 'Teknisi'; // default
-            let systemRole = 'teknisi'; // untuk hak akses sistem
-            
-            // Contoh: email admin@example.com = Admin
-            if (email.toLowerCase() === 'admin@example.com' || 
-                email.toLowerCase() === 'admin@sistemba.com' ||
-                email.toLowerCase().includes('admin')) {
-                jabatan = 'Admin';
-                systemRole = 'admin';
-            }
-            
-            // Simulate login
-            currentUser = {
-                id: 1,
-                name: email.split('@')[0], // ambil nama dari email
-                email: email,
-                jabatan: jabatan,
-                role: systemRole, // untuk hak akses sistem
-                avatar: email.charAt(0).toUpperCase()
-            };
-            
-            // Show dashboard
+        if (!userDoc.exists) {
+            // USER TIDAK TERDAFTAR - LOGOUT DAN BLOCK
+            console.log('❌ User tidak terdaftar, auto logout:', user.email);
+            await auth.signOut();
+            alert('Akun Anda tidak terdaftar dalam sistem');
+            return;
+        }
+        
+        const userData = userDoc.data();
+        
+        // SET CURRENT USER
+        currentUser = {
+            id: user.uid,
+            name: userData.name || user.email.split('@')[0],
+            email: user.email,
+            jabatan: userData.jabatan || 'Teknisi',
+            role: userData.role || 'teknisi',
+            avatar: user.email.charAt(0).toUpperCase(),
+            mitra: userData.mitra || ''  // TAMBAH INI
+        };
+        
+        // AUTO MASUK KE DASHBOARD
+        if (document.getElementById('loginPage').style.display !== 'none') {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('dashboardPage').style.display = 'block';
             
-            // Update user info di dashboard
+            // UPDATE UI
             document.getElementById('userName').textContent = currentUser.name;
             document.getElementById('userRole').textContent = currentUser.jabatan;
             document.getElementById('userAvatar').textContent = currentUser.avatar;
             
-            // Update BA form dengan nama teknisi jika bukan admin
+            // UPDATE FORM BA - AUTO FILL MITRA
             if (currentUser.role === 'teknisi') {
                 document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
                 document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
+                
+                // AUTO-FILL MITRA JIKA ADA
+                if (currentUser.mitra) {
+                    document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
+                }
             }
             
-            // Load initial data
+            // LOAD DATA
             loadDashboardData();
             loadTechnicians();
-            loadMasterData();
+            loadBASaya();
             loadReports();
         }
+    } catch (error) {
+        console.error('Error handling logged in user:', error);
+    }
+}
+
+        async function login() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    try {
+        // Login ke Firebase
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
         
-        // === LOGOUT FUNCTION ===
-        function logout() {
+        // Cek user di Firestore
+        const userDoc = await firestore.collection('users').doc(user.uid).get();
+        
+        // Jika user belum ada di Firestore, BUAT OTOMATIS
+        if (!userDoc.exists) {
+            const isAdmin = email.includes('admin');
+            
+            await firestore.collection('users').doc(user.uid).set({
+                name: email.split('@')[0],
+                email: email,
+                jabatan: isAdmin ? 'Admin' : 'Teknisi',
+                role: isAdmin ? 'admin' : 'teknisi',
+                mitra: '',
+                status: 'active',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+        
+        // Lanjut ke dashboard
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('dashboardPage').style.display = 'block';
+        
+        // Set UI
+        document.getElementById('userName').textContent = email.split('@')[0];
+        document.getElementById('userRole').textContent = email.includes('admin') ? 'Admin' : 'Teknisi';
+        document.getElementById('userAvatar').textContent = email.charAt(0).toUpperCase();
+        
+        // Load data
+        loadDashboardData();
+        loadTechnicians();
+        loadBASaya();
+        loadReports();
+        
+    } catch (error) {
+        alert('Login gagal! Pastikan email dan password benar.');
+        console.error(error);
+    }
+}
+
+        // === FUNGSI LOGOUT ===
+        async function logout() {
+            try {
+                // LOGOUT DARI FIREBASE
+                if (auth) {
+                    await auth.signOut();
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+            
+            // RESET SEMUA
             currentUser = null;
             document.getElementById('dashboardPage').style.display = 'none';
             document.getElementById('baFormPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'flex';
             
-            // Reset login form
+            // Reset form login
             document.getElementById('email').value = '';
             document.getElementById('password').value = '';
         }
-        
-        // === CONTENT SWITCHING ===
+
         function showContent(contentId) {
-            // Hide all content areas
-            document.querySelectorAll('.content-area').forEach(el => {
-                el.classList.remove('active');
-            });
-            
-            // Remove active class from all sidebar items
-            document.querySelectorAll('.sidebar-item').forEach(el => {
-                el.classList.remove('active');
-            });
-            
-            // Show selected content
-            document.getElementById(contentId + 'Content').classList.add('active');
-            
-            // Add active class to clicked sidebar item
-            event.currentTarget.classList.add('active');
-        }
-        
+    // Hide all content areas
+    document.querySelectorAll('.content-area').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // Remove active class from all sidebar items
+    document.querySelectorAll('.sidebar-item').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // Show selected content
+    document.getElementById(contentId + 'Content').classList.add('active');
+    
+    // Add active class to clicked sidebar item
+    event.currentTarget.classList.add('active');
+    
+    if (contentId === 'createBA') {
+        // Tunggu sebentar biar DOM siap
+        setTimeout(() => {
+            loadBASaya();
+        }, 100);
+    }
+
+     // Update header berdasarkan menu
+    const header = document.querySelector('.header-left');
+if (contentId === 'technician') {
+    header.innerHTML = '<h1>Manajemen Teknisi</h1><p>Kelola data teknisi</p>';
+} else if (contentId === 'createBA') {
+    header.innerHTML = '<h1>Buat Berita Acara</h1><p>Form pengisian BA</p>';
+} else if (contentId === 'masterTech') {
+    header.innerHTML = '<h1>Data Master</h1><p>Import dan kelola data master</p>';
+} else if (contentId === 'reports') {
+    header.innerHTML = '<h1>Laporan</h1><p>Analisis data BA</p>';
+} else if (contentId === 'dashboard') {
+    header.innerHTML = '<h1>Dashboard Sistem BA</h1><p>Sistem Manajemen Berita Acara</p>';
+}
+}
+
         // === DASHBOARD FUNCTIONS ===
         function loadDashboardData() {
             // Sample recent activity data
@@ -1484,102 +1838,312 @@
             ];
             
             const tbody = document.getElementById('recentActivity');
-            tbody.innerHTML = '';
-            
-            activities.forEach(activity => {
-                const statusClass = activity.status === 'Selesai' ? 'status-active' : 'status-inactive';
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${activity.no}</td>
-                        <td>${activity.customer}</td>
-                        <td>${activity.technician}</td>
-                        <td>${activity.date}</td>
-                        <td class="${statusClass}">${activity.status}</td>
-                    </tr>
-                `;
-            });
+            if (tbody) {
+                tbody.innerHTML = '';
+                
+                activities.forEach(activity => {
+                    const statusClass = activity.status === 'Selesai' ? 'status-active' : 'status-inactive';
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${activity.no}</td>
+                            <td>${activity.customer}</td>
+                            <td>${activity.technician}</td>
+                            <td>${activity.date}</td>
+                            <td class="${statusClass}">${activity.status}</td>
+                        </tr>
+                    `;
+                });
+            }
         }
-        
+
         // === TECHNICIAN MANAGEMENT ===
-        function loadTechnicians() {
-            // Sample technician data - HANYA Admin dan Teknisi
-            const technicians = [
-                { name: 'Ahmad Rizki', email: 'ahmad@example.com', nik: 'TK001', jabatan: 'Teknisi', status: 'Aktif' },
-                { name: 'Muhammad Ali', email: 'ali@example.com', nik: 'TK002', jabatan: 'Teknisi', status: 'Aktif' },
-                { name: 'Budi Hartono', email: 'budi@example.com', nik: 'TK003', jabatan: 'Admin', status: 'Aktif' },
-                { name: 'Siti Aisyah', email: 'siti@example.com', nik: 'TK004', jabatan: 'Teknisi', status: 'Nonaktif' },
-                { name: 'Joko Susanto', email: 'joko@example.com', nik: 'TK005', jabatan: 'Teknisi', status: 'Aktif' }
-            ];
-            
-            const tbody = document.getElementById('technicianTable');
-            tbody.innerHTML = '';
-            
-            technicians.forEach(tech => {
-                const statusClass = tech.status === 'Aktif' ? 'status-active' : 'status-inactive';
+        async function loadTechnicians() {
+            try {
+                if (!firestore) return;
                 
-                // Jabatan column - HANYA admin yang bisa edit
-                let jabatanColumn;
-                if (currentUser && currentUser.role === 'admin') {
-                    jabatanColumn = `
-                        <select class="jabatan-select" data-nik="${tech.nik}" onchange="updateJabatan('${tech.nik}', this.value)">
-                            <option value="Teknisi" ${tech.jabatan === 'Teknisi' ? 'selected' : ''}>Teknisi</option>
-                            <option value="Admin" ${tech.jabatan === 'Admin' ? 'selected' : ''}>Admin</option>
-                        </select>
+                // CARI BERDASARKAN JABATAN
+const techniciansSnapshot = await firestore.collection('users')
+    .where('jabatan', 'in', ['Teknisi', 'Admin', 'teknisi', 'admin'])
+    .get();
+                
+                const tbody = document.getElementById('technicianTable');
+                if (!tbody) return;
+                
+                tbody.innerHTML = '';
+                
+                if (techniciansSnapshot.empty) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #666; padding: 20px;">
+                                <i class="fas fa-users-slash"></i> Belum ada data teknisi
+                            </td>
+                        </tr>
                     `;
-                } else {
-                    // Non-admin hanya melihat teks
-                    jabatanColumn = `<span>${tech.jabatan}</span>`;
+                    return;
                 }
                 
-                // Action buttons - HANYA admin yang bisa edit/hapus
-                let actionButtons = `
-                    <button class="btn-action btn-toggle" onclick="toggleTechnician('${tech.nik}')">
-                        ${tech.status === 'Aktif' ? 'Nonaktifkan' : 'Aktifkan'}
-                    </button>
-                `;
+                let index = 0;
+                techniciansSnapshot.forEach(doc => {
+                    const tech = doc.data();
+                    index++;
+                    
+                    const statusClass = tech.status === 'active' ? 'status-active' : 'status-inactive';
+                    const statusText = tech.status === 'active' ? 'Aktif' : 'Nonaktif';
+                    
+                    // Jabatan column - HANYA admin yang bisa edit
+                    let jabatanColumn;
+                    if (currentUser && currentUser.role === 'admin') {
+                        jabatanColumn = `
+                            <select class="jabatan-select" data-id="${doc.id}" onchange="updateJabatan('${doc.id}', this.value)">
+                                <option value="Teknisi" ${tech.jabatan === 'Teknisi' ? 'selected' : ''}>Teknisi</option>
+                                <option value="Admin" ${tech.jabatan === 'Admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        `;
+                    } else {
+                        jabatanColumn = `<span>${tech.jabatan || 'Teknisi'}</span>`;
+                    }
+                    
+                    // Mitra column - HANYA admin yang bisa edit
+                    let mitraColumn;
+    if (currentUser && currentUser.role === 'admin') {
+        mitraColumn = `
+            <input type="text" class="mitra-input" data-id="${doc.id}" value="${tech.mitra || ''}" 
+                   style="width: 120px; padding: 4px; border: 1px solid #ddd; border-radius: 4px;"
+                   onchange="updateMitra('${doc.id}', this.value)">
+        `;
+    } else {
+        mitraColumn = `<span>${tech.mitra || ''}</span>`;
+    }
+                    
+                    // Action buttons
+                    let actionButtons = `
+                        <button class="btn-action btn-toggle" onclick="toggleTechnician('${doc.id}')" 
+                                ${currentUser && currentUser.role === 'admin' ? '' : 'disabled'}
+                                title="${currentUser && currentUser.role === 'admin' ? 'Ubah Status' : 'Hanya Admin'}">
+                            ${tech.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
+                        </button>
+                    `;
+                    
+                    if (currentUser && currentUser.role === 'admin') {
+                        actionButtons += `
+                            <button class="btn-action btn-delete" onclick="deleteTechnician('${doc.id}')" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        `;
+                    }
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${tech.name || 'Tidak ada nama'}</td>
+                            <td>${tech.email || 'Tidak ada email'}</td>
+                            <td>${doc.id.substring(0, 8)}</td>
+                            <td>${jabatanColumn}</td>
+                            <td>${mitraColumn}</td>
+                            <td class="${statusClass}">${statusText}</td>
+                            <td>${actionButtons}</td>
+                        </tr>
+                    `;
+                });
                 
-                if (currentUser && currentUser.role === 'admin') {
-                    actionButtons += `
-                        <button class="btn-action btn-edit" onclick="editTechnician('${tech.nik}')">Edit</button>
-                        <button class="btn-action btn-delete" onclick="deleteTechnician('${tech.nik}')">Hapus</button>
+            } catch (error) {
+                console.error('Error loading technicians:', error);
+                const tbody = document.getElementById('technicianTable');
+                if (tbody) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #ff4757; padding: 20px;">
+                                <i class="fas fa-exclamation-triangle"></i> Error loading data
+                            </td>
+                        </tr>
                     `;
                 }
-                
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${tech.name}</td>
-                        <td>${tech.email}</td>
-                        <td>${tech.nik}</td>
-                        <td>${jabatanColumn}</td>
-                        <td class="${statusClass}">${tech.status}</td>
-                        <td>${actionButtons}</td>
-                    </tr>
-                `;
-            });
+            }
         }
-        
-        // Fungsi untuk update jabatan (HANYA admin)
-        function updateJabatan(nik, newJabatan) {
+
+        // === FUNGSI UPDATE JABATAN ===
+        async function updateJabatan(userId, newJabatan) {
             if (!currentUser || currentUser.role !== 'admin') {
                 alert('Hanya Admin yang dapat mengubah jabatan');
                 loadTechnicians(); // Refresh untuk reset pilihan
                 return;
             }
             
-            if (confirm(`Ubah jabatan teknisi ${nik} menjadi ${newJabatan}?`)) {
-                // Simpan ke database
-                alert(`Jabatan teknisi ${nik} berhasil diubah menjadi ${newJabatan}`);
-                
-                // Jika mengubah menjadi "Admin", beri peringatan
-                if (newJabatan === 'Admin') {
-                    alert('PERINGATAN: Mengubah jabatan menjadi Admin akan memberikan hak akses penuh ke sistem!');
+            if (confirm(`Ubah jabatan menjadi ${newJabatan}?`)) {
+                try {
+                    await firestore.collection('users').doc(userId).update({
+                        jabatan: newJabatan,
+                        role: newJabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi'
+                    });
+                    
+                    alert('Jabatan berhasil diubah');
+                    loadTechnicians();
+                    
+                } catch (error) {
+                    console.error('Error updating jabatan:', error);
+                    alert('Gagal mengubah jabatan');
                 }
-                
-                // Refresh data
-                loadTechnicians();
+            }
+        }
+
+        async function updateMitra(userId, newMitra) {
+    if (!currentUser || currentUser.role !== 'admin') {
+        alert('Hanya Admin yang dapat mengubah data mitra');
+        return;
+    }
+    
+    try {
+        // UPDATE DI FIRESTORE
+        await firestore.collection('users').doc(userId).update({
+            mitra: newMitra
+        });
+        
+        // JIKA USER YANG SEDANG LOGIN, UPDATE CURRENT USER
+        if (userId === currentUser.id) {
+            currentUser.mitra = newMitra;
+            
+            // UPDATE DI FORM BA JIKA SEDANG TERBUKA
+            if (document.getElementById('baFormPage').style.display === 'block') {
+                document.querySelector('input[name="nama_mitra"]').value = newMitra;
             }
         }
         
+        console.log('Mitra berhasil diubah');
+        
+    } catch (error) {
+        console.error('Error updating mitra:', error);
+        alert('Gagal mengubah mitra');
+    }
+}
+
+        // === FUNGSI TOGGLE STATUS TEKNISI ===
+        async function toggleTechnician(userId) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Hanya Admin yang dapat mengubah status teknisi');
+                return;
+            }
+            
+            try {
+                const userDoc = await firestore.collection('users').doc(userId).get();
+                if (!userDoc.exists) return;
+                
+                const currentStatus = userDoc.data().status;
+                const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+                
+                await firestore.collection('users').doc(userId).update({
+                    status: newStatus
+                });
+                
+                alert(`Status berhasil diubah menjadi ${newStatus === 'active' ? 'Aktif' : 'Nonaktif'}`);
+                loadTechnicians();
+                
+            } catch (error) {
+                console.error('Error toggling technician:', error);
+                alert('Gagal mengubah status');
+            }
+        }
+
+        // === FUNGSI DELETE TEKNISI ===
+        async function deleteTechnician(userId) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Hanya Admin yang dapat menghapus teknisi');
+                return;
+            }
+            
+            if (confirm('Apakah Anda yakin ingin menghapus user ini?')) {
+                try {
+                    await firestore.collection('users').doc(userId).delete();
+                    alert('User berhasil dihapus');
+                    loadTechnicians();
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    alert('Gagal menghapus user');
+                }
+            }
+        }
+
+        // === FUNGSI TAMBAH USER BARU ===
+        function showAddUserModal() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Hanya Admin yang dapat menambahkan user');
+                return;
+            }
+            
+            document.getElementById('addUserModal').style.display = 'block';
+            document.getElementById('newUserError').style.display = 'none';
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserEmail').value = '';
+            document.getElementById('newUserPassword').value = '';
+            document.getElementById('newUserJabatan').value = 'Teknisi';
+            document.getElementById('newUserMitra').value = '';
+        }
+
+        function closeAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'none';
+        }
+
+        async function submitNewUser() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Hanya Admin yang dapat menambahkan user');
+                return;
+            }
+            
+            const name = document.getElementById('newUserName').value.trim();
+            const email = document.getElementById('newUserEmail').value.trim();
+            const password = document.getElementById('newUserPassword').value;
+            const jabatan = document.getElementById('newUserJabatan').value;
+            const mitra = document.getElementById('newUserMitra').value.trim();
+            
+            // Validasi
+            if (!name || !email || !password || password.length < 6) {
+                document.getElementById('newUserError').textContent = 'Harap isi semua field dengan benar (password minimal 6 karakter)';
+                document.getElementById('newUserError').style.display = 'block';
+                return;
+            }
+            
+            try {
+                // Buat user di Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Simpan data ke Firestore
+                await firestore.collection('users').doc(user.uid).set({
+                    name: name,
+                    email: email,
+                    jabatan: jabatan,
+                    role: jabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi',
+                    mitra: mitra,
+                    status: 'active',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy: currentUser.id
+                });
+                
+                alert('User berhasil ditambahkan');
+                closeAddUserModal();
+                loadTechnicians();
+                
+            } catch (error) {
+                console.error('Error adding user:', error);
+                let errorMessage = 'Gagal menambahkan user: ';
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'Email sudah terdaftar';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Format email tidak valid';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Password terlalu lemah';
+                        break;
+                    default:
+                        errorMessage += error.message;
+                }
+                
+                document.getElementById('newUserError').textContent = errorMessage;
+                document.getElementById('newUserError').style.display = 'block';
+            }
+        }
+
         function searchTechnicians() {
             const searchTerm = document.getElementById('searchTech').value.toLowerCase();
             const rows = document.querySelectorAll('#technicianTable tr');
@@ -1590,79 +2154,43 @@
             });
         }
         
-        function addTechnician() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('Hanya Admin yang dapat menambahkan teknisi');
-                return;
-            }
-            
-            alert('Form tambah teknisi akan ditampilkan');
-            // Di sini bisa menampilkan modal/form untuk tambah teknisi
-        }
-        
-        function editTechnician(nik) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('Hanya Admin yang dapat mengedit data teknisi');
-                return;
-            }
-            
-            alert(`Edit teknisi dengan NIK: ${nik}`);
-        }
-        
-        function deleteTechnician(nik) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('Hanya Admin yang dapat menghapus teknisi');
-                return;
-            }
-            
-            if (confirm(`Apakah Anda yakin ingin menghapus teknisi dengan NIK: ${nik}?`)) {
-                alert(`Teknisi ${nik} berhasil dihapus`);
-                loadTechnicians(); // Refresh list
-            }
-        }
-        
-        function toggleTechnician(nik) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                alert('Hanya Admin yang dapat mengubah status teknisi');
-                return;
-            }
-            
-            if (confirm(`Apakah Anda yakin ingin mengubah status teknisi ${nik}?`)) {
-                alert(`Status teknisi ${nik} berhasil diubah`);
-                loadTechnicians(); // Refresh list
-            }
-        }
-        
         function exportTechnicians() {
             alert('Data teknisi berhasil diexport ke Excel');
         }
-        
+
+        function importTechData() {
+    alert('Fitur Import Data - Buka file Excel untuk import data teknisi');
+}
+
         // === MASTER DATA FUNCTIONS ===
         function loadMasterData() {
-            // Sample master data
+            // Sample master data dengan mitra
             const masterData = [
-                { no: 1, name: 'Ahmad Rizki', email: 'ahmad@example.com', nik: 'TK001', jabatan: 'Teknisi', importDate: '2024-01-10' },
-                { no: 2, name: 'Muhammad Ali', email: 'ali@example.com', nik: 'TK002', jabatan: 'Teknisi', importDate: '2024-01-10' },
-                { no: 3, name: 'Budi Hartono', email: 'budi@example.com', nik: 'TK003', jabatan: 'Admin', importDate: '2024-01-09' },
-                { no: 4, name: 'Siti Aisyah', email: 'siti@example.com', nik: 'TK004', jabatan: 'Teknisi', importDate: '2024-01-09' },
-                { no: 5, name: 'Joko Susanto', email: 'joko@example.com', nik: 'TK005', jabatan: 'Teknisi', importDate: '2024-01-08' }
+                { no: 1, name: 'Ahmad Rizki', email: 'ahmad@example.com', nik: 'TK001', jabatan: 'Teknisi', mitra: 'PT Mitra Abadi', importDate: '2024-01-10' },
+                { no: 2, name: 'Muhammad Ali', email: 'ali@example.com', nik: 'TK002', jabatan: 'Teknisi', mitra: 'CV Teknik Sejahtera', importDate: '2024-01-10' },
+                { no: 3, name: 'Budi Hartono', email: 'budi@example.com', nik: 'TK003', jabatan: 'Admin', mitra: 'PT Sistem Informasi', importDate: '2024-01-09' },
+                { no: 4, name: 'Siti Aisyah', email: 'siti@example.com', nik: 'TK004', jabatan: 'Teknisi', mitra: 'PT Jaya Makmur', importDate: '2024-01-09' },
+                { no: 5, name: 'Joko Susanto', email: 'joko@example.com', nik: 'TK005', jabatan: 'Teknisi', mitra: 'CV Mandiri Teknik', importDate: '2024-01-08' }
             ];
             
             const tbody = document.getElementById('masterTable');
-            tbody.innerHTML = '';
-            
-            masterData.forEach(data => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${data.no}</td>
-                        <td>${data.name}</td>
-                        <td>${data.email}</td>
-                        <td>${data.nik}</td>
-                        <td>${data.jabatan}</td>
-                        <td>${data.importDate}</td>
-                    </tr>
-                `;
-            });
+            if (tbody) {
+                tbody.innerHTML = '';
+                
+                masterData.forEach(data => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${data.no}</td>
+                            <td>${data.name}</td>
+                            <td>${data.email}</td>
+                            <td>${data.nik}</td>
+                            <td>${data.jabatan}</td>
+                            <td>${data.mitra}</td>
+                            <td>${data.importDate}</td>
+                        </tr>
+                    `;
+                });
+            }
         }
         
         function searchMasterData() {
@@ -1682,10 +2210,8 @@
         function handleExcelUpload(input) {
             const file = input.files[0];
             if (file) {
-                // Simulate file processing
                 alert(`File ${file.name} berhasil diupload. Data sedang diproses...`);
                 
-                // Simulate delay for processing
                 setTimeout(() => {
                     alert('Data berhasil diimport dari Excel');
                     loadMasterData(); // Refresh master data
@@ -1711,22 +2237,24 @@
             ];
             
             const tbody = document.getElementById('reportsTable');
-            tbody.innerHTML = '';
-            
-            reports.forEach(report => {
-                const statusClass = report.status === 'Selesai' ? 'status-active' : 'status-inactive';
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${report.no}</td>
-                        <td>${report.date}</td>
-                        <td>${report.customer}</td>
-                        <td>${report.inet}</td>
-                        <td>${report.technician}</td>
-                        <td>${report.service}</td>
-                        <td class="${statusClass}">${report.status}</td>
-                    </tr>
-                `;
-            });
+            if (tbody) {
+                tbody.innerHTML = '';
+                
+                reports.forEach(report => {
+                    const statusClass = report.status === 'Selesai' ? 'status-active' : 'status-inactive';
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${report.no}</td>
+                            <td>${report.date}</td>
+                            <td>${report.customer}</td>
+                            <td>${report.inet}</td>
+                            <td>${report.technician}</td>
+                            <td>${report.service}</td>
+                            <td class="${statusClass}">${report.status}</td>
+                        </tr>
+                    `;
+                });
+            }
         }
         
         function filterReports() {
@@ -1735,32 +2263,309 @@
             const month = document.getElementById('monthFilter').value;
             const inetSearch = document.getElementById('searchInet').value.toLowerCase();
             
-            // In a real application, this would be an API call with filters
             alert(`Filter diterapkan:\nTanggal: ${startDate} - ${endDate}\nBulan: ${month}\nNo Internet: ${inetSearch}`);
             
             // Simulate filtered results
-            loadReports(); // This would be replaced with actual filtered data
+            loadReports();
         }
         
         function exportReports() {
             alert('Laporan berhasil diexport ke Excel');
         }
-        
-        // === BA FORM FUNCTIONS ===
+
         function openBAForm() {
-            document.getElementById('dashboardPage').style.display = 'none';
-            document.getElementById('baFormPage').style.display = 'block';
+    document.getElementById('dashboardPage').style.display = 'none';
+    document.getElementById('baFormPage').style.display = 'block';
+    
+    // Tampilkan next number bulan ini
+    const { counter } = getBACounter();
+    const now = new Date();
+    const tahun = now.getFullYear();
+    const bulan = String(now.getMonth() + 1).padStart(2, '0');
+    const nextNumber = counter + 1;
+    const nomorUrut = String(nextNumber).padStart(3, '0');
+    const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
+    
+    document.getElementById('noBADisplay').textContent = noBA;
+    
+    // Set nama teknisi
+    if (currentUser) {
+        document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
+        document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
+        
+        // AUTO-FILL MITRA DARI DATA USER
+        if (currentUser.mitra) {
+            document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
+        } else {
+            // JIKA MITRA KOSONG, AMBIL DARI DATABASE
+            loadUserMitraFromFirebase();
+        }
+    }
+    
+    // Set tanggal hari ini
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelector('input[name="tanggal_lumajang"]').value = today;
+    
+    // Initialize signature canvas
+    setupSignatureCanvas();
+}
+
+function getBACounter() {
+    const now = new Date();
+    const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    
+    // Ambil counter bulan ini
+    const counterKey = `baCounter_${yearMonth}`;
+    let counter = localStorage.getItem(counterKey) || 0;
+    counter = parseInt(counter);
+    
+    return { counter, counterKey };
+}
+
+function incrementBACounter() {
+    const { counter, counterKey } = getBACounter();
+    const newCounter = counter + 1;
+    localStorage.setItem(counterKey, newCounter);
+    return newCounter;
+}
+
+function decrementBACounter() {
+    const { counter, counterKey } = getBACounter();
+    const newCounter = Math.max(0, counter - 1);
+    localStorage.setItem(counterKey, newCounter);
+    return newCounter;
+}
+
+async function saveBA() {
+    if (!currentUser) {
+        alert('Anda harus login terlebih dahulu');
+        return;
+    }
+    
+    // Validasi
+    const noInet = document.querySelector('input[name="no_inet"]').value;
+    const namaPelanggan = document.querySelector('input[name="nama_pelanggan"]').value;
+    const tanggalLumajang = document.querySelector('input[name="tanggal_lumajang"]').value;
+    
+    if (!noInet || !namaPelanggan || !tanggalLumajang) {
+        alert('Harap isi No Internet, Nama Pelanggan, dan Tanggal!');
+        return;
+    }
+    
+    try {
+        // 1. TAMBAH COUNTER BULAN INI
+        const newCounter = incrementBACounter();
+        
+        // 2. BUAT NO BA DENGAN FORMAT: BA/TAHUN/BULAN/NOMOR
+        const now = new Date();
+        const tahun = now.getFullYear();
+        const bulan = String(now.getMonth() + 1).padStart(2, '0');
+        const nomorUrut = String(newCounter).padStart(3, '0');
+        const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
+        
+        // 3. BUAT DATA
+        const baData = {
+            id: 'BA-' + Date.now() + '-' + currentUser.id.substring(0, 4),
+            noBA: noBA,
+            tanggal: tanggalLumajang,
+            noInet: noInet,
+            namaPelanggan: namaPelanggan,
+            namaTeknisi: currentUser.name,
+            teknisiId: currentUser.id,
+            userEmail: currentUser.email,
+            status: 'Draft',
+            tanggalDibuat: new Date().toISOString(),
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        // 4. SIMPAN
+        await firestore.collection('ba_documents').doc(baData.id).set(baData);
+        
+        alert(`BA berhasil disimpan!\nNo BA: ${noBA}`);
+        
+    } catch (error) {
+        // 5. KALAU GAGAL, KURANGI COUNTER
+        decrementBACounter();
+        
+        alert('Gagal menyimpan BA: ' + error.message);
+    }
+}
+
+async function loadUserMitraFromFirebase() {
+    if (!currentUser || !firestore) return;
+    
+    try {
+        // Ambil data user dari Firestore untuk dapat mitra
+        const userDoc = await firestore.collection('users').doc(currentUser.id).get();
+        
+        if (userDoc.exists) {
+            const userData = userDoc.data();
             
-            // Initialize signature canvas
-            setupSignatureCanvas();
+            // UPDATE CURRENT USER
+            currentUser.mitra = userData.mitra || '';
+            
+            // AUTO-FILL DI FORM
+            if (currentUser.mitra) {
+                document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
+            }
         }
-        
-        function closeBAForm() {
-            document.getElementById('baFormPage').style.display = 'none';
-            document.getElementById('dashboardPage').style.display = 'block';
+    } catch (error) {
+        console.error('Error loading user mitra:', error);
+    }
+}
+
+        // === FUNGSI LOAD BA SAYA ===
+        async function loadBASaya() {
+            if (!currentUser || !firestore) return;
+            
+            try {
+                const baSnapshot = await firestore.collection('ba_documents')
+                    .where('userEmail', '==', currentUser.email)
+                    .orderBy('tanggalDibuat', 'desc')
+                    .limit(20)
+                    .get();
+                
+                const tbody = document.getElementById('myBATable');
+                if (!tbody) return;
+                
+                tbody.innerHTML = '';
+                
+                if (baSnapshot.empty) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #666; padding: 30px;">
+                                <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                                Belum ada BA yang Anda buat
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                baSnapshot.forEach((doc) => {
+                    const ba = doc.data();
+                    const statusClass = ba.status === 'Selesai' ? 'status-active' : 
+                                     ba.status === 'Draft' ? 'status-inactive' : '';
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${ba.noBA || doc.id}</td>
+                            <td>${ba.tanggal || '-'}</td>
+                            <td>${ba.namaPelanggan || '-'}</td>
+                            <td>${ba.noInet || '-'}</td>
+                            <td>${ba.sto || '-'}</td>
+                            <td class="${statusClass}">${ba.status || 'Draft'}</td>
+                            <td>
+                                <button class="btn-action btn-edit" onclick="viewBASaya('${doc.id}')" title="Lihat">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-action btn-toggle" onclick="downloadBASaya('${doc.id}')" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn-action btn-delete" onclick="deleteBASaya('${doc.id}')" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+            } catch (error) {
+                console.error('Error loading BA:', error);
+                const tbody = document.getElementById('myBATable');
+                if (tbody) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #ff4757; padding: 30px;">
+                                <i class="fas fa-exclamation-triangle"></i> Error loading data
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
         }
-        
-        // === ORIGINAL BA FORM FUNCTIONS (TIDAK DIUBAH) ===
+
+        function refreshBASaya() {
+            console.log('Merefresh list BA...');
+            loadBASaya();
+        }
+
+        function filterBASaya() {
+            const searchTerm = document.getElementById('searchNoInetSaya').value.toLowerCase();
+            const rows = document.querySelectorAll('#myBATable tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function exportBASaya() {
+            alert('Data BA berhasil diexport ke Excel!');
+        }
+
+        async function viewBASaya(id) {
+            try {
+                const baDoc = await firestore.collection('ba_documents').doc(id).get();
+                if (baDoc.exists) {
+                    const baData = baDoc.data();
+                    alert(`Detail BA:\nNo: ${baData.noBA}\nPelanggan: ${baData.namaPelanggan}\nStatus: ${baData.status}`);
+                }
+            } catch (error) {
+                console.error('Error viewing BA:', error);
+            }
+        }
+
+        function downloadBASaya(id) {
+            alert('Download BA: ' + id);
+        }
+
+        async function deleteBASaya(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus BA ini?')) {
+                try {
+                    await firestore.collection('ba_documents').doc(id).delete();
+                    alert('BA berhasil dihapus!');
+                    loadBASaya();
+                } catch (error) {
+                    console.error('Error deleting BA:', error);
+                    alert('Gagal menghapus BA');
+                }
+            }
+        }
+
+       function getBACounter() {
+    const now = new Date();
+    const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    
+    // Ambil counter bulan ini
+    const counterKey = `baCounter_${yearMonth}`;
+    let counter = localStorage.getItem(counterKey) || 0;
+    counter = parseInt(counter);
+    
+    return { counter, counterKey };
+}
+
+function incrementBACounter() {
+    const { counter, counterKey } = getBACounter();
+    const newCounter = counter + 1;
+    localStorage.setItem(counterKey, newCounter);
+    return newCounter;
+}
+
+function decrementBACounter() {
+    const { counter, counterKey } = getBACounter();
+    const newCounter = Math.max(0, counter - 1);
+    localStorage.setItem(counterKey, newCounter);
+    return newCounter;
+}
+
+function resetBACounter() {
+    if (confirm('Reset nomor BA ke 0?')) {
+        localStorage.setItem('baCounter', 0);
+        alert('Counter BA direset ke 0');
+    }
+}
+        // === ORIGINAL BA FORM FUNCTIONS ===
         let pelangganSigned = false;
 
         function saveSignature(type) {
@@ -1773,49 +2578,7 @@
                 pelangganSigned = true;
             }
             
-            // Simpan ke database dan Google Drive
-            saveToDatabaseAndDrive(type);
-        }
-
-        function saveToDatabaseAndDrive(type) {
-            // PERBAIKAN: Cek dulu apakah input tanggal ada
-            const tanggalInput = document.querySelector('input[name="tanggal_lumajang"]');
-            
-            if (!tanggalInput) {
-                alert('Error: Input tanggal tidak ditemukan!');
-                return;
-            }
-            
-            const tanggalValue = tanggalInput.value;
-            
-            if (!tanggalValue) {
-                alert('Harap isi tanggal terlebih dahulu!');
-                return;
-            }
-
-            // Kode untuk menyimpan ke database dan Google Drive
-            const canvas = document.getElementById(`signature-${type}`);
-            const dataURL = canvas.toDataURL();
-            
-            // Simpan ke database
-            fetch('/api/save-signature', {
-                method: 'POST',
-                body: JSON.stringify({
-                    type: type,
-                    signature: dataURL,
-                    tanggal: tanggalValue
-                })
-            });
-            
-            // Simpan ke Google Drive
-            saveToGoogleDrive(dataURL, type);
-            
             alert(`Tanda tangan ${type} berhasil disimpan!`);
-        }
-
-        function saveToGoogleDrive(signatureData, type) {
-            // Implementasi Google Drive API
-            console.log('Menyimpan ke Google Drive:', type);
         }
 
         function changePageSize(size) {
@@ -1829,6 +2592,82 @@
             });
             event.target.classList.add('active');
         }
+
+
+        // TOGGLE SIDEBAR DI MOBILE
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('mobile-open');
+}
+
+// TAMBAH TOGGLE BUTTON DI HEADER (UNTUK MOBILE)
+const header = document.querySelector('.header');
+if (header && window.innerWidth <= 768) {
+    const toggleBtn = document.createElement('button');
+    toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    toggleBtn.className = 'sidebar-toggle';
+    toggleBtn.style.cssText = `
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        margin-right: 15px;
+    `;
+    toggleBtn.onclick = toggleSidebar;
+    
+    document.querySelector('.user-info').prepend(toggleBtn);
+}
+
+// CSS UNTUK SIDEBAR TOGGLE MOBILE
+const style = document.createElement('style');
+style.textContent = `
+    @media (max-width: 768px) {
+        .sidebar {
+            left: -250px;
+            transition: left 0.3s ease;
+        }
+        
+        .sidebar.mobile-open {
+            left: 0;
+            width: 250px;
+        }
+        
+        .sidebar.mobile-open .sidebar-header h3,
+        .sidebar.mobile-open .sidebar-item span,
+        .sidebar.mobile-open .submenu-header span,
+        .sidebar.mobile-open .sidebar-subitem span {
+            display: block;
+        }
+        
+        .sidebar.mobile-open .sidebar-item {
+            padding: 15px 25px;
+            text-align: left;
+            justify-content: flex-start;
+        }
+        
+        .sidebar.mobile-open .sidebar-item i {
+            margin-right: 12px;
+        }
+        
+        .main-content {
+            margin-left: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+function toggleDataMaster() {
+    const dataMasterItem = document.querySelector('.sidebar-item.has-submenu');
+    dataMasterItem.classList.toggle('active');
+    
+    // Di mobile, auto close sidebar setelah pilih submenu
+    if (window.innerWidth <= 768) {
+        setTimeout(() => {
+            document.querySelector('.sidebar').classList.remove('mobile-open');
+        }, 300);
+    }
+}
 
         // Script tanda tangan
         function setupSignatureCanvas() {
@@ -1908,16 +2747,26 @@
             }
         }
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set today's date for reports filter
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('startDate').value = today;
-            document.getElementById('endDate').value = today;
+        // === INITIALIZE ===
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Memulai inisialisasi...');
             
-            // Initialize signature canvas for BA form
-            if (document.getElementById('signature-pelanggan')) {
-                setupSignatureCanvas();
+            // Initialize Firebase
+            const firebaseInitialized = await initializeFirebase();
+            
+            if (firebaseInitialized) {
+                // Set today's date for reports filter
+                const today = new Date().toISOString().split('T')[0];
+                const startDate = document.getElementById('startDate');
+                const endDate = document.getElementById('endDate');
+                
+                if (startDate) startDate.value = today;
+                if (endDate) endDate.value = today;
+                
+                // Load initial data
+                loadDashboardData();
+                loadMasterData();
+                loadReports();
             }
             
             // Add back button to BA form
