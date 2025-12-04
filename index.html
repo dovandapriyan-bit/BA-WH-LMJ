@@ -1490,6 +1490,59 @@
             }
         }
 
+        /* ===========================================
+   START: TAMPILAN FORM BA TETAP DI MOBILE
+   =========================================== */
+
+@media screen and (max-width: 768px) {
+    
+    /* Aktifkan style ini hanya saat form BA terbuka */
+    body.ba-form-open #dashboardPage {
+        display: none !important;
+    }
+
+    body.ba-form-open #baFormPage {
+        display: block !important;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: auto; /* Ini memungkinkan scroll geser kiri-kanan dan atas-bawah */
+        background-color: #f0f0f0;
+    }
+
+    /* Kembalikan ukuran container kertas ke aslinya (A4) */
+    body.ba-form-open #page-container {
+        width: 210mm !important; /* Ukuran asli A4 */
+        min-width: 210mm !important;
+        margin: 20px auto !important;
+        padding: 10mm !important;
+        box-sizing: border-box !important;
+        font-family: Arial !important;
+        font-size: 9pt !important; /* Kembalikan font size asli */
+    }
+
+    /* Kembalikan ukuran font input ke aslinya */
+    body.ba-form-open #baFormPage input[type="text"] {
+        font-size: 9pt !important;
+        padding: 2px !important;
+    }
+
+    /* Kembalikan padding dan font tabel ke aslinya */
+    body.ba-form-open #baFormPage .main-table td {
+        padding: 3px !important;
+        font-size: 9pt !important;
+    }
+
+    /* Sembunyikan kontrol ukuran kertas yang tidak perlu di mobile */
+    body.ba-form-open .page-size-controls {
+        display: none !important;
+    }
+}
+
+/* ===========================================
+   END: TAMPILAN FORM BA TETAP DI MOBILE
+   =========================================== */
+
        /* Image Upload Styles */
 .image-upload-container {
     position: relative;
@@ -3173,41 +3226,38 @@ async function syncDataFromFirebase() {
         }
 
         function openBAForm() {
+            document.body.classList.add('ba-form-open');
             document.getElementById('dashboardPage').style.display = 'none';
             document.getElementById('baFormPage').style.display = 'block';
             
             // Tampilkan next number bulan ini
             const { counter } = getBACounter();
-            const now = new Date();
-            const tahun = now.getFullYear();
-            const bulan = String(now.getMonth() + 1).padStart(2, '0');
-            const nextNumber = counter + 1;
-            const nomorUrut = String(nextNumber).padStart(3, '0');
-            const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
-            
-            document.getElementById('noBADisplay').textContent = noBA;
-            
-            // Set nama teknisi
-            if (currentUser) {
-                document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
-                document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
-                
-                // AUTO-FILL MITRA DARI DATA USER
-                if (currentUser.mitra) {
-                    document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
-                } else {
-                    // JIKA MITRA KOSONG, AMBIL DARI DATABASE
-                    loadUserMitraFromFirebase();
-                }
-            }
-            
-            // Set tanggal hari ini
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="tanggal_lumajang"]').value = today;
-            
-            // Initialize signature canvas
-            setupSignatureCanvas();
+    const now = new Date();
+    const tahun = now.getFullYear();
+    const bulan = String(now.getMonth() + 1).padStart(2, '0');
+    const nextNumber = counter + 1;
+    const nomorUrut = String(nextNumber).padStart(3, '0');
+    const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
+    
+    document.getElementById('noBADisplay').textContent = noBA;
+    
+    if (currentUser) {
+        document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
+        document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
+        
+        if (currentUser.mitra) {
+            document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
+        } else {
+            loadUserMitraFromFirebase();
         }
+    }
+    
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelector('input[name="tanggal_lumajang"]').value = today;
+    
+    setupSignatureCanvas();
+    addScanIconsToInputs(); // Pastikan ini dipanggil
+}
 
         async function saveBA() {
             if (!currentUser) {
@@ -4077,6 +4127,7 @@ async function saveBA() {
         });
 
         function closeBAForm() {
+             document.body.classList.remove('ba-form-open');
             document.getElementById('baFormPage').style.display = 'none';
             document.getElementById('dashboardPage').style.display = 'block';
         }
