@@ -185,6 +185,16 @@
             padding: 2px;
         }
 
+        input[type="date"] {
+            border: none;
+            border-bottom: 1px solid #000;
+            background: transparent;
+            font-family: Arial;
+            font-size: 9pt;
+            width: 100%;
+            padding: 2px;
+        }
+
         input[type="checkbox"] {
             margin-right: 3px;
         }
@@ -250,6 +260,66 @@
             overscroll-behavior-y: contain;
         }
 
+        /* Field validation styles */
+        .required-field {
+            position: relative;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: red;
+            position: absolute;
+            right: -10px;
+            top: 0;
+        }
+
+        .error-field {
+            border-bottom: 2px solid red !important;
+            background-color: rgba(255, 0, 0, 0.05) !important;
+        }
+
+        .scan-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 5px;
+            font-size: 8pt;
+            cursor: pointer;
+            margin-left: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scan-btn i {
+            font-size: 10px;
+        }
+
+        /* Zoom effect for mobile */
+        @media (max-width: 768px) {
+            .zoom-on-focus {
+                transition: transform 0.3s ease;
+            }
+            
+            .zoom-on-focus:focus {
+                transform: scale(1.2);
+                position: relative;
+                z-index: 100;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .page-size-controls, .hamburger-btn, .scan-btn {
+                display: none !important;
+            }
+            
+            .container-a4, .container-a5, .container-letter, .container-landscape {
+                margin: 0;
+                box-shadow: none;
+            }
+        }
                 
         /* === LOGIN PAGE STYLES === */
         #loginPage {
@@ -1075,521 +1145,150 @@
             }
         }
 
-        /* RESPONSIVE FIX - PASTI BERFUNGSI */
-        @media screen and (max-width: 768px) {
-            /* HEADER */
-            .header {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .header-left {
-                width: 100%;
-                position: relative;
-                text-align: center;
-            }
-            
-            .hamburger-btn {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-                color: white;
-                border: none;
-                padding: 8px;
-                border-radius: 8px;
-                z-index: 1002;
-                box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-            }
-            
-            /* SIDEBAR */
-            .sidebar {
-                position: fixed;
-                left: -260px;
-                top: 0;
-                height: 100vh;
-                width: 240px !important;
-                z-index: 1001;
-                transition: left 0.3s ease;
-                background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-                box-shadow: 4px 0 20px rgba(0,0,0,0.2);
-            }
-            
-            .sidebar.open {
-                left: 0;
-                box-shadow: 4px 0 25px rgba(0,0,0,0.3);
-            }
-            
-            .sidebar-item span {
-                display: none;
-            }
-            
-            .sidebar.open .sidebar-item span {
-                display: inline-block;
-                margin-left: 12px;
-            }
-            
-            /* MAIN CONTENT */
-            .main-content {
-                margin-left: 0 !important;
-                padding: 15px;
-            }
-            
-            /* CARDS */
-            .cards-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .card {
-                padding: 25px;
-            }
-            
-            /* TABLES */
-            .table-container {
-                padding: 20px;
-                overflow-x: auto;
-            }
-            
-            .data-table {
-                min-width: 600px;
-                font-size: 12px;
-            }
-
-            .table-controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .table-controls input,
-            .table-controls select,
-            .table-controls button {
-                width: 100%;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            .header-left h1 {
-                font-size: 22px;
-                margin-left: 50px;
-            }
-            
-            .user-info {
-                width: 100%;
-                justify-content: center;
-                font-size: 13px;
-                padding: 10px 20px;
-            }
-
-            .login-container {
-                padding: 40px 30px;
-                margin: 20px;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .card-icon {
-                width: 55px;
-                height: 55px;
-                font-size: 24px;
-            }
-
-            .table-container {
-                padding: 15px;
-            }
-        }
-
-        /* UNTUK HP KECIL */
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 70px;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 10px;
-            }
-            
-            .cards-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .table-controls {
-                flex-wrap: wrap;
-            }
-            
-            .table-controls input,
-            .table-controls select,
-            .table-controls button {
-                flex: 1 1 100%;
-                margin-bottom: 8px;
-            }
-            
-            /* BA FORM UNTUK HP */
-            .main-table td {
-                padding: 2px;
-                font-size: 8pt;
-            }
-            
-            input[type="text"],
-            input[type="date"] {
-                font-size: 8pt;
-                padding: 1px;
-            }
-            
-            .signature-box canvas {
-                width: 150px;
-                height: 50px;
-            }
-        }
-    
-
-        /* RESPONSIVE SIDEBAR */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-                overflow: hidden;
-            }
-            
-            .sidebar-header h3,
-            .sidebar-item span,
-            .submenu-header span,
-            .sidebar-subitem span {
-                display: none;
-            }
-            
-            .sidebar-header {
-                padding: 20px 10px;
-                text-align: center;
-            }
-            
-            .sidebar-item {
-                padding: 15px 10px;
-                text-align: center;
-                justify-content: center;
-            }
-            
-            .sidebar-item i {
-                margin-right: 0;
-                font-size: 20px;
-            }
-            
-            .submenu-header {
-                padding: 15px 10px;
-                justify-content: center;
-            }
-            
-            .sidebar-submenu {
-                position: fixed;
-                left: 70px;
-                top: 0;
-                width: 200px;
-                height: 100vh;
-                background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-                z-index: 1001;
-                display: none;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-            }
-            
-            .sidebar-item.has-submenu.active .sidebar-submenu {
-                display: block;
-            }
-            
-            .sidebar-subitem {
-                padding: 15px 20px;
-                justify-content: flex-start;
-            }
-            
-            .sidebar-subitem span {
-                display: inline-block;
-                margin-left: 10px;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-            }
-            
-            /* HEADER RESPONSIVE */
-            .header {
-                padding: 15px;
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .user-info {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            /* TABLE RESPONSIVE */
-            .table-container {
-                padding: 15px;
-                overflow-x: auto;
-            }
-            
-            .data-table {
-                min-width: 600px;
-            }
-            
-            /* BA FORM RESPONSIVE */
-            .container-a4, 
-            .container-a5, 
-            .container-letter, 
-            .container-landscape {
-                width: 100%;
-                padding: 5mm;
-                margin: 10px auto;
-            }
-            
-            .page-size-controls {
-                top: 5px;
-                right: 5px;
-                padding: 5px;
-                font-size: 10px;
-            }
-            
-            .page-size-btn {
-                padding: 3px 6px;
-                font-size: 9px;
-            }
-        }
-
-        /* UNTUK HP KECIL */
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 60px;
-            }
-            
-            .main-content {
-                margin-left: 60px;
-                padding: 10px;
-            }
-            
-            .cards-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .table-controls {
-                flex-wrap: wrap;
-            }
-            
-            .table-controls input,
-            .table-controls select,
-            .table-controls button {
-                flex: 1 1 100%;
-                margin-bottom: 5px;
-            }
-            
-            /* BA FORM UNTUK HP */
-            .main-table td {
-                padding: 2px;
-                font-size: 8pt;
-            }
-            
-            input[type="text"],
-            input[type="date"] {
-                font-size: 8pt;
-                padding: 1px;
-            }
-            
-            .signature-box canvas {
-                width: 150px;
-                height: 50px;
-            }
-        }
-
-        /* UTILITIES */
-        .hidden {
-            display: none !important;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mb-20 {
-            margin-bottom: 20px;
-        }
-
-        .mt-20 {
-            margin-top: 20px;
-        }
-        
-        /* JABATAN SELECT */
-        .jabatan-select {
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 12px;
-            background: white;
-            cursor: pointer;
-            min-width: 100px;
-        }
-        
-        .jabatan-select:disabled {
-            background: #f5f5f5;
-            cursor: not-allowed;
-        }
-        
-        /* MODAL STYLES */
-        .modal {
+        /* Scanner modal styles */
+        .scanner-modal {
             display: none;
             position: fixed;
-            z-index: 9999;
+            z-index: 10000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
         }
 
-        .hamburger-btn {
-            display: none;
+        .scanner-content {
+            position: relative;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .scanner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .scanner-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .close-scanner {
             background: none;
             border: none;
             font-size: 24px;
-            color: #333;
+            color: #7f8c8d;
             cursor: pointer;
-            padding: 5px;
-            position: absolute;
-            right: 10px;
-            top: 10px;
         }
 
-        @media (max-width: 768px) {
-            .hamburger-btn {
-                display: block;
-            }
-            
-            .sidebar {
-                left: -250px;
-                transition: left 0.3s ease;
-            }
-            
-            .sidebar.open {
-                left: 0;
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
+        .scanner-video {
+            width: 100%;
+            height: 300px;
+            background-color: #000;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-       /* Image Upload Styles */
-.image-upload-container {
-    position: relative;
-    border: 1px dashed #000;
-    width: 90px;
-    height: 50px;
-    overflow: hidden;
-    background: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        .scanner-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
 
-.image-upload-container:hover {
-    border-color: #e74c3c;
-    box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
-}
+        .scanner-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.image-upload-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    cursor: pointer;
-}
+        .capture-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
 
-.image-upload-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
+        .cancel-btn {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
 
-.image-upload-btn {
-    background: rgba(231, 76, 60, 0.9);
-    color: white;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 10px;
-    transition: all 0.3s ease;
-}
+        .scanner-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
 
-.image-upload-btn:hover {
-    background: #c0392b;
-    transform: scale(1.05);
-}
+        .scanner-input:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
 
-.image-upload-hint {
-    font-size: 8px;
-    color: #666;
-    margin-top: 2px;
-}
+        .manual-entry {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
 
-/* Overlay styles */
-.image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
-}
+        .manual-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
 
-.image-overlay:hover {
-    opacity: 1;
-}
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10001;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
-.overlay-content {
-    color: white;
-    text-align: center;
-}
+        .notification.show {
+            transform: translateX(0);
+        }
 
-.overlay-icon {
-    font-size: 16px;
-    margin-bottom: 2px;
-    display: block;
-}
+        .notification.success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
 
-.overlay-text {
-    font-size: 8px;
-}
+        .notification.error {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
 
-/* Reset button styling */
-#resetImagesBtn {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    color: white;
-    border: none;
-    margin-top: 10px;
-}
+        .notification.warning {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
 
-#resetImagesBtn:hover {
-    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-}
+        .notification.info {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
     </style>
 
     <!-- FIREBASE SDK -->
@@ -1599,6 +1298,9 @@
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- QuaggaJS for barcode scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
 </head>
 <body>
     <!-- === LOGIN PAGE === -->
@@ -1917,58 +1619,88 @@
     </div>
 
     <!-- === MODAL TAMBAH USER === -->
-    <!-- === MODAL TAMBAH USER === -->
-<div id="addUserModal" class="modal">
-    <div class="modal-content">
-        <h3 style="color: #333; margin-bottom: 20px;">
-            <i class="fas fa-user-plus"></i> Tambah User Baru
-        </h3>
-        
-        <div class="form-group">
-            <label>Nama Lengkap</label>
-            <input type="text" id="newUserName" placeholder="Masukkan nama lengkap" class="form-control">
-        </div>
-        
-        <div class="form-group">
-            <label>NIK</label>
-            <input type="text" id="newUserNIK" placeholder="Masukkan NIK" class="form-control" maxlength="20">
-        </div>
-        
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="newUserEmail" placeholder="Masukkan email" class="form-control">
-        </div>
-        
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="newUserPassword" placeholder="Minimal 6 karakter" class="form-control">
-        </div>
-        
-        <div class="form-group">
-            <label>Jabatan</label>
-            <select id="newUserJabatan" class="form-control">
-                <option value="Teknisi">Teknisi</option>
-                <option value="Admin">Admin</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Mitra</label>
-            <input type="text" id="newUserMitra" placeholder="Nama mitra" class="form-control">
-        </div>
-        
-        <div id="newUserError" style="color: #ff4757; margin: 10px 0; display: none;"></div>
-        
-        <div style="display: flex; gap: 10px; margin-top: 30px;">
-            <button onclick="closeAddUserModal()" style="flex: 1; padding: 12px; background: #ddd; border: none; border-radius: 8px; cursor: pointer;">
-                Batal
-            </button>
-            <button onclick="submitNewUser()" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
-                <i class="fas fa-save"></i> Simpan
-            </button>
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #333; margin-bottom: 20px;">
+                <i class="fas fa-user-plus"></i> Tambah User Baru
+            </h3>
+            
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="newUserName" placeholder="Masukkan nama lengkap" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>NIK</label>
+                <input type="text" id="newUserNIK" placeholder="Masukkan NIK" class="form-control" maxlength="20">
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="newUserEmail" placeholder="Masukkan email" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="newUserPassword" placeholder="Minimal 6 karakter" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label>Jabatan</label>
+                <select id="newUserJabatan" class="form-control">
+                    <option value="Teknisi">Teknisi</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Mitra</label>
+                <input type="text" id="newUserMitra" placeholder="Nama mitra" class="form-control">
+            </div>
+            
+            <div id="newUserError" style="color: #ff4757; margin: 10px 0; display: none;"></div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button onclick="closeAddUserModal()" style="flex: 1; padding: 12px; background: #ddd; border: none; border-radius: 8px; cursor: pointer;">
+                    Batal
+                </button>
+                <button onclick="submitNewUser()" style="flex: 1; padding: 12px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- === SCANNER MODAL === -->
+    <div id="scannerModal" class="scanner-modal">
+        <div class="scanner-content">
+            <div class="scanner-header">
+                <h3 class="scanner-title">Scan Barcode</h3>
+                <button class="close-scanner" onclick="closeScanner()">&times;</button>
+            </div>
+            
+            <div id="scanner-video" class="scanner-video">
+                <!-- Camera feed will be displayed here -->
+            </div>
+            
+            <div class="scanner-controls">
+                <button class="scanner-btn capture-btn" onclick="startScanning()">
+                    <i class="fas fa-camera"></i> Mulai Scan
+                </button>
+                <button class="scanner-btn cancel-btn" onclick="closeScanner()">
+                    <i class="fas fa-times"></i> Batal
+                </button>
+            </div>
+            
+            <div class="manual-entry">
+                <h4 class="manual-title">Atau masukkan secara manual:</h4>
+                <input type="text" id="manualInput" class="scanner-input" placeholder="Masukkan kode barcode">
+                <button class="scanner-btn capture-btn" onclick="useManualInput()">
+                    <i class="fas fa-keyboard"></i> Gunakan Input Manual
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- === BA FORM === -->
     <div id="baFormPage" style="display: none;">
@@ -2051,15 +1783,15 @@
                 <tr>
                     <td style="width: 55%; vertical-align: top;">
                         <table style="width: 100%; border: none;">
-                            <tr><td style="width: 10%; border: none; white-space: nowrap;">1. STO</td><td style="width: 1%; border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="width: 100%; border: none;"><input type="text" name="sto"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">2. No Permintaan/WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_permintaan"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">3. No Telepon</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_telepon"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">4. No Inet</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_inet"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">5. Tanggal WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="tanggal_wo"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">6. Tanggal Transaksi</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="tanggal_transaksi"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">7. Nama Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_pelanggan"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">8. No Kontak</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_kontak"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">9. Alamat Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="alamat_pelanggan"></td></tr>
+                            <tr><td style="width: 10%; border: none; white-space: nowrap;" class="required-field">1. STO</td><td style="width: 1%; border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="width: 100%; border: none;"><input type="text" name="sto" class="required-field zoom-on-focus" style="text-transform: uppercase;"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">2. No Permintaan/WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_permintaan" class="required-field zoom-on-focus" pattern="[A-Za-z0-9]+" title="Hanya huruf dan angka"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">3. No Telepon</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_telepon" pattern="[0-9]+" title="Hanya angka"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">4. No Inet</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_inet" class="required-field zoom-on-focus" pattern="[0-9]+" title="Hanya angka"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">5. Tanggal WO</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="date" name="tanggal_wo" class="required-field zoom-on-focus"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;">6. Tanggal Transaksi</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="date" name="tanggal_transaksi"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">7. Nama Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_pelanggan" class="required-field zoom-on-focus"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">8. No Kontak</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="no_kontak" class="required-field zoom-on-focus" pattern="[0-9]+" title="Hanya angka"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">9. Alamat Pelanggan</td><td style="border: none; padding-left: 35px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="alamat_pelanggan" class="required-field zoom-on-focus"></td></tr>
                         </table>
 
                         <table style="margin-top: 10px; width: 100%; border: none;">
@@ -2126,26 +1858,26 @@
                             <tr>
                                 <td style="text-align: center;">Test Voice</td>
                                 <td style="text-align: center;"></td>
-                                <td style="text-align: center;"><input type="checkbox" name="voice_baik"></td>
-                                <td style="text-align: center;"><input type="checkbox" name="voice_tidak"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="voice_baik" class="test-checkbox" data-group="voice"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="voice_tidak" class="test-checkbox" data-group="voice"></td>
                             </tr>
                             <tr>
                                 <td style="text-align: center;">Test Internet</td>
                                 <td style="text-align: center;"></td>
-                                <td style="text-align: center;"><input type="checkbox" name="inet_baik"></td>
-                                <td style="text-align: center;"><input type="checkbox" name="inet_tidak"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="inet_baik" class="test-checkbox" data-group="inet"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="inet_tidak" class="test-checkbox" data-group="inet"></td>
                             </tr>
                             <tr>
                                 <td style="text-align: center;">Test UseeTv</td>
                                 <td style="text-align: center;"></td>
-                                <td style="text-align: center;"><input type="checkbox" name="usetv_baik"></td>
-                                <td style="text-align: center;"><input type="checkbox" name="usetv_tidak"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="usetv_baik" class="test-checkbox" data-group="usetv"></td>
+                                <td style="text-align: center;"><input type="checkbox" name="usetv_tidak" class="test-checkbox" data-group="usetv"></td>
                             </tr>
                         </table>
 
                         <div style="border: 2px solid #000; padding: 10px; margin-top: 10px;">
                             <strong>Tes Internet :</strong><br>
-                            1. Tes Ping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_ping" style="width: 80px;"> ms<br>
+                            1. Tes Ping&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_ping" style="width: 80px;"> ms<br>
                             2. Tes Upload&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_upload" style="width: 80px;"> Mbps<br>
                             3. Tes Download &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="tes_download" style="width: 80px;"> Mbps<br>
                             4. Hasil Ukur Redaman&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="hasil_ukur_redaman" style="width: 90px;">
@@ -2160,15 +1892,24 @@
                 <tr>
                     <td style="width: 55%; vertical-align: top;">
                         <table style="width: 100%; border: none;">
-                            <tr><td style="width: 40%; border: none; white-space: nowrap;">ONT yang DITARIK / ONT BEKAS</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;"><input type="text" name="ONT_yang_DIPASANG_/_DITARIK"></td></tr>
+                            <tr><td style="width: 40%; border: none; white-space: nowrap;" class="required-field">ONT yang DITARIK / ONT BEKAS</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;">
+                                <input type="text" name="ONT_yang_DIPASANG_/_DITARIK" class="required-field zoom-on-focus" id="ont_ditarik">
+                                <button class="scan-btn" onclick="openScanner('ont_ditarik')"><i class="fas fa-camera"></i></button>
+                            </td></tr>
                             <tr><td style="border: none; white-space: nowrap;">lampu Indikator ONT Nyala</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="checkbox" name="power"> Power <input type="checkbox" name="dsl"> DSL <input type="checkbox" name="internet"> Internet</td></tr>
                             <tr><td style="border: none; white-space: nowrap;">Nama / Notel Teknisi</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_teknisi"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">STB ID</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="stb_id"></td></tr>
+                            <tr><td style="border: none; white-space: nowrap;" class="required-field">STB ID</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;">
+                                <input type="text" name="stb_id" class="required-field zoom-on-focus" id="stb_id">
+                                <button class="scan-btn" onclick="openScanner('stb_id')"><i class="fas fa-camera"></i></button>
+                            </td></tr>
                         </table>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
                         <table style="width: 100%; border: none;">
-                            <tr><td style="width: 30%; border: none; white-space: nowrap;">SN ONT BARU</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 65%; border: none;"><input type="text" name="sn_ont"></td></tr>
+                            <tr><td style="width: 30%; border: none; white-space: nowrap;" class="required-field">SN ONT BARU</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 65%; border: none;">
+                                <input type="text" name="sn_ont" class="required-field zoom-on-focus" id="sn_ont">
+                                <button class="scan-btn" onclick="openScanner('sn_ont')"><i class="fas fa-camera"></i></button>
+                            </td></tr>
                             <tr><td style="border: none; white-space: nowrap;">SN PLC</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_plc"></td></tr>
                             <tr><td style="border: none; white-space: nowrap;">SN WIFI EXT</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_wifi_ext"></td></tr>
                         </table>
@@ -2295,6 +2036,9 @@
         let firestore;
         let auth;
         let currentUser = null;
+        let pelangganSigned = false;
+        let petugasSigned = false;
+        let currentScannerField = null;
 
         // === INITIALIZE FIREBASE ===
         async function initializeFirebase() {
@@ -2302,7 +2046,7 @@
                 // Cek apakah Firebase SDK sudah di-load
                 if (typeof firebase === 'undefined') {
                     console.error('Firebase SDK tidak terload!');
-                    alert('Firebase SDK tidak terload. Muat ulang halaman.');
+                    showNotification('Firebase SDK tidak terload. Muat ulang halaman.', 'error');
                     return false;
                 }
                 
@@ -2328,7 +2072,7 @@
                 
             } catch (error) {
                 console.error('❌ Firebase initialization error:', error);
-                alert('Firebase gagal diinisialisasi. Periksa koneksi internet.');
+                showNotification('Firebase gagal diinisialisasi. Periksa koneksi internet.', 'error');
                 return false;
             }
         }
@@ -2342,7 +2086,7 @@
                     // USER TIDAK TERDAFTAR - LOGOUT DAN BLOCK
                     console.log('❌ User tidak terdaftar, auto logout:', user.email);
                     await auth.signOut();
-                    alert('Akun Anda tidak terdaftar dalam sistem');
+                    showNotification('Akun Anda tidak terdaftar dalam sistem', 'error');
                     return;
                 }
                 
@@ -2356,7 +2100,7 @@
                     jabatan: userData.jabatan || 'Teknisi',
                     role: userData.role || 'teknisi',
                     avatar: user.email.charAt(0).toUpperCase(),
-                    mitra: userData.mitra || ''  // TAMBAH INI
+                    mitra: userData.mitra || ''
                 };
                 
                 // AUTO MASUK KE DASHBOARD
@@ -2434,7 +2178,7 @@
                 loadReports();
                 
             } catch (error) {
-                alert('SOPO KON, HAH !!!!');
+                showNotification('Login gagal! Periksa email dan password Anda.', 'error');
                 console.error(error);
             }
         }
@@ -2512,7 +2256,7 @@
                 { no: 'BA-001', customer: 'Budi Santoso', technician: 'Ahmad Rizki', date: '2024-01-15', status: 'Selesai' },
                 { no: 'BA-002', customer: 'Siti Aisyah', technician: 'Muhammad Ali', date: '2024-01-14', status: 'Pending' },
                 { no: 'BA-003', customer: 'Joko Widodo', technician: 'Ahmad Rizki', date: '2024-01-13', status: 'Selesai' },
-                { no: 'BA-004', customer: 'Ani Wijaya', technician: 'Budi Hartono', date: '2024-01-12', status: 'Selesai' },
+                { no: 'BA-004', customer: 'Ani Wijaya', technician: 'Budi Hartono', date: '2024-01-12', status: 'Selesai' },              
                 { no: 'BA-005', customer: 'Rina Melati', technician: 'Muhammad Ali', date: '2024-01-11', status: 'Pending' }
             ];
             
@@ -2536,128 +2280,115 @@
         }
 
         // === TECHNICIAN MANAGEMENT ===
-        // === TECHNICIAN MANAGEMENT ===
-async function loadTechnicians() {
-    try {
-        if (!firestore) return;
-        
-        // AMBIL SEMUA USER DARI FIRESTORE
-        const techniciansSnapshot = await firestore.collection('users').get();
-        
-        const tbody = document.getElementById('technicianTable');
-        if (!tbody) return;
-        
-        tbody.innerHTML = '';
-        
-        if (techniciansSnapshot.empty) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="8" style="text-align: center; color: #666; padding: 20px;">
-                        <i class="fas fa-users-slash"></i> Belum ada data teknisi
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-        
-        let index = 0;
-        techniciansSnapshot.forEach(doc => {
-            const tech = doc.data();
-            index++;
-            
-            // FILTER HANYA USER YANG ROLE NYA TEKNISI/ADMIN
-            if (tech.role !== 'teknisi' && tech.role !== 'admin' && 
-                tech.jabatan !== 'Teknisi' && tech.jabatan !== 'Admin') {
-                return; // Skip user yang bukan teknisi/admin
+        async function loadTechnicians() {
+            try {
+                if (!firestore) return;
+                
+                const techniciansSnapshot = await firestore.collection('users').get();
+                
+                const tbody = document.getElementById('technicianTable');
+                if (!tbody) return;
+                
+                tbody.innerHTML = '';
+                
+                if (techniciansSnapshot.empty) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: #666; padding: 20px;">
+                                <i class="fas fa-users-slash"></i> Belum ada data teknisi
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                let index = 0;
+                techniciansSnapshot.forEach(doc => {
+                    const tech = doc.data();
+                    index++;
+                    
+                    if (tech.role !== 'teknisi' && tech.role !== 'admin' && 
+                        tech.jabatan !== 'Teknisi' && tech.jabatan !== 'Admin') {
+                        return;
+                    }
+                    
+                    const statusClass = tech.status === 'active' ? 'status-active' : 'status-inactive';
+                    const statusText = tech.status === 'active' ? 'Aktif' : 'Nonaktif';
+                    
+                    let nikColumn = `<span>${tech.nik || doc.id.substring(0, 8)}</span>`;
+                    
+                    let jabatanColumn;
+                    if (currentUser && currentUser.role === 'admin') {
+                        jabatanColumn = `
+                            <select class="jabatan-select" data-id="${doc.id}" onchange="updateJabatan('${doc.id}', this.value)">
+                                <option value="Teknisi" ${tech.jabatan === 'Teknisi' ? 'selected' : ''}>Teknisi</option>
+                                <option value="Admin" ${tech.jabatan === 'Admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        `;
+                    } else {
+                        jabatanColumn = `<span>${tech.jabatan || 'Teknisi'}</span>`;
+                    }
+                    
+                    let mitraColumn;
+                    if (currentUser && currentUser.role === 'admin') {
+                        mitraColumn = `
+                            <input type="text" class="mitra-input" data-id="${doc.id}" value="${tech.mitra || ''}" 
+                                   style="width: 120px; padding: 4px; border: 1px solid #ddd; border-radius: 4px;"
+                                   onchange="updateMitra('${doc.id}', this.value)">
+                        `;
+                    } else {
+                        mitraColumn = `<span>${tech.mitra || ''}</span>`;
+                    }
+                    
+                    let actionButtons = `
+                        <button class="btn-action btn-toggle" onclick="toggleTechnician('${doc.id}')" 
+                                ${currentUser && currentUser.role === 'admin' ? '' : 'disabled'}
+                                title="${currentUser && currentUser.role === 'admin' ? 'Ubah Status' : 'Hanya Admin'}">
+                            ${tech.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
+                        </button>
+                    `;
+                    
+                    if (currentUser && currentUser.role === 'admin') {
+                        actionButtons += `
+                            <button class="btn-action btn-delete" onclick="deleteTechnician('${doc.id}')" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        `;
+                    }
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${tech.name || 'Tidak ada nama'}</td>
+                            <td>${tech.email || 'Tidak ada email'}</td>
+                            <td>${nikColumn}</td>
+                            <td>${jabatanColumn}</td>
+                            <td>${mitraColumn}</td>
+                            <td class="${statusClass}">${statusText}</td>
+                            <td>${actionButtons}</td>
+                        </tr>
+                    `;
+                });
+                
+            } catch (error) {
+                console.error('Error loading technicians:', error);
+                const tbody = document.getElementById('technicianTable');
+                if (tbody) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: #ff4757; padding: 20px;">
+                                <i class="fas fa-exclamation-triangle"></i> Error loading data
+                            </td>
+                        </tr>
+                    `;
+                }
             }
-            
-            const statusClass = tech.status === 'active' ? 'status-active' : 'status-inactive';
-            const statusText = tech.status === 'active' ? 'Aktif' : 'Nonaktif';
-            
-            // NIK column
-            let nikColumn = `<span>${tech.nik || doc.id.substring(0, 8)}</span>`;
-            
-            // Jabatan column - HANYA admin yang bisa edit
-            let jabatanColumn;
-            if (currentUser && currentUser.role === 'admin') {
-                jabatanColumn = `
-                    <select class="jabatan-select" data-id="${doc.id}" onchange="updateJabatan('${doc.id}', this.value)">
-                        <option value="Teknisi" ${tech.jabatan === 'Teknisi' ? 'selected' : ''}>Teknisi</option>
-                        <option value="Admin" ${tech.jabatan === 'Admin' ? 'selected' : ''}>Admin</option>
-                    </select>
-                `;
-            } else {
-                jabatanColumn = `<span>${tech.jabatan || 'Teknisi'}</span>`;
-            }
-            
-            // Mitra column - HANYA admin yang bisa edit
-            let mitraColumn;
-            if (currentUser && currentUser.role === 'admin') {
-                mitraColumn = `
-                    <input type="text" class="mitra-input" data-id="${doc.id}" value="${tech.mitra || ''}" 
-                           style="width: 120px; padding: 4px; border: 1px solid #ddd; border-radius: 4px;"
-                           onchange="updateMitra('${doc.id}', this.value)">
-                `;
-            } else {
-                mitraColumn = `<span>${tech.mitra || ''}</span>`;
-            }
-            
-            // Action buttons
-            let actionButtons = `
-                <button class="btn-action btn-toggle" onclick="toggleTechnician('${doc.id}')" 
-                        ${currentUser && currentUser.role === 'admin' ? '' : 'disabled'}
-                        title="${currentUser && currentUser.role === 'admin' ? 'Ubah Status' : 'Hanya Admin'}">
-                    ${tech.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
-                </button>
-            `;
-            
-            if (currentUser && currentUser.role === 'admin') {
-                actionButtons += `
-                    <button class="btn-action btn-delete" onclick="deleteTechnician('${doc.id}')" title="Hapus">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                `;
-            }
-            
-            tbody.innerHTML += `
-                <tr>
-                    <td>${tech.name || 'Tidak ada nama'}</td>
-                    <td>${tech.email || 'Tidak ada email'}</td>
-                    <td>${nikColumn}</td>
-                    <td>${jabatanColumn}</td>
-                    <td>${mitraColumn}</td>
-                    <td class="${statusClass}">${statusText}</td>
-                    <td>${actionButtons}</td>
-                </tr>
-            `;
-        });
-        
-    } catch (error) {
-        console.error('Error loading technicians:', error);
-        const tbody = document.getElementById('technicianTable');
-        if (tbody) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="8" style="text-align: center; color: #ff4757; padding: 20px;">
-                        <i class="fas fa-exclamation-triangle"></i> Error loading data
-                    </td>
-                </tr>
-            `;
-        }
-    }
-}
-
-        // === FUNGSI TOGGLE SIDEBAR ===
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('open');
         }
 
         // === FUNGSI UPDATE JABATAN ===
         async function updateJabatan(userId, newJabatan) {
             if (!currentUser || currentUser.role !== 'admin') {
                 alert('Hanya Admin yang dapat mengubah jabatan');
-                loadTechnicians(); // Refresh untuk reset pilihan
+                loadTechnicians();
                 return;
             }
             
@@ -2668,12 +2399,12 @@ async function loadTechnicians() {
                         role: newJabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi'
                     });
                     
-                    alert('Jabatan berhasil diubah');
+                    showNotification('Jabatan berhasil diubah', 'success');
                     loadTechnicians();
                     
                 } catch (error) {
                     console.error('Error updating jabatan:', error);
-                    alert('Gagal mengubah jabatan');
+                    showNotification('Gagal mengubah jabatan', 'error');
                 }
             }
         }
@@ -2685,16 +2416,13 @@ async function loadTechnicians() {
             }
             
             try {
-                // UPDATE DI FIRESTORE
                 await firestore.collection('users').doc(userId).update({
                     mitra: newMitra
                 });
                 
-                // JIKA USER YANG SEDANG LOGIN, UPDATE CURRENT USER
                 if (userId === currentUser.id) {
                     currentUser.mitra = newMitra;
                     
-                    // UPDATE DI FORM BA JIKA SEDANG TERBUKA
                     if (document.getElementById('baFormPage').style.display === 'block') {
                         document.querySelector('input[name="nama_mitra"]').value = newMitra;
                     }
@@ -2704,11 +2432,10 @@ async function loadTechnicians() {
                 
             } catch (error) {
                 console.error('Error updating mitra:', error);
-                alert('Gagal mengubah mitra');
+                showNotification('Gagal mengubah mitra', 'error');
             }
         }
 
-        // === FUNGSI TOGGLE STATUS TEKNISI ===
         async function toggleTechnician(userId) {
             if (!currentUser || currentUser.role !== 'admin') {
                 alert('Hanya Admin yang dapat mengubah status teknisi');
@@ -2726,16 +2453,15 @@ async function loadTechnicians() {
                     status: newStatus
                 });
                 
-                alert(`Status berhasil diubah menjadi ${newStatus === 'active' ? 'Aktif' : 'Nonaktif'}`);
+                showNotification(`Status berhasil diubah menjadi ${newStatus === 'active' ? 'Aktif' : 'Nonaktif'}`, 'success');
                 loadTechnicians();
                 
             } catch (error) {
                 console.error('Error toggling technician:', error);
-                alert('Gagal mengubah status');
+                showNotification('Gagal mengubah status', 'error');
             }
         }
 
-        // === FUNGSI DELETE TEKNISI ===
         async function deleteTechnician(userId) {
             if (!currentUser || currentUser.role !== 'admin') {
                 alert('Hanya Admin yang dapat menghapus teknisi');
@@ -2745,113 +2471,108 @@ async function loadTechnicians() {
             if (confirm('Apakah Anda yakin ingin menghapus user ini?')) {
                 try {
                     await firestore.collection('users').doc(userId).delete();
-                    alert('User berhasil dihapus');
+                    showNotification('User berhasil dihapus', 'success');
                     loadTechnicians();
                 } catch (error) {
                     console.error('Error deleting user:', error);
-                    alert('Gagal menghapus user');
+                    showNotification('Gagal menghapus user', 'error');
                 }
             }
         }
 
-        // === FUNGSI TAMBAH USER BARU ===
-       function showAddUserModal() {
-    if (!currentUser || currentUser.role !== 'admin') {
-        alert('Hanya Admin yang dapat menambahkan user');
-        return;
-    }
-    
-    document.getElementById('addUserModal').style.display = 'block';
-    document.getElementById('newUserError').style.display = 'none';
-    document.getElementById('newUserName').value = '';
-    document.getElementById('newUserNIK').value = '';
-    document.getElementById('newUserEmail').value = '';
-    document.getElementById('newUserPassword').value = '';
-    document.getElementById('newUserJabatan').value = 'Teknisi';
-    document.getElementById('newUserMitra').value = '';
-}
+        function showAddUserModal() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Hanya Admin yang dapat menambahkan user');
+                return;
+            }
+            
+            document.getElementById('addUserModal').style.display = 'block';
+            document.getElementById('newUserError').style.display = 'none';
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserNIK').value = '';
+            document.getElementById('newUserEmail').value = '';
+            document.getElementById('newUserPassword').value = '';
+            document.getElementById('newUserJabatan').value = 'Teknisi';
+            document.getElementById('newUserMitra').value = '';
+        }
+
         function closeAddUserModal() {
             document.getElementById('addUserModal').style.display = 'none';
         }
 
         async function submitNewUser() {
-    if (!currentUser || currentUser.role !== 'admin') {
-        alert('Hanya Admin yang dapat menambahkan user');
-        return;
-    }
-    
-    const name = document.getElementById('newUserName').value.trim();
-    const nik = document.getElementById('newUserNIK').value.trim();
-    const email = document.getElementById('newUserEmail').value.trim();
-    const password = document.getElementById('newUserPassword').value;
-    const jabatan = document.getElementById('newUserJabatan').value;
-    const mitra = document.getElementById('newUserMitra').value.trim();
-    
-    // Validasi
-    if (!name || !nik || !email || !password || password.length < 6) {
-        document.getElementById('newUserError').textContent = 'Harap isi semua field dengan benar (password minimal 6 karakter)';
-        document.getElementById('newUserError').style.display = 'block';
-        return;
-    }
-    
-    // Validasi NIK (hanya angka)
-    if (!/^\d+$/.test(nik)) {
-        document.getElementById('newUserError').textContent = 'NIK hanya boleh berisi angka';
-        document.getElementById('newUserError').style.display = 'block';
-        return;
-    }
-    
-    // Validasi panjang NIK (minimal 16 digit untuk KTP)
-    if (nik.length < 6) {
-        document.getElementById('newUserError').textContent = 'NIK minimal 6 digit';
-        document.getElementById('newUserError').style.display = 'block';
-        return;
-    }
-    
-    try {
-        // Buat user di Firebase Auth
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        
-        // Simpan data ke Firestore
-        await firestore.collection('users').doc(user.uid).set({
-            name: name,
-            nik: nik,
-            email: email,
-            jabatan: jabatan,
-            role: jabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi',
-            mitra: mitra,
-            status: 'active',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            createdBy: currentUser.id
-        });
-        
-        alert('Teknisi berhasil ditambahkan');
-        closeAddUserModal();
-        loadTechnicians();
-        
-    } catch (error) {
-        console.error('Error adding user:', error);
-        let errorMessage = 'Gagal menambahkan user: ';
-        
-        switch (error.code) {
-            case 'auth/email-already-in-use':
-                errorMessage = 'Email sudah terdaftar';
-                break;
-            case 'auth/invalid-email':
-                errorMessage = 'Format email tidak valid';
-                break;
-            case 'auth/weak-password':
-                errorMessage = 'Password terlalu lemah';
-                break;
-            default:
-                errorMessage += error.message;
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Hanya Admin yang dapat menambahkan user');
+                return;
+            }
+            
+            const name = document.getElementById('newUserName').value.trim();
+            const nik = document.getElementById('newUserNIK').value.trim();
+            const email = document.getElementById('newUserEmail').value.trim();
+            const password = document.getElementById('newUserPassword').value;
+            const jabatan = document.getElementById('newUserJabatan').value;
+            const mitra = document.getElementById('newUserMitra').value.trim();
+            
+            if (!name || !nik || !email || !password || password.length < 6) {
+                document.getElementById('newUserError').textContent = 'Harap isi semua field dengan benar (password minimal 6 karakter)';
+                document.getElementById('newUserError').style.display = 'block';
+                return;
+            }
+            
+            if (!/^\d+$/.test(nik)) {
+                document.getElementById('newUserError').textContent = 'NIK hanya boleh berisi angka';
+                document.getElementById('newUserError').style.display = 'block';
+                return;
+            }
+            
+            if (nik.length < 6) {
+                document.getElementById('newUserError').textContent = 'NIK minimal 6 digit';
+                document.getElementById('newUserError').style.display = 'block';
+                return;
+            }
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                await firestore.collection('users').doc(user.uid).set({
+                    name: name,
+                    nik: nik,
+                    email: email,
+                    jabatan: jabatan,
+                    role: jabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi',
+                    mitra: mitra,
+                    status: 'active',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    createdBy: currentUser.id
+                });
+                
+                showNotification('Teknisi berhasil ditambahkan', 'success');
+                closeAddUserModal();
+                loadTechnicians();
+                
+            } catch (error) {
+                console.error('Error adding user:', error);
+                let errorMessage = 'Gagal menambahkan user: ';
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'Email sudah terdaftar';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Format email tidak valid';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Password terlalu lemah';
+                        break;
+                    default:
+                        errorMessage += error.message;
+                }
+                
+                document.getElementById('newUserError').textContent = errorMessage;
+                document.getElementById('newUserError').style.display = 'block';
+            }
         }
-        
-        document.getElementById('newUserError').textContent = errorMessage;
-        document.getElementById('newUserError').style.display = 'block';
-    }
-}
 
         function searchTechnicians() {
             const searchTerm = document.getElementById('searchTech').value.toLowerCase();
@@ -2864,106 +2585,102 @@ async function loadTechnicians() {
         }
         
         function exportTechnicians() {
-            alert('Data teknisi berhasil diexport ke Excel');
+            showNotification('Data teknisi berhasil diexport ke Excel', 'success');
         }
 
         function importTechData() {
-            alert('Fitur Import Data - Buka file Excel untuk import data teknisi');
+            showNotification('Fitur Import Data - Buka file Excel untuk import data teknisi', 'info');
         }
 
-        
         // === MASTER DATA FUNCTIONS ===
-function loadMasterData() {
-    try {
-        // AMBIL DATA DARI LOCALSTORAGE ATAU FIRESTORE
-        const masterData = localStorage.getItem('masterData');
-        let data = [];
-        
-        if (masterData) {
-            data = JSON.parse(masterData);
-        } else {
-            // JIKA TIDAK ADA DI LOCALSTORAGE, AMBIL DARI FIRESTORE
-            if (firestore) {
-                firestore.collection('users').get().then(snapshot => {
-                    const tempData = [];
-                    snapshot.forEach(doc => {
-                        const tech = doc.data();
-                        if (tech.role === 'teknisi' || tech.role === 'admin' || 
-                            tech.jabatan === 'Teknisi' || tech.jabatan === 'Admin') {
-                            tempData.push({
-                                no: tempData.length + 1,
-                                name: tech.name || 'Tidak ada nama',
-                                email: tech.email || 'Tidak ada email',
-                                nik: tech.nik || doc.id.substring(0, 8),
-                                jabatan: tech.jabatan || 'Teknisi',
-                                mitra: tech.mitra || '',
-                                importDate: tech.createdAt ? new Date(tech.createdAt.toDate()).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+        function loadMasterData() {
+            try {
+                const masterData = localStorage.getItem('masterData');
+                let data = [];
+                
+                if (masterData) {
+                    data = JSON.parse(masterData);
+                } else {
+                    if (firestore) {
+                        firestore.collection('users').get().then(snapshot => {
+                            const tempData = [];
+                            snapshot.forEach(doc => {
+                                const tech = doc.data();
+                                if (tech.role === 'teknisi' || tech.role === 'admin' || 
+                                    tech.jabatan === 'Teknisi' || tech.jabatan === 'Admin') {
+                                    tempData.push({
+                                        no: tempData.length + 1,
+                                        name: tech.name || 'Tidak ada nama',
+                                        email: tech.email || 'Tidak ada email',
+                                        nik: tech.nik || doc.id.substring(0, 8),
+                                        jabatan: tech.jabatan || 'Teknisi',
+                                        mitra: tech.mitra || '',
+                                        importDate: tech.createdAt ? new Date(tech.createdAt.toDate()).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+                                    });
+                                }
                             });
-                        }
-                    });
-                    
-                    // SIMPAN KE LOCALSTORAGE
-                    localStorage.setItem('masterData', JSON.stringify(tempData));
-                    renderMasterTable(tempData);
-                }).catch(error => {
-                    console.error('Error fetching master data:', error);
-                    renderMasterTable(getSampleMasterData());
-                });
-                return;
-            } else {
-                data = getSampleMasterData();
+                            
+                            localStorage.setItem('masterData', JSON.stringify(tempData));
+                            renderMasterTable(tempData);
+                        }).catch(error => {
+                            console.error('Error fetching master data:', error);
+                            renderMasterTable(getSampleMasterData());
+                        });
+                        return;
+                    } else {
+                        data = getSampleMasterData();
+                    }
+                }
+                
+                renderMasterTable(data);
+                
+            } catch (error) {
+                console.error('Error loading master data:', error);
+                renderMasterTable(getSampleMasterData());
             }
         }
-        
-        renderMasterTable(data);
-        
-    } catch (error) {
-        console.error('Error loading master data:', error);
-        renderMasterTable(getSampleMasterData());
-    }
-}
 
-function renderMasterTable(data) {
-    const tbody = document.getElementById('masterTable');
-    if (!tbody) return;
-    
-    tbody.innerHTML = '';
-    
-    if (data.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="7" style="text-align: center; color: #666; padding: 20px;">
-                    <i class="fas fa-database"></i> Belum ada data master
-                </td>
-            </tr>
-        `;
-        return;
-    }
-    
-    data.forEach(item => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${item.no}</td>
-                <td>${item.name}</td>
-                <td>${item.email}</td>
-                <td>${item.nik}</td>
-                <td>${item.jabatan}</td>
-                <td>${item.mitra}</td>
-                <td>${item.importDate}</td>
-            </tr>
-        `;
-    });
-}
+        function renderMasterTable(data) {
+            const tbody = document.getElementById('masterTable');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: #666; padding: 20px;">
+                            <i class="fas fa-database"></i> Belum ada data master
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            data.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.no}</td>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                        <td>${item.nik}</td>
+                        <td>${item.jabatan}</td>
+                        <td>${item.mitra}</td>
+                        <td>${item.importDate}</td>
+                    </tr>
+                `;
+            });
+        }
 
-function getSampleMasterData() {
-    return [
-        { no: 1, name: 'Ahmad Rizki', email: 'ahmad@example.com', nik: 'TK001', jabatan: 'Teknisi', mitra: 'PT Mitra Abadi', importDate: '2024-01-10' },
-        { no: 2, name: 'Muhammad Ali', email: 'ali@example.com', nik: 'TK002', jabatan: 'Teknisi', mitra: 'CV Teknik Sejahtera', importDate: '2024-01-10' },
-        { no: 3, name: 'Budi Hartono', email: 'budi@example.com', nik: 'TK003', jabatan: 'Admin', mitra: 'PT Sistem Informasi', importDate: '2024-01-09' },
-        { no: 4, name: 'Siti Aisyah', email: 'siti@example.com', nik: 'TK004', jabatan: 'Teknisi', mitra: 'PT Jaya Makmur', importDate: '2024-01-09' },
-        { no: 5, name: 'Joko Susanto', email: 'joko@example.com', nik: 'TK005', jabatan: 'Teknisi', mitra: 'CV Mandiri Teknik', importDate: '2024-01-08' }
-    ];
-}
+        function getSampleMasterData() {
+            return [
+                { no: 1, name: 'Ahmad Rizki', email: 'ahmad@example.com', nik: 'TK001', jabatan: 'Teknisi', mitra: 'PT Mitra Abadi', importDate: '2024-01-10' },
+                { no: 2, name: 'Muhammad Ali', email: 'ali@example.com', nik: 'TK002', jabatan: 'Teknisi', mitra: 'CV Teknik Sejahtera', importDate: '2024-01-10' },
+                { no: 3, name: 'Budi Hartono', email: 'budi@example.com', nik: 'TK003', jabatan: 'Admin', mitra: 'PT Sistem Informasi', importDate: '2024-01-09' },
+                { no: 4, name: 'Siti Aisyah', email: 'siti@example.com', nik: 'TK004', jabatan: 'Teknisi', mitra: 'PT Jaya Makmur', importDate: '2024-01-09' },
+                { no: 5, name: 'Joko Susanto', email: 'joko@example.com', nik: 'TK005', jabatan: 'Teknisi', mitra: 'CV Mandiri Teknik', importDate: '2024-01-08' }
+            ];
+        }
         
         function searchMasterData() {
             const searchTerm = document.getElementById('searchMaster').value.toLowerCase();
@@ -2976,170 +2693,103 @@ function getSampleMasterData() {
         }
         
         function importExcel() {
-    if (!currentUser || currentUser.role !== 'admin') {
-        alert('Hanya Admin yang dapat import data');
-        return;
-    }
-    
-    document.getElementById('excelFile').click();
-}
-
-function handleExcelUpload(input) {
-    const file = input.files[0];
-    if (file) {
-        alert(`File ${file.name} berhasil diupload. Data sedang diproses...`);
-        
-        // SIMULASI IMPORT DATA
-        setTimeout(() => {
-            const sampleData = getSampleMasterData();
-            
-            // SIMPAN KE LOCALSTORAGE
-            localStorage.setItem('masterData', JSON.stringify(sampleData));
-            
-            // JIKA FIREBASE TERSEDIA, SIMPAN JUGA KE FIRESTORE
-            if (firestore) {
-                sampleData.forEach(async (item, index) => {
-                    try {
-                        // Cek apakah user sudah ada berdasarkan email
-                        const existingUser = await firestore.collection('users')
-                            .where('email', '==', item.email)
-                            .get();
-                        
-                        if (existingUser.empty) {
-                            // Buat user baru di Firebase Auth
-                            const tempPassword = 'Password123'; // Password default
-                            const userCredential = await auth.createUserWithEmailAndPassword(item.email, tempPassword);
-                            const user = userCredential.user;
-                            
-                            // Simpan data ke Firestore
-                            await firestore.collection('users').doc(user.uid).set({
-                                name: item.name,
-                                email: item.email,
-                                nik: item.nik,
-                                jabatan: item.jabatan,
-                                role: item.jabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi',
-                                mitra: item.mitra,
-                                status: 'active',
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                importedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                importedBy: currentUser.id
-                            });
-                        }
-                    } catch (error) {
-                        console.error('Error importing user:', item.email, error);
-                    }
-                });
+            if (!currentUser || currentUser.role !== 'admin') {
+                showNotification('Hanya Admin yang dapat import data', 'error');
+                return;
             }
             
-            alert('Data berhasil diimport dari Excel');
-            loadMasterData();
-            loadTechnicians();
-        }, 1500);
-    }
-}
+            document.getElementById('excelFile').click();
+        }
+
+        function handleExcelUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                showNotification(`File ${file.name} berhasil diupload. Data sedang diproses...`, 'info');
+                
+                setTimeout(() => {
+                    const sampleData = getSampleMasterData();
+                    
+                    localStorage.setItem('masterData', JSON.stringify(sampleData));
+                    
+                    if (firestore) {
+                        sampleData.forEach(async (item, index) => {
+                            try {
+                                const existingUser = await firestore.collection('users')
+                                    .where('email', '==', item.email)
+                                    .get();
+                                
+                                if (existingUser.empty) {
+                                    const tempPassword = 'Password123';
+                                    const userCredential = await auth.createUserWithEmailAndPassword(item.email, tempPassword);
+                                    const user = userCredential.user;
+                                    
+                                    await firestore.collection('users').doc(user.uid).set({
+                                        name: item.name,
+                                        email: item.email,
+                                        nik: item.nik,
+                                        jabatan: item.jabatan,
+                                        role: item.jabatan.toLowerCase() === 'admin' ? 'admin' : 'teknisi',
+                                        mitra: item.mitra,
+                                        status: 'active',
+                                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                        importedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                        importedBy: currentUser.id
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Error importing user:', item.email, error);
+                            }
+                        });
+                    }
+                    
+                    showNotification('Data berhasil diimport dari Excel', 'success');
+                    loadMasterData();
+                    loadTechnicians();
+                }, 1500);
+            }
+        }
         
         function refreshMaster() {
-    // HAPUS CACHE LOCALSTORAGE
-    localStorage.removeItem('masterData');
-    
-    // AMBIL DATA BARU DARI FIRESTORE
-    if (firestore) {
-        firestore.collection('users').get().then(snapshot => {
-            const data = [];
-            snapshot.forEach(doc => {
-                const tech = doc.data();
-                if (tech.role === 'teknisi' || tech.role === 'admin' || 
-                    tech.jabatan === 'Teknisi' || tech.jabatan === 'Admin') {
-                    data.push({
-                        no: data.length + 1,
-                        name: tech.name || 'Tidak ada nama',
-                        email: tech.email || 'Tidak ada email',
-                        nik: tech.nik || doc.id.substring(0, 8),
-                        jabatan: tech.jabatan || 'Teknisi',
-                        mitra: tech.mitra || '',
-                        importDate: tech.createdAt ? new Date(tech.createdAt.toDate()).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+            localStorage.removeItem('masterData');
+            
+            if (firestore) {
+                firestore.collection('users').get().then(snapshot => {
+                    const data = [];
+                    snapshot.forEach(doc => {
+                        const tech = doc.data();
+                        if (tech.role === 'teknisi' || tech.role === 'admin' || 
+                            tech.jabatan === 'Teknisi' || tech.jabatan === 'Admin') {
+                            data.push({
+                                no: data.length + 1,
+                                name: tech.name || 'Tidak ada nama',
+                                email: tech.email || 'Tidak ada email',
+                                nik: tech.nik || doc.id.substring(0, 8),
+                                jabatan: tech.jabatan || 'Teknisi',
+                                mitra: tech.mitra || '',
+                                importDate: tech.createdAt ? new Date(tech.createdAt.toDate()).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+                            });
+                        }
                     });
-                }
-            });
-            
-            // SIMPAN KE LOCALSTORAGE
-            localStorage.setItem('masterData', JSON.stringify(data));
-            renderMasterTable(data);
-            
-            alert('Data master diperbarui');
-        }).catch(error => {
-            console.error('Error refreshing master data:', error);
-            alert('Gagal memperbarui data master');
-        });
-    } else {
-        renderMasterTable(getSampleMasterData());
-        alert('Data master diperbarui');
-    }
-}
-
-// === SYNC DATA DARI FIREBASE ===
-async function syncDataFromFirebase() {
-    if (!firestore) {
-        alert('Firebase tidak tersedia');
-        return;
-    }
-    
-    try {
-        const snapshot = await firestore.collection('users').get();
-        const data = [];
-        
-        snapshot.forEach(doc => {
-            const tech = doc.data();
-            if (tech.role === 'teknisi' || tech.role === 'admin' || 
-                tech.jabatan === 'Teknisi' || tech.jabatan === 'Admin') {
-                data.push({
-                    no: data.length + 1,
-                    name: tech.name || 'Tidak ada nama',
-                    email: tech.email || 'Tidak ada email',
-                    nik: tech.nik || doc.id.substring(0, 8),
-                    jabatan: tech.jabatan || 'Teknisi',
-                    mitra: tech.mitra || '',
-                    importDate: tech.createdAt ? new Date(tech.createdAt.toDate()).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+                    
+                    localStorage.setItem('masterData', JSON.stringify(data));
+                    renderMasterTable(data);
+                    
+                    showNotification('Data master diperbarui', 'success');
+                }).catch(error => {
+                    console.error('Error refreshing master data:', error);
+                    showNotification('Gagal memperbarui data master', 'error');
                 });
+            } else {
+                renderMasterTable(getSampleMasterData());
+                showNotification('Data master diperbarui', 'success');
             }
-        });
-        
-        // SIMPAN KE LOCALSTORAGE
-        localStorage.setItem('masterData', JSON.stringify(data));
-        
-        // RENDER KEDUA TABEL
-        renderMasterTable(data);
-        loadTechnicians();
-        
-        alert('Data berhasil disinkronisasi dari Firebase');
-        
-    } catch (error) {
-        console.error('Error syncing data:', error);
-        alert('Gagal sinkronisasi data: ' + error.message);
-    }
-}
-        
-        function filterReports() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const month = document.getElementById('monthFilter').value;
-            const inetSearch = document.getElementById('searchInet').value.toLowerCase();
-            
-            alert(`Filter diterapkan:\nTanggal: ${startDate} - ${endDate}\nBulan: ${month}\nNo Internet: ${inetSearch}`);
-            
-            // Simulate filtered results
-            loadReports();
-        }
-        
-        function exportReports() {
-            alert('Laporan berhasil diexport ke Excel');
         }
 
+        // === BA FORM FUNCTIONS ===
         function openBAForm() {
             document.getElementById('dashboardPage').style.display = 'none';
             document.getElementById('baFormPage').style.display = 'block';
             
-            // Tampilkan next number bulan ini
             const { counter } = getBACounter();
             const now = new Date();
             const tahun = now.getFullYear();
@@ -3150,97 +2800,233 @@ async function syncDataFromFirebase() {
             
             document.getElementById('noBADisplay').textContent = noBA;
             
-            // Set nama teknisi
             if (currentUser) {
                 document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
                 document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
                 
-                // AUTO-FILL MITRA DARI DATA USER
                 if (currentUser.mitra) {
                     document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
                 } else {
-                    // JIKA MITRA KOSONG, AMBIL DARI DATABASE
                     loadUserMitraFromFirebase();
                 }
             }
             
-            // Set tanggal hari ini
             const today = new Date().toISOString().split('T')[0];
             document.querySelector('input[name="tanggal_lumajang"]').value = today;
             
-            // Initialize signature canvas
             setupSignatureCanvas();
+            setupValidation();
+        }
+
+        // === VALIDATION FUNCTIONS ===
+        function setupValidation() {
+            // STO - Uppercase validation
+            const stoInput = document.querySelector('input[name="sto"]');
+            stoInput.addEventListener('input', function() {
+                this.value = this.value.toUpperCase();
+            });
+
+            // No Permintaan/WO - Alphanumeric validation
+            const woInput = document.querySelector('input[name="no_permintaan"]');
+            woInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-z0-9]/g, '');
+            });
+
+            // No Inet - Numbers only
+            const inetInput = document.querySelector('input[name="no_inet"]');
+            inetInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // No Kontak - Phone format
+            const kontakInput = document.querySelector('input[name="no_kontak"]');
+            kontakInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9+ -]/g, '');
+            });
+
+            // Checkbox group validation
+            document.querySelectorAll('.test-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const group = this.getAttribute('data-group');
+                    if (this.checked) {
+                        document.querySelectorAll(`.test-checkbox[data-group="${group}"]`).forEach(cb => {
+                            if (cb !== this) cb.checked = false;
+                        });
+                    }
+                });
+            });
+        }
+
+        function validateRequiredFields() {
+            const requiredFields = [
+                'sto',
+                'no_permintaan',
+                'no_inet',
+                'tanggal_wo',
+                'nama_pelanggan',
+                'no_kontak',
+                'alamat_pelanggan',
+                'ONT_yang_DIPASANG_/_DITARIK',
+                'sn_ont',
+                'stb_id'
+            ];
+
+            let isValid = true;
+            let firstErrorField = null;
+
+            requiredFields.forEach(fieldName => {
+                const field = document.querySelector(`input[name="${fieldName}"]`);
+                if (field && !field.value.trim()) {
+                    field.classList.add('error-field');
+                    isValid = false;
+                    if (!firstErrorField) firstErrorField = field;
+                } else if (field) {
+                    field.classList.remove('error-field');
+                }
+            });
+
+            // Validate STO is uppercase
+            const stoField = document.querySelector('input[name="sto"]');
+            if (stoField && stoField.value !== stoField.value.toUpperCase()) {
+                stoField.classList.add('error-field');
+                isValid = false;
+                if (!firstErrorField) firstErrorField = stoField;
+            }
+
+            // Validate checkbox groups if any are checked
+            const checkboxGroups = ['voice', 'inet', 'usetv'];
+            checkboxGroups.forEach(group => {
+                const checkboxes = document.querySelectorAll(`.test-checkbox[data-group="${group}"]`);
+                const checkedBoxes = Array.from(checkboxes).filter(cb => cb.checked);
+                
+                if (checkedBoxes.length > 1) {
+                    checkboxes.forEach(cb => cb.classList.add('error-field'));
+                    isValid = false;
+                    if (!firstErrorField) firstErrorField = checkboxes[0];
+                } else {
+                    checkboxes.forEach(cb => cb.classList.remove('error-field'));
+                }
+            });
+
+            // Validate signatures
+            if (!petugasSigned) {
+                showNotification('TTD Petugas harus diisi terlebih dahulu', 'error');
+                isValid = false;
+            }
+
+            if (!pelangganSigned) {
+                showNotification('TTD Pelanggan harus diisi', 'error');
+                isValid = false;
+            }
+
+            if (!isValid && firstErrorField) {
+                firstErrorField.focus();
+                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            return isValid;
         }
 
         async function saveBA() {
             if (!currentUser) {
-                alert('Anda harus login terlebih dahulu');
+                showNotification('Anda harus login terlebih dahulu', 'error');
                 return;
             }
             
-            // Validasi
-            const noInet = document.querySelector('input[name="no_inet"]').value;
-            const namaPelanggan = document.querySelector('input[name="nama_pelanggan"]').value;
-            const tanggalLumajang = document.querySelector('input[name="tanggal_lumajang"]').value;
-            
-            if (!noInet || !namaPelanggan || !tanggalLumajang) {
-                alert('Harap isi No Internet, Nama Pelanggan, dan Tanggal!');
+            if (!validateRequiredFields()) {
+                showNotification('Harap lengkapi semua field yang wajib diisi', 'error');
                 return;
             }
             
             try {
-                // 1. TAMBAH COUNTER BULAN INI
                 const newCounter = incrementBACounter();
                 
-                // 2. BUAT NO BA DENGAN FORMAT: BA/TAHUN/BULAN/NOMOR
                 const now = new Date();
                 const tahun = now.getFullYear();
                 const bulan = String(now.getMonth() + 1).padStart(2, '0');
                 const nomorUrut = String(newCounter).padStart(3, '0');
                 const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
                 
-                // 3. BUAT DATA
                 const baData = {
                     id: 'BA-' + Date.now() + '-' + currentUser.id.substring(0, 4),
                     noBA: noBA,
-                    tanggal: tanggalLumajang,
-                    noInet: noInet,
-                    namaPelanggan: namaPelanggan,
+                    tanggal: document.querySelector('input[name="tanggal_lumajang"]').value,
+                    noInet: document.querySelector('input[name="no_inet"]').value,
+                    namaPelanggan: document.querySelector('input[name="nama_pelanggan"]').value,
                     namaTeknisi: currentUser.name,
                     teknisiId: currentUser.id,
                     userEmail: currentUser.email,
-                    status: 'Draft',
+                    status: 'Selesai',
                     tanggalDibuat: new Date().toISOString(),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    // Add all form data
+                    sto: document.querySelector('input[name="sto"]').value,
+                    noPermintaan: document.querySelector('input[name="no_permintaan"]').value,
+                    noTelepon: document.querySelector('input[name="no_telepon"]').value,
+                    tanggalWO: document.querySelector('input[name="tanggal_wo"]').value,
+                    tanggalTransaksi: document.querySelector('input[name="tanggal_transaksi"]').value,
+                    noKontak: document.querySelector('input[name="no_kontak"]').value,
+                    alamatPelanggan: document.querySelector('input[name="alamat_pelanggan"]').value,
+                    ontDitarik: document.querySelector('input[name="ONT_yang_DIPASANG_/_DITARIK"]').value,
+                    snOnt: document.querySelector('input[name="sn_ont"]').value,
+                    stbId: document.querySelector('input[name="stb_id"]').value,
+                    // Add checkbox data
+                    testVoice: document.querySelector('input[name="voice_baik"]').checked ? 'baik' : 
+                             document.querySelector('input[name="voice_tidak"]').checked ? 'tidak' : '',
+                    testInet: document.querySelector('input[name="inet_baik"]').checked ? 'baik' : 
+                            document.querySelector('input[name="inet_tidak"]').checked ? 'tidak' : '',
+                    testUseeTv: document.querySelector('input[name="usetv_baik"]').checked ? 'baik' : 
+                              document.querySelector('input[name="usetv_tidak"]').checked ? 'tidak' : ''
                 };
                 
-                // 4. SIMPAN
                 await firestore.collection('ba_documents').doc(baData.id).set(baData);
                 
-                alert(`BA berhasil disimpan!\nNo BA: ${noBA}`);
+                showNotification(`BA berhasil disimpan!\nNo BA: ${noBA}`, 'success');
+                
+                // Reset form
+                resetBAForm();
+                
+                // Close form and go back to dashboard
+                setTimeout(() => {
+                    document.getElementById('baFormPage').style.display = 'none';
+                    document.getElementById('dashboardPage').style.display = 'block';
+                    loadBASaya();
+                }, 2000);
                 
             } catch (error) {
-                // 5. KALAU GAGAL, KURANGI COUNTER
                 decrementBACounter();
-                
-                alert('Gagal menyimpan BA: ' + error.message);
+                showNotification('Gagal menyimpan BA: ' + error.message, 'error');
             }
+        }
+
+        function resetBAForm() {
+            // Reset all form fields
+            document.querySelectorAll('#baFormPage input[type="text"], #baFormPage input[type="date"]').forEach(input => {
+                input.value = '';
+                input.classList.remove('error-field');
+            });
+            
+            document.querySelectorAll('#baFormPage input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Reset signatures
+            clearSignature('pelanggan');
+            clearSignature('petugas');
+            pelangganSigned = false;
+            petugasSigned = false;
         }
 
         async function loadUserMitraFromFirebase() {
             if (!currentUser || !firestore) return;
             
             try {
-                // Ambil data user dari Firestore untuk dapat mitra
                 const userDoc = await firestore.collection('users').doc(currentUser.id).get();
                 
                 if (userDoc.exists) {
                     const userData = userDoc.data();
-                    
-                    // UPDATE CURRENT USER
                     currentUser.mitra = userData.mitra || '';
                     
-                    // AUTO-FILL DI FORM
                     if (currentUser.mitra) {
                         document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
                     }
@@ -3250,7 +3036,7 @@ async function syncDataFromFirebase() {
             }
         }
 
-        // === FUNGSI LOAD BA SAYA ===
+        // === BA LIST FUNCTIONS ===
         async function loadBASaya() {
             if (!currentUser || !firestore) return;
             
@@ -3337,7 +3123,7 @@ async function syncDataFromFirebase() {
         }
 
         function exportBASaya() {
-            alert('Data BA berhasil diexport ke Excel!');
+            showNotification('Data BA berhasil diexport ke Excel!', 'success');
         }
 
         async function viewBASaya(id) {
@@ -3345,35 +3131,36 @@ async function syncDataFromFirebase() {
                 const baDoc = await firestore.collection('ba_documents').doc(id).get();
                 if (baDoc.exists) {
                     const baData = baDoc.data();
-                    alert(`Detail BA:\nNo: ${baData.noBA}\nPelanggan: ${baData.namaPelanggan}\nStatus: ${baData.status}`);
+                    showNotification(`Detail BA:\nNo: ${baData.noBA}\nPelanggan: ${baData.namaPelanggan}\nStatus: ${baData.status}`, 'info');
                 }
             } catch (error) {
                 console.error('Error viewing BA:', error);
+                showNotification('Gagal melihat detail BA', 'error');
             }
         }
 
         function downloadBASaya(id) {
-            alert('Download BA: ' + id);
+            showNotification('Download BA: ' + id, 'info');
         }
 
         async function deleteBASaya(id) {
             if (confirm('Apakah Anda yakin ingin menghapus BA ini?')) {
                 try {
                     await firestore.collection('ba_documents').doc(id).delete();
-                    alert('BA berhasil dihapus!');
+                    showNotification('BA berhasil dihapus!', 'success');
                     loadBASaya();
                 } catch (error) {
                     console.error('Error deleting BA:', error);
-                    alert('Gagal menghapus BA');
+                    showNotification('Gagal menghapus BA', 'error');
                 }
             }
         }
 
+        // === COUNTER FUNCTIONS ===
         function getBACounter() {
             const now = new Date();
             const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             
-            // Ambil counter bulan ini
             const counterKey = `baCounter_${yearMonth}`;
             let counter = localStorage.getItem(counterKey) || 0;
             counter = parseInt(counter);
@@ -3395,42 +3182,7 @@ async function syncDataFromFirebase() {
             return newCounter;
         }
 
-        function resetBACounter() {
-            if (confirm('Reset nomor BA ke 0?')) {
-                localStorage.setItem('baCounter', 0);
-                alert('Counter BA direset ke 0');
-            }
-        }
-
-        // === ORIGINAL BA FORM FUNCTIONS ===
-        let pelangganSigned = false;
-
-        function saveSignature(type) {
-            if (type === 'petugas' && !pelangganSigned) {
-                alert('Pelanggan harus menyimpan tanda tangan terlebih dahulu!');
-                return;
-            }
-            
-            if (type === 'pelanggan') {
-                pelangganSigned = true;
-            }
-            
-            alert(`Tanda tangan ${type} berhasil disimpan!`);
-        }
-
-        function changePageSize(size) {
-            const container = document.getElementById('page-container');
-            const sizeClass = size === 'A4 landscape' ? 'landscape' : size.toLowerCase().replace(' ', '-');
-            
-            container.className = 'container-' + sizeClass;
-            
-            document.querySelectorAll('.page-size-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
-        // Script tanda tangan
+        // === SIGNATURE FUNCTIONS ===
         function setupSignatureCanvas() {
             const canvases = {
                 'pelanggan': document.getElementById('signature-pelanggan'),
@@ -3442,7 +3194,6 @@ async function syncDataFromFirebase() {
                 const ctx = canvas.getContext('2d');
                 let isDrawing = false;
 
-                // Prevent touch scroll when signing
                 canvas.addEventListener('touchstart', function(e) {
                     e.preventDefault();
                     startDrawing(e);
@@ -3505,236 +3256,290 @@ async function syncDataFromFirebase() {
             
             if (type === 'pelanggan') {
                 pelangganSigned = false;
+            } else if (type === 'petugas') {
+                petugasSigned = false;
             }
         }
 
-        // === FUNGSI UPLOAD GAMBAR ===
-function uploadImage(posisi, input) {
-    const file = input.files[0];
-    if (file) {
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            const imgId = posisi === 'kiri' ? 'logoKiri' : 'logoKanan';
-            const placeholderId = posisi === 'kiri' ? 'placeholderKiri' : 'placeholderKanan';
-            const img = document.getElementById(imgId);
-            const placeholder = document.getElementById(placeholderId);
+        function saveSignature(type) {
+            if (type === 'pelanggan' && !petugasSigned) {
+                showNotification('Petugas harus menyimpan tanda tangan terlebih dahulu!', 'warning');
+                return;
+            }
             
-            img.src = e.target.result;
-            img.style.display = 'block';
-            placeholder.style.display = 'none';
+            if (type === 'pelanggan') {
+                pelangganSigned = true;
+                showNotification('Tanda tangan pelanggan berhasil disimpan!', 'success');
+            } else if (type === 'petugas') {
+                petugasSigned = true;
+                showNotification('Tanda tangan petugas berhasil disimpan!', 'success');
+            }
+        }
+
+        // === SCANNER FUNCTIONS ===
+        function openScanner(fieldId) {
+            currentScannerField = fieldId;
+            document.getElementById('scannerModal').style.display = 'block';
+            document.getElementById('manualInput').value = '';
+        }
+
+        function closeScanner() {
+            document.getElementById('scannerModal').style.display = 'none';
+            if (window.Quagga) {
+                Quagga.stop();
+            }
+            currentScannerField = null;
+        }
+
+        function startScanning() {
+            if (!currentScannerField) return;
+
+            const scannerVideo = document.getElementById('scanner-video');
             
-            // Add overlay change button on image
-            img.parentElement.innerHTML += `
-                <div id="overlay${posisi}" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-                           background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; 
-                           opacity: 0; transition: opacity 0.3s ease; cursor: pointer;"
-                     onmouseover="this.style.opacity='1'"
-                     onmouseout="this.style.opacity='0'"
-                     onclick="document.getElementById('upload${posisi}').click()">
-                    <div style="color: white; text-align: center;">
-                        <i class="fas fa-camera" style="font-size: 16px; margin-bottom: 2px; display: block;"></i>
-                        <div style="font-size: 8px;">Ganti Logo</div>
-                    </div>
-                </div>
-            `;
-            
-            // Simpan ke localStorage
-            localStorage.setItem('logo_' + posisi, e.target.result);
-        };
-        
-        reader.readAsDataURL(file);
-    }
-}
-
-// === LOAD GAMBAR DARI LOCAL STORAGE ===
-function loadSavedImages() {
-    const logoKiri = localStorage.getItem('logo_kiri');
-    const logoKanan = localStorage.getItem('logo_kanan');
-    
-    if (logoKiri) {
-        const imgKiri = document.getElementById('logoKiri');
-        const placeholderKiri = document.getElementById('placeholderKiri');
-        imgKiri.src = logoKiri;
-        imgKiri.style.display = 'block';
-        placeholderKiri.style.display = 'none';
-        
-        // Add overlay for existing image
-        imgKiri.parentElement.innerHTML += `
-            <div id="overlaykiri" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-                       background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; 
-                       opacity: 0; transition: opacity 0.3s ease; cursor: pointer;"
-                 onmouseover="this.style.opacity='1'"
-                 onmouseout="this.style.opacity='0'"
-                 onclick="document.getElementById('uploadKiri').click()">
-                <div style="color: white; text-align: center;">
-                    <i class="fas fa-camera" style="font-size: 16px; margin-bottom: 2px; display: block;"></i>
-                    <div style="font-size: 8px;">Ganti Logo</div>
-                </div>
-            </div>
-        `;
-    }
-    
-    if (logoKanan) {
-        const imgKanan = document.getElementById('logoKanan');
-        const placeholderKanan = document.getElementById('placeholderKanan');
-        imgKanan.src = logoKanan;
-        imgKanan.style.display = 'block';
-        placeholderKanan.style.display = 'none';
-        
-        // Add overlay for existing image
-        imgKanan.parentElement.innerHTML += `
-            <div id="overlaykanan" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-                       background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; 
-                       opacity: 0; transition: opacity 0.3s ease; cursor: pointer;"
-                 onmouseover="this.style.opacity='1'"
-                 onmouseout="this.style.opacity='0'"
-                 onclick="document.getElementById('uploadKanan').click()">
-                <div style="color: white; text-align: center;">
-                    <i class="fas fa-camera" style="font-size: 16px; margin-bottom: 2px; display: block;"></i>
-                    <div style="font-size: 8px;">Ganti Logo</div>
-                </div>
-            </div>
-        `;
-    }
-}
-
-// === RESET GAMBAR ===
-function resetImages() {
-    if (confirm('Reset semua logo ke default?')) {
-        localStorage.removeItem('logo_kiri');
-        localStorage.removeItem('logo_kanan');
-        
-        // Reset kiri
-        const imgKiri = document.getElementById('logoKiri');
-        const placeholderKiri = document.getElementById('placeholderKiri');
-        imgKiri.style.display = 'none';
-        imgKiri.src = '';
-        placeholderKiri.style.display = 'block';
-        
-        // Reset kanan
-        const imgKanan = document.getElementById('logoKanan');
-        const placeholderKanan = document.getElementById('placeholderKanan');
-        imgKanan.style.display = 'none';
-        imgKanan.src = '';
-        placeholderKanan.style.display = 'block';
-        
-        // Remove overlays
-        const overlayKiri = document.getElementById('overlaykiri');
-        const overlayKanan = document.getElementById('overlaykanan');
-        if (overlayKiri) overlayKiri.remove();
-        if (overlayKanan) overlayKanan.remove();
-    }
-}
-
-// === TOMBOL RESET ===
-function addResetButton() {
-    const controls = document.querySelector('.page-size-controls');
-    if (controls && !document.getElementById('resetImagesBtn')) {
-        const resetBtn = document.createElement('button');
-        resetBtn.id = 'resetImagesBtn';
-        resetBtn.className = 'page-size-btn';
-        resetBtn.innerHTML = '<i class="fas fa-redo"></i> Reset Logo';
-        resetBtn.onclick = resetImages;
-        resetBtn.style.marginTop = '10px';
-        controls.appendChild(resetBtn);
-    }
-}
-
-// === LOAD GAMBAR DARI LOCAL STORAGE ===
-function loadSavedImages() {
-    const logoKiri = localStorage.getItem('logo_kiri');
-    const logoKanan = localStorage.getItem('logo_kanan');
-    
-    if (logoKiri) {
-        const imgKiri = document.getElementById('logoKiri');
-        const btnKiri = imgKiri.nextElementSibling;
-        imgKiri.src = logoKiri;
-        imgKiri.style.display = 'block';
-        btnKiri.style.display = 'none';
-    }
-    
-    if (logoKanan) {
-        const imgKanan = document.getElementById('logoKanan');
-        const btnKanan = imgKanan.nextElementSibling;
-        imgKanan.src = logoKanan;
-        imgKanan.style.display = 'block';
-        btnKanan.style.display = 'none';
-    }
-}
-
-// === RESET GAMBAR ===
-function resetImages() {
-    if (confirm('Reset semua logo ke default?')) {
-        localStorage.removeItem('logo_kiri');
-        localStorage.removeItem('logo_kanan');
-        
-        const imgKiri = document.getElementById('logoKiri');
-        const btnKiri = imgKiri.nextElementSibling;
-        imgKiri.style.display = 'none';
-        imgKiri.src = '';
-        btnKiri.style.display = 'block';
-        
-        const imgKanan = document.getElementById('logoKanan');
-        const btnKanan = imgKanan.nextElementSibling;
-        imgKanan.style.display = 'none';
-        imgKanan.src = '';
-        btnKanan.style.display = 'block';
-    }
-}
-
-// === TOMBOL RESET ===
-function addResetButton() {
-    const controls = document.querySelector('.page-size-controls');
-    if (controls && !document.getElementById('resetImagesBtn')) {
-        const resetBtn = document.createElement('button');
-        resetBtn.id = 'resetImagesBtn';
-        resetBtn.className = 'page-size-btn';
-        resetBtn.innerHTML = '<i class="fas fa-redo"></i> Reset Logo';
-        resetBtn.onclick = resetImages;
-        resetBtn.style.marginTop = '10px';
-        controls.appendChild(resetBtn);
-    }
-}
-
-
-
-        // === AUTO CLOSE SIDEBAR ===
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tutup sidebar saat klik menu
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        document.querySelector('.sidebar').classList.remove('open');
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: scannerVideo,
+                    constraints: {
+                        width: 480,
+                        height: 320,
+                        facingMode: "environment"
                     }
-                });
+                },
+                decoder: {
+                    readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
+                }
+            }, function(err) {
+                if (err) {
+                    console.error(err);
+                    showNotification('Gagal mengakses kamera. Gunakan input manual.', 'error');
+                    return;
+                }
+                Quagga.start();
             });
-            
-            // Tutup sidebar saat klik di luar
-            document.addEventListener('click', function(event) {
-                const sidebar = document.querySelector('.sidebar');
-                const hamburger = document.querySelector('.hamburger-btn');
-                
-                if (window.innerWidth <= 768 && 
-                    sidebar.classList.contains('open') &&
-                    !sidebar.contains(event.target) && 
-                    !hamburger.contains(event.target)) {
-                    sidebar.classList.remove('open');
+
+            Quagga.onDetected(function(result) {
+                const code = result.codeResult.code;
+                if (currentScannerField) {
+                    document.getElementById(currentScannerField).value = code;
+                    showNotification('Barcode berhasil dipindai!', 'success');
+                    closeScanner();
                 }
             });
-        });
+        }
 
+        function useManualInput() {
+            const manualValue = document.getElementById('manualInput').value.trim();
+            if (manualValue && currentScannerField) {
+                document.getElementById(currentScannerField).value = manualValue;
+                showNotification('Kode manual berhasil dimasukkan!', 'success');
+                closeScanner();
+            } else {
+                showNotification('Masukkan kode barcode terlebih dahulu!', 'warning');
+            }
+        }
 
+        // === UTILITY FUNCTIONS ===
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
 
-        // === INITIALIZE ===
+        function changePageSize(size) {
+            const container = document.getElementById('page-container');
+            const sizeClass = size === 'A4 landscape' ? 'landscape' : size.toLowerCase().replace(' ', '-');
+            
+            container.className = 'container-' + sizeClass;
+            
+            document.querySelectorAll('.page-size-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function uploadImage(posisi, input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const imgId = posisi === 'kiri' ? 'logoKiri' : 'logoKanan';
+                    const placeholderId = posisi === 'kiri' ? 'placeholderKiri' : 'placeholderKanan';
+                    const img = document.getElementById(imgId);
+                    const placeholder = document.getElementById(placeholderId);
+                    
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    
+                    localStorage.setItem('logo_' + posisi, e.target.result);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function loadSavedImages() {
+            const logoKiri = localStorage.getItem('logo_kiri');
+            const logoKanan = localStorage.getItem('logo_kanan');
+            
+            if (logoKiri) {
+                const imgKiri = document.getElementById('logoKiri');
+                const placeholderKiri = document.getElementById('placeholderKiri');
+                imgKiri.src = logoKiri;
+                imgKiri.style.display = 'block';
+                placeholderKiri.style.display = 'none';
+            }
+            
+            if (logoKanan) {
+                const imgKanan = document.getElementById('logoKanan');
+                const placeholderKanan = document.getElementById('placeholderKanan');
+                imgKanan.src = logoKanan;
+                imgKanan.style.display = 'block';
+                placeholderKanan.style.display = 'none';
+            }
+        }
+
+        function resetImages() {
+            if (confirm('Reset semua logo ke default?')) {
+                localStorage.removeItem('logo_kiri');
+                localStorage.removeItem('logo_kanan');
+                
+                const imgKiri = document.getElementById('logoKiri');
+                const placeholderKiri = document.getElementById('placeholderKiri');
+                imgKiri.style.display = 'none';
+                imgKiri.src = '';
+                placeholderKiri.style.display = 'block';
+                
+                const imgKanan = document.getElementById('logoKanan');
+                const placeholderKanan = document.getElementById('placeholderKanan');
+                imgKanan.style.display = 'none';
+                imgKanan.src = '';
+                placeholderKanan.style.display = 'block';
+            }
+        }
+
+        function addResetButton() {
+            const controls = document.querySelector('.page-size-controls');
+            if (controls && !document.getElementById('resetImagesBtn')) {
+                const resetBtn = document.createElement('button');
+                resetBtn.id = 'resetImagesBtn';
+                resetBtn.className = 'page-size-btn';
+                resetBtn.innerHTML = '<i class="fas fa-redo"></i> Reset Logo';
+                resetBtn.onclick = resetImages;
+                resetBtn.style.marginTop = '10px';
+                controls.appendChild(resetBtn);
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function closeBAForm() {
+            document.getElementById('baFormPage').style.display = 'none';
+            document.getElementById('dashboardPage').style.display = 'block';
+        }
+
+        function filterReports() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const month = document.getElementById('monthFilter').value;
+            const inetSearch = document.getElementById('searchInet').value.toLowerCase();
+            
+            showNotification(`Filter diterapkan:\nTanggal: ${startDate} - ${endDate}\nBulan: ${month}\nNo Internet: ${inetSearch}`, 'info');
+            
+            loadReports();
+        }
+
+        function exportReports() {
+            showNotification('Laporan berhasil diexport ke Excel', 'success');
+        }
+
+        async function loadReports() {
+            try {
+                if (!firestore) return;
+                
+                const reportsSnapshot = await firestore.collection('ba_documents')
+                    .orderBy('tanggalDibuat', 'desc')
+                    .limit(50)
+                    .get();
+                
+                const tbody = document.getElementById('reportsTable');
+                if (!tbody) return;
+                
+                tbody.innerHTML = '';
+                
+                if (reportsSnapshot.empty) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #666; padding: 30px;">
+                                <i class="fas fa-chart-bar" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                                Belum ada data laporan
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                reportsSnapshot.forEach((doc) => {
+                    const report = doc.data();
+                    const statusClass = report.status === 'Selesai' ? 'status-active' : 'status-inactive';
+                    
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${report.noBA || doc.id}</td>
+                            <td>${report.tanggal || '-'}</td>
+                            <td>${report.namaPelanggan || '-'}</td>
+                            <td>${report.noInet || '-'}</td>
+                            <td>${report.namaTeknisi || '-'}</td>
+                            <td>${report.testVoice || report.testInet || report.testUseeTv || '-'}</td>
+                            <td class="${statusClass}">${report.status || 'Draft'}</td>
+                        </tr>
+                    `;
+                });
+                
+            } catch (error) {
+                console.error('Error loading reports:', error);
+                const tbody = document.getElementById('reportsTable');
+                if (tbody) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #ff4757; padding: 30px;">
+                                <i class="fas fa-exclamation-triangle"></i> Error loading data
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        // === INITIALIZATION ===
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('Memulai inisialisasi...');
             
-            // Initialize Firebase
             const firebaseInitialized = await initializeFirebase();
             
             if (firebaseInitialized) {
-                // Set today's date for reports filter
                 const today = new Date().toISOString().split('T')[0];
                 const startDate = document.getElementById('startDate');
                 const endDate = document.getElementById('endDate');
@@ -3742,13 +3547,11 @@ function addResetButton() {
                 if (startDate) startDate.value = today;
                 if (endDate) endDate.value = today;
                 
-                // Load initial data
                 loadDashboardData();
                 loadMasterData();
                 loadReports();
             }
             
-            // Add back button to BA form
             const pageContainer = document.getElementById('page-container');
             if (pageContainer) {
                 const backButton = document.createElement('button');
@@ -3770,21 +3573,38 @@ function addResetButton() {
                 backButton.onclick = closeBAForm;
                 document.getElementById('baFormPage').insertBefore(backButton, pageContainer);
             }
+            
+            loadSavedImages();
+            addResetButton();
         });
         
-        // Add keyboard shortcut for BA form
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && document.getElementById('baFormPage').style.display === 'block') {
                 closeBAForm();
             }
         });
 
-        function closeBAForm() {
-            document.getElementById('baFormPage').style.display = 'none';
-            document.getElementById('dashboardPage').style.display = 'block';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.sidebar').classList.remove('open');
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(event) {
+                const sidebar = document.querySelector('.sidebar');
+                const hamburger = document.querySelector('.hamburger-btn');
+                
+                if (window.innerWidth <= 768 && 
+                    sidebar.classList.contains('open') &&
+                    !sidebar.contains(event.target) && 
+                    !hamburger.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
     </script>
 </body>
 </html>
-
-
