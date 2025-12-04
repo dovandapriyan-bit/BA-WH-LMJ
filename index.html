@@ -1490,59 +1490,6 @@
             }
         }
 
-        /* ===========================================
-   START: TAMPILAN FORM BA TETAP DI MOBILE
-   =========================================== */
-
-@media screen and (max-width: 768px) {
-    
-    /* Aktifkan style ini hanya saat form BA terbuka */
-    body.ba-form-open #dashboardPage {
-        display: none !important;
-    }
-
-    body.ba-form-open #baFormPage {
-        display: block !important;
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: auto; /* Ini memungkinkan scroll geser kiri-kanan dan atas-bawah */
-        background-color: #f0f0f0;
-    }
-
-    /* Kembalikan ukuran container kertas ke aslinya (A4) */
-    body.ba-form-open #page-container {
-        width: 210mm !important; /* Ukuran asli A4 */
-        min-width: 210mm !important;
-        margin: 20px auto !important;
-        padding: 10mm !important;
-        box-sizing: border-box !important;
-        font-family: Arial !important;
-        font-size: 9pt !important; /* Kembalikan font size asli */
-    }
-
-    /* Kembalikan ukuran font input ke aslinya */
-    body.ba-form-open #baFormPage input[type="text"] {
-        font-size: 9pt !important;
-        padding: 2px !important;
-    }
-
-    /* Kembalikan padding dan font tabel ke aslinya */
-    body.ba-form-open #baFormPage .main-table td {
-        padding: 3px !important;
-        font-size: 9pt !important;
-    }
-
-    /* Sembunyikan kontrol ukuran kertas yang tidak perlu di mobile */
-    body.ba-form-open .page-size-controls {
-        display: none !important;
-    }
-}
-
-/* ===========================================
-   END: TAMPILAN FORM BA TETAP DI MOBILE
-   =========================================== */
-
        /* Image Upload Styles */
 .image-upload-container {
     position: relative;
@@ -1649,9 +1596,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-
-    <!-- Tambahkan ini di dalam tag <head> -->
-    <script src="https://unpkg.com/@zxing/library@latest"></script>
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -2216,36 +2160,15 @@
                 <tr>
                     <td style="width: 55%; vertical-align: top;">
                         <table style="width: 100%; border: none;">
-                            <tr><td style="width: 40%; border: none; white-space: nowrap;">ONT yang DITARIK / ONT BEKAS</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;">
-    <div class="input-scan-group">
-        <input type="text" name="ONT_yang_DIPASANG_/_DITARIK">
-        <button class="btn-scan-icon" onclick="scanBarcode('ONT_yang_DIPASANG_/_DITARIK')">
-            <i class="fas fa-camera"></i>
-        </button>
-    </div>
-</td></tr>
+                            <tr><td style="width: 40%; border: none; white-space: nowrap;">ONT yang DITARIK / ONT BEKAS</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;"><input type="text" name="ONT_yang_DIPASANG_/_DITARIK"></td></tr>
                             <tr><td style="border: none; white-space: nowrap;">lampu Indikator ONT Nyala</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="checkbox" name="power"> Power <input type="checkbox" name="dsl"> DSL <input type="checkbox" name="internet"> Internet</td></tr>
                             <tr><td style="border: none; white-space: nowrap;">Nama / Notel Teknisi</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_teknisi"></td></tr>
-                            <tr><td style="border: none; white-space: nowrap;">STB ID</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;">
-    <div class="input-scan-group">
-        <input type="text" name="stb_id">
-        <button class="btn-scan-icon" onclick="scanBarcode('stb_id')">
-            <i class="fas fa-camera"></i>
-        </button>
-    </div>
-</td>
+                            <tr><td style="border: none; white-space: nowrap;">STB ID</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="stb_id"></td></tr>
                         </table>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
                         <table style="width: 100%; border: none;">
-                            <tr><td style="width: 30%; border: none; white-space: nowrap;">SN ONT BARU</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 65%; border: none;">
-    <div class="input-scan-group">
-        <input type="text" name="sn_ont">
-        <button class="btn-scan-icon" onclick="scanBarcode('sn_ont')">
-            <i class="fas fa-camera"></i>
-        </button>
-    </div>
-</td>
+                            <tr><td style="width: 30%; border: none; white-space: nowrap;">SN ONT BARU</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 65%; border: none;"><input type="text" name="sn_ont"></td></tr>
                             <tr><td style="border: none; white-space: nowrap;">SN PLC</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_plc"></td></tr>
                             <tr><td style="border: none; white-space: nowrap;">SN WIFI EXT</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="sn_wifi_ext"></td></tr>
                         </table>
@@ -2354,20 +2277,6 @@
             </div>
         </div>
     </div>
-
-    <!-- UI Modal untuk Scanner -->
-<div id="scanner-modal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); justify-content: center; align-items: center;">
-    <div style="position: relative; width: 90%; max-width: 500px; background: white; border-radius: 8px; padding: 20px;">
-        <h3 style="text-align: center; margin-top: 0;">Pindai Barcode</h3>
-        <p style="text-align: center; color: #666;">Arahkan kamera ke barcode</p>
-        
-        <!-- Video akan tampil di sini -->
-        <video id="scanner-video" style="width: 100%; border-radius: 8px;"></video>
-        
-        <!-- Tombol untuk menutup scanner -->
-        <button id="close-scanner" style="position: absolute; top: 10px; right: 15px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; cursor: pointer;">&times;</button>
-    </div>
-</div>
 
     <script>
         // === FIREBASE CONFIGURATION ===
@@ -2626,6 +2535,7 @@
             }
         }
 
+        // === TECHNICIAN MANAGEMENT ===
         // === TECHNICIAN MANAGEMENT ===
 async function loadTechnicians() {
     try {
@@ -3226,38 +3136,41 @@ async function syncDataFromFirebase() {
         }
 
         function openBAForm() {
-            document.body.classList.add('ba-form-open');
             document.getElementById('dashboardPage').style.display = 'none';
             document.getElementById('baFormPage').style.display = 'block';
             
             // Tampilkan next number bulan ini
             const { counter } = getBACounter();
-    const now = new Date();
-    const tahun = now.getFullYear();
-    const bulan = String(now.getMonth() + 1).padStart(2, '0');
-    const nextNumber = counter + 1;
-    const nomorUrut = String(nextNumber).padStart(3, '0');
-    const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
-    
-    document.getElementById('noBADisplay').textContent = noBA;
-    
-    if (currentUser) {
-        document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
-        document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
-        
-        if (currentUser.mitra) {
-            document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
-        } else {
-            loadUserMitraFromFirebase();
+            const now = new Date();
+            const tahun = now.getFullYear();
+            const bulan = String(now.getMonth() + 1).padStart(2, '0');
+            const nextNumber = counter + 1;
+            const nomorUrut = String(nextNumber).padStart(3, '0');
+            const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
+            
+            document.getElementById('noBADisplay').textContent = noBA;
+            
+            // Set nama teknisi
+            if (currentUser) {
+                document.getElementById('namaTeknisiDisplay').textContent = currentUser.name;
+                document.getElementById('namaTeknisiTTD').textContent = currentUser.name;
+                
+                // AUTO-FILL MITRA DARI DATA USER
+                if (currentUser.mitra) {
+                    document.querySelector('input[name="nama_mitra"]').value = currentUser.mitra;
+                } else {
+                    // JIKA MITRA KOSONG, AMBIL DARI DATABASE
+                    loadUserMitraFromFirebase();
+                }
+            }
+            
+            // Set tanggal hari ini
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="tanggal_lumajang"]').value = today;
+            
+            // Initialize signature canvas
+            setupSignatureCanvas();
         }
-    }
-    
-    const today = new Date().toISOString().split('T')[0];
-    document.querySelector('input[name="tanggal_lumajang"]').value = today;
-    
-    setupSignatureCanvas();
-    addScanIconsToInputs(); // Pastikan ini dipanggil
-}
 
         async function saveBA() {
             if (!currentUser) {
@@ -3811,267 +3724,7 @@ function addResetButton() {
             });
         });
 
-        // ========== START: JAVASCRIPT UNTUK SCAN DAN VALIDASI ==========
 
-let codeReader = null;
-let currentInputForScan = null;
-
-
-// Fungsi untuk memulai scanner
-function startScan(inputName) {
-    currentInputForScan = inputName;
-    const modal = document.getElementById('scanner-modal');
-    const video = document.getElementById('scanner-video');
-    
-    modal.style.display = 'flex';
-
-    // Pastikan library ZXing sudah di-load
-    if (typeof ZXing === 'undefined') {
-        alert('Library Scanner belum dimuat. Muat ulang halaman.');
-        closeScanModal();
-        return;
-    }
-
-    codeReader = new ZXing.BrowserMultiFormatReader();
-    codeReader.decodeFromVideoDevice(null, video, (result, err) => {
-        if (result) {
-            // Jika barcode berhasil terbaca
-            console.log(`Barcode terdeteksi: ${result.text}`);
-            document.querySelector(`input[name="${currentInputForScan}"]`).value = result.text;
-            
-            // Tampilkan notifikasi sukses
-            showNotification(`Barcode berhasil: ${result.text}`);
-            
-            // Tutup scanner
-            closeScanModal();
-        }
-        if (err && !(err instanceof ZXing.NotFoundException)) {
-            // Tangani error selain "tidak menemukan barcode"
-            console.error(err);
-            alert('Error saat membaca barcode: ' + err);
-        }
-    }).catch((err) => {
-        console.error(err);
-        alert('Tidak dapat mengakses kamera. Pastikan Anda memberikan izin kamera.');
-        closeScanModal();
-    });
-}
-
-// Fungsi untuk menutup modal dan menghentikan scanner
-function closeScanModal() {
-    const modal = document.getElementById('scanner-modal');
-    modal.style.display = 'none';
-
-    if (codeReader) {
-        codeReader.reset();
-    }
-}
-
-// Fungsi yang dipanggil oleh tombol ikon kamera
-function scanBarcode(inputName) {
-    startScan(inputName);
-}
-
-
-
-// Fungsi untuk menampilkan notifikasi (tidak perlu diubah)
-function showNotification(message) {
-    const oldNotification = document.getElementById('scan-notification');
-    if (oldNotification) {
-        oldNotification.remove();
-    }
-
-    const notification = document.createElement('div');
-    notification.id = 'scan-notification';
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #2ecc71;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        z-index: 10000;
-        font-size: 14px;
-    `;
-    
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-}
-
-
-// Fungsi validasi form sebelum menyimpan
-function validateAndFormatInputs() {
-    let isValid = true;
-    let errorMessage = "Harap lengkapi field berikut:\n";
-
-    // 1. STO - Kapital semua
-    const stoInput = document.querySelector('input[name="sto"]');
-    if (!stoInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- STO (wajib diisi)\n";
-    } else {
-        stoInput.value = stoInput.value.toUpperCase();
-    }
-    
-    // 2. No Permintaan/WO
-    const noPermintaanInput = document.querySelector('input[name="no_permintaan"]');
-    if (!noPermintaanInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- No Permintaan/WO (wajib diisi)\n";
-    }
-    
-    // 3. No Inet
-    const noInetInput = document.querySelector('input[name="no_inet"]');
-    if (!noInetInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- No Inet (wajib diisi)\n";
-    }
-    
-    // 4. Tanggal WO
-    const tanggalWOInput = document.querySelector('input[name="tanggal_wo"]');
-    if (!tanggalWOInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- Tanggal WO (wajib diisi)\n";
-    }
-    
-    // 5. Nama Pelanggan
-    const namaPelangganInput = document.querySelector('input[name="nama_pelanggan"]');
-    if (!namaPelangganInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- Nama Pelanggan (wajib diisi)\n";
-    }
-    
-    // 6. No Kontak
-    const noKontakInput = document.querySelector('input[name="no_kontak"]');
-    if (!noKontakInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- No Kontak (wajib diisi)\n";
-    }
-    
-    // 7. Alamat Pelanggan
-    const alamatInput = document.querySelector('input[name="alamat_pelanggan"]');
-    if (!alamatInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- Alamat Pelanggan (wajib diisi)\n";
-    }
-    
-    // 8. ONT yang DIPASANG / DITARIK
-    const ontInput = document.querySelector('input[name="ONT_yang_DIPASANG_/_DITARIK"]');
-    if (!ontInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- ONT yang DIPASANG / DITARIK (wajib diisi)\n";
-    }
-    
-    // 9. SN ONT
-    const snOntInput = document.querySelector('input[name="sn_ont"]');
-    if (!snOntInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- SN ONT (wajib diisi)\n";
-    }
-    
-    // 10. STB ID
-    const stbIdInput = document.querySelector('input[name="stb_id"]');
-    if (!stbIdInput.value.trim()) {
-        isValid = false;
-        errorMessage += "- STB ID (wajib diisi)\n";
-    }
-
-    // 11. TTD Petugas harus diisi dulu
-    const petugasCanvas = document.getElementById('signature-petugas');
-    if (isCanvasEmpty(petugasCanvas)) {
-        isValid = false;
-        errorMessage += "- Tanda Tangan Petugas harus diisi terlebih dahulu\n";
-    }
-
-    // 12. TTD Pelanggan
-    const pelangganCanvas = document.getElementById('signature-pelanggan');
-    if (isCanvasEmpty(pelangganCanvas)) {
-        isValid = false;
-        errorMessage += "- Tanda Tangan Pelanggan harus diisi\n";
-    }
-    
-    // 13. Checkbox harus salah satu dipilih
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    let anyCheckboxChecked = false;
-    checkboxes.forEach(cb => {
-        if(cb.checked) anyCheckboxChecked = true;
-    });
-
-    if (!anyCheckboxChecked) {
-        isValid = false;
-        errorMessage += "- Pilih minimal satu opsi (PSB, Tambahan, atau Migrasi)\n";
-    }
-    
-    if (!isValid) {
-        alert(errorMessage);
-        return false;
-    }
-    
-    return true;
-}
-
-// Fungsi untuk mengecek apakah canvas tanda tangan kosong
-function isCanvasEmpty(canvas) {
-    if (!canvas) return true;
-    const context = canvas.getContext('2d');
-    const pixelBuffer = new Uint32Array(
-        context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-    );
-    return !pixelBuffer.some(color => color !== 0);
-}
-
-// GANTI FUNGSI saveBA YANG LAMA DENGAN INI
-async function saveBA() {
-    if (!currentUser) {
-        alert('Anda harus login terlebih dahulu');
-        return;
-    }
-    
-    // Panggil fungsi validasi
-    if (!validateAndFormatInputs()) {
-        return; // Jika validasi gagal, hentikan proses penyimpanan
-    }
-    
-    // ... (kode penyimpanan ke database Anda bisa tetap di sini) ...
-    try {
-        const newCounter = incrementBACounter();
-        const now = new Date();
-        const tahun = now.getFullYear();
-        const bulan = String(now.getMonth() + 1).padStart(2, '0');
-        const nomorUrut = String(newCounter).padStart(3, '0');
-        const noBA = `BA/${tahun}/${bulan}/${nomorUrut}`;
-        
-        const baData = {
-            id: 'BA-' + Date.now() + '-' + currentUser.id.substring(0, 4),
-            noBA: noBA,
-            tanggal: document.querySelector('input[name="tanggal_lumajang"]').value,
-            noInet: document.querySelector('input[name="no_inet"]').value,
-            namaPelanggan: document.querySelector('input[name="nama_pelanggan"]').value,
-            namaTeknisi: currentUser.name,
-            teknisiId: currentUser.id,
-            userEmail: currentUser.email,
-            status: 'Draft',
-            tanggalDibuat: new Date().toISOString(),
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        
-        await firestore.collection('ba_documents').doc(baData.id).set(baData);
-        
-        alert(`BA berhasil disimpan!\nNo BA: ${noBA}`);
-        
-    } catch (error) {
-        decrementBACounter();
-        alert('Gagal menyimpan BA: ' + error.message);
-    }
-}
-
-// ========== END: JAVASCRIPT UNTUK SCAN DAN VALIDASI ==========
 
         // === INITIALIZE ===
         document.addEventListener('DOMContentLoaded', async function() {
@@ -4127,17 +3780,11 @@ async function saveBA() {
         });
 
         function closeBAForm() {
-             document.body.classList.remove('ba-form-open');
             document.getElementById('baFormPage').style.display = 'none';
             document.getElementById('dashboardPage').style.display = 'block';
         }
-
-        // Event Listener untuk tombol tutup modal
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('close-scanner').addEventListener('click', closeScanModal);
-});
-
-// ========== END: JAVASCRIPT SCANNER ASLI ==========
     </script>
 </body>
 </html>
+
+
