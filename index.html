@@ -1966,12 +1966,14 @@
                         <tr><td style="width: 20%; border: none; white-space: nowrap;" class="required-field">ONT yang DITARIK / ONT BEKAS</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 50%; border: none;">
                             <input type="text" name="ONT_yang_DIPASANG_/_DITARIK" class="required-field zoom-on-focus" id="ont_ditarik">
                             <button class="scan-btn" onclick="openScanner('ont_ditarik')"><i class="fas fa-camera"></i></button>
+
                         </td></tr>
                         <tr><td style="border: none; white-space: nowrap;">lampu Indikator ONT Nyala</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="checkbox" name="power"> Power <input type="checkbox" name="dsl"> DSL <input type="checkbox" name="internet"> Internet</td></tr>
                         <tr><td style="border: none; white-space: nowrap;">Nama / Notel Teknisi</td><td style="border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="border: none;"><input type="text" name="nama_teknisi"></td></tr>
                         <tr><td style="border: none; white-space: nowrap;" class="required-field">STB ID</td><td style="width: 5%; border: none; padding-left: 10px; white-space: nowrap;">:</td><td style="width: 55%; border: none;">
                             <input type="text" name="stb_id" class="required-field zoom-on-focus" id="stb_id">
                             <button class="scan-btn" onclick="openScanner('stb_id')"><i class="fas fa-camera"></i></button>
+
                         </td></tr>
                     </table>
                 </td>
@@ -2323,6 +2325,22 @@ console.log('User UI Updated:', {
     role: currentUser.jabatan || currentUser.role,
     email: currentUser.email
 });
+}
+
+// Fungsi ini akan dipanggil oleh tombol HTML
+function requestCameraPermissionFromJS(fieldId) {
+    // Simpan dulu field ID ke variabel global
+    currentScannerField = fieldId; 
+    
+    // Kirim sinyal ke Kodular untuk meminta izin
+    if (typeof window.AppInventor !== 'undefined') {
+        window.AppInventor.setWebViewString('REQUEST_CAMERA_PERMISSION');
+    } else {
+        // Fallback jika tidak di webview (untuk testing di browser)
+        console.log('Meminta izin kamera untuk field:', fieldId);
+        // Di browser, kita coba langsung jalankan scanner
+        startScanning(); 
+    }
 }
 
 // Tambahkan variabel global untuk stream kamera
@@ -5164,8 +5182,6 @@ function startScanning() {
     }
 
     const scannerVideo = document.getElementById('scanner-video');
-    
-    // Tampilkan loading di area video
     scannerVideo.innerHTML = '<div style="color: white; text-align: center; padding-top: 100px;">Mengakses kamera...</div>';
 
     Quagga.init({
@@ -5176,41 +5192,37 @@ function startScanning() {
             constraints: {
                 width: 480,
                 height: 320,
-                facingMode: "environment" // Prioritaskan kamera belakang
+                facingMode: "environment"
             }
         },
         decoder: {
             readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
         },
-        // Tambahkan konfigurasi lokalisasi untuk performa lebih baik
         locate: true,
         frequency: 10
     }, function(err) {
-        // Hapus pesan loading
         scannerVideo.innerHTML = '';
         
+        // --- INI ADALAH BAGIAN TERPENTING ---
         if (err) {
             console.error("QuaggaJS initialization error:", err);
-            let errorMessage = 'Gagal mengakses kamera. ';
             
-            // Berikan pesan error yang lebih spesifik
-            if (err.name === 'NotAllowedError') {
-                errorMessage += 'Izin kamera ditolak. Silakan izinkan akses kamera di browser Anda.';
-            } else if (err.name === 'NotFoundError') {
-                errorMessage += 'Tidak ada kamera yang terdeteksi.';
-            } else if (err.name === 'NotSupportedError') {
-                errorMessage += 'Browser tidak mendukung fitur yang dibutuhkan.';
-            } else if (err.name === 'NotReadableError') {
-                errorMessage += 'Kamera sedang digunakan oleh aplikasi lain.';
+            // JIKA ERRORNYA KARENA IZIN DITOLAK, MINTA IZIN LEWAT KODULAR
+            if (err.name === 'NotAllowedError' || err.message.includes('Permission denied')) {
+                console.log('Izin kamera ditolak, meminta izin lewat Kodular...');
+                if (typeof window.Kodular !== 'undefined') {
+                    window.Kodular.setWebViewString('REQUEST_CAMERA_PERMISSION');
+                } else {
+                    showNotification('Izin kamera ditolak. Aktifkan di pengaturan browser.', 'error');
+                }
             } else {
-                errorMessage += 'Silakan gunakan input manual.';
+                // JIKA ERROR LAIN, TAMPILKAN PESAN ERROR
+                showNotification('Gagal mengakses kamera: ' + err.message, 'error');
             }
-            
-            showNotification(errorMessage, 'error');
-            // Jangan tutup modal, biarkan user coba input manual
-            return;
+            return; // STOP di sini
         }
         
+        // JIKA TIDAK ADA ERROR, LANJUTKAN
         console.log("QuaggaJS initialized successfully.");
         Quagga.start();
     });
