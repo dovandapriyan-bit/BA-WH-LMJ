@@ -1286,7 +1286,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <!-- QuaggaJS for barcode scanning -->
-    <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 </head>
 <body>
 <!-- === LOGIN PAGE === -->
@@ -5169,72 +5169,88 @@ currentScannerField = null;
 
 function startScanning() {
     if (!currentScannerField) {
-        console.error("Error: Tidak ada field yang dituju untuk scan.");
         showNotification("Terjadi kesalahan internal. Silakan coba lagi.", "error");
         return;
     }
 
-    // Cek apakah browser mendukung getUserMedia
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        console.error("Browser tidak mendukung akses kamera.");
-        showNotification("Browser Anda tidak mendukung fitur kamera. Gunakan browser modern.", "error");
-        return;
+    // Tutup modal dulu
+    document.getElementById('scannerModal').style.display = 'none';
+
+    // Buat instance dari html5-qrcode
+    const html5QrCode = new Html5Qrcode("reader"); // 'reader' adalah ID div yang akan kita buat
+
+    // Konfigurasi untuk kamera belakang
+    const config = { 
+        fps: 10, 
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.777778 // 16:9
+    };
+
+    // Fungsi saat barcode berhasil dipindai
+    const onScanSuccess = (decodedText, decodedResult) => {
+        // Isi field dengan hasil scan
+        document.getElementById(currentScannerField).value = decodedText;
+        showNotification('Barcode berhasil dipindai!', 'success');
+        
+        // HENTIKAN SCANNER dan tutup modal
+        html5QrCode.stop().then((ignore) => {
+            // Scanner berhenti
+        }).catch((err) => {
+            console.log(`Gagal menghentikan scanner: ${err}`);
+        });
+        
+        // Hapus elemen reader dari modal
+        const readerElement = document.getElementById('reader');
+        if (readerElement) {
+            readerElement.remove();
+        }
+    };
+    
+    // Fungsi jika gagal memulai scanner
+    const onScanFailure = (errorMessage) => {
+        // Biasanya error ini muncul di awal, bisa diabaikan
+        // console.warn(`Kode scan gagal: ${errorMessage}`);
+    };
+
+    // Buat elemen div baru untuk menampung scanner
+    const scannerContent = document.querySelector('.scanner-content');
+    const existingReader = document.getElementById('reader');
+    if (existingReader) {
+        existingReader.remove();
     }
+    const readerDiv = document.createElement('div');
+    readerDiv.id = 'reader';
+    readerDiv.style.width = '100%';
+    readerDiv.style.height = '300px';
+    scannerContent.insertBefore(readerDiv, scannerContent.firstChild);
 
-    const scannerVideo = document.getElementById('scanner-video');
-    scannerVideo.innerHTML = '<div style="color: white; text-align: center; padding-top: 100px;">Mengakses kamera...</div>';
+    // Tampilkan modal lagi
+    document.getElementById('scannerModal').style.display = 'block';
 
-    Quagga.init({
-        inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: scannerVideo,
-            constraints: {
-                width: { min: 640, ideal: 1280, max: 1920 },
-                height: { min: 480, ideal: 720, max: 1080 },
-                facingMode: "environment"
-            }
-        },
-        decoder: {
-            readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
-        },
-        locate: true,
-        frequency: 10
-    }, function(err) {
-        scannerVideo.innerHTML = '';
-        
-        // --- INI ADALAH BAGIAN TERPENTING ---
-        if (err) {
-            console.error("QuaggaJS initialization error:", err);
-            
-            // JIKA ERRORNYA KARENA IZIN DITOLAK, MINTA IZIN LEWAT KODULAR
-            if (err.name === 'NotAllowedError' || err.message.includes('Permission denied')) {
-                console.log('Izin kamera ditolak, meminta izin lewat Kodular...');
-                if (typeof window.Kodular !== 'undefined') {
-                    window.Kodular.setWebViewString('REQUEST_CAMERA_PERMISSION');
-                } else {
-                    showNotification('Izin kamera ditolak. Aktifkan di pengaturan browser.', 'error');
-                }
-            } else {
-                // JIKA ERROR LAIN, TAMPILKAN PESAN ERROR
-                showNotification('Gagal mengakses kamera: ' + err.message, 'error');
-            }
-            return; // STOP di sini
-        }
-        
-        // JIKA TIDAK ADA ERROR, LANJUTKAN
-        console.log("QuaggaJS initialized successfully.");
-        Quagga.start();
+    // Mulai scanner dengan kamera belakang
+    html5QrCode.start(
+        { facingMode: "environment" }, 
+        config,
+        onScanSuccess,
+        onScanFailure
+    ).catch((err) => {
+        console.error(`Gagal memulai scanner: ${err}`);
+        showNotification('Gagal memulai kamera. Pastikan izin kamera sudah diberikan.', 'error');
+        document.getElementById('scannerModal').style.display = 'none';
     });
+}
 
-    Quagga.onDetected(function(result) {
-        const code = result.codeResult.code;
-        if (currentScannerField) {
-            document.getElementById(currentScannerField).value = code;
-            showNotification('Barcode berhasil dipindai!', 'success');
-            closeScanner();
-        }
-    });
+// Modifikasi fungsi closeScanner untuk membersihkan
+function closeScanner() {
+    document.getElementById('scannerModal').style.display = 'none';
+    // Coba hentikan scanner jika masih berjalan
+    if (window.html5QrCode) {
+        window.html5QrCode.stop().then(() => {
+            console.log("Scanner berhasil dihentikan.");
+        }).catch((err) => {
+            console.log("Gagal menghentikan scanner.");
+        });
+    }
 }
 
 function useManualInput() {
