@@ -2118,26 +2118,33 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- Header -->
-        <div class="header">
-            <div class="header-left">
-                
-                <h1>Dashboard</h1>
-                <p>Sistem Manajemen Berita Acara</p>
-            </div>
+        <!-- Header perbaikan -->
+<div class="header">
+    <!-- Hamburger untuk mobile -->
+    <div class="hamburger-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
 
-            <div class="header-right">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">A</div>
-                    <div class="user-details">
-                        <div class="user-name" id="userName">Admin</div>
-                        <div class="user-role" id="userRole">ADMIN</div>
-                    </div>
-                </div>
-                <button class="logout-btn" onclick="logout()">
-    <i class="fas fa-sign-out-alt"></i> Logout
-</button>
+    <!-- Title section -->
+    <div class="header-left">
+        <h1 id="headerTitle">Dashboard</h1>
+        <p id="headerSubtitle" class="header-subtitle">Sistem Manajemen Berita Acara</p>
+    </div>
+
+    <!-- User section -->
+    <div class="header-right">
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar">A</div>
+            <div class="user-details">
+                <div class="user-name" id="userName">User</div>
+                <div class="user-role" id="userRole">ROLE</div>
             </div>
         </div>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Logout</span>
+        </button>
+    </div>
+</div>
 
         <!-- Content Area -->
         <div id="contentArea">
